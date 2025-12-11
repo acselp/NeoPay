@@ -1,36 +1,35 @@
 import { Checkbox } from '@radix-ui/react-checkbox'
-import { Badge, Edit, Mail, Phone, Trash2 } from 'lucide-react'
+import { Edit, Mail, Phone, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { DataTableColumnHeader } from '@/components/data-table'
 import {
-  RichTableDataSource,
   RichTableRowActions,
   type RichTableSchema,
 } from '@/components/rich-table'
-import { customerStatuses } from '@/features/customers/data/data.tsx'
 import { type Customer } from '@/features/customers/data/schema.ts'
-import { CustomerService } from '@/services/customer-service.ts'
+import { CustomerService } from '@/services/customer-service'
+import type { GetCustomerFilterModel } from '@/lib/types/api-types'
 
 const rowActionsConfig: RichTableSchema<Customer>['rowActions'] = [
   {
     label: 'Edit',
     icon: Edit,
     onClick: (customer) => {
-      toast.info(`Edit customer: ${customer.name}`)
+      toast.info(`Edit customer: ${customer.FirstName} ${customer.LastName}`)
     },
   },
   {
     label: 'Send Email',
     icon: Mail,
     onClick: (customer) => {
-      toast.info(`Send email to: ${customer.email}`)
+      toast.info(`Send email to: ${customer.Email || 'No email'}`)
     },
   },
   {
     label: 'Call',
     icon: Phone,
     onClick: (customer) => {
-      toast.info(`Call: ${customer.phone}`)
+      toast.info(`Call: ${customer.Phone || 'No phone'}`)
     },
   },
   {
@@ -39,18 +38,33 @@ const rowActionsConfig: RichTableSchema<Customer>['rowActions'] = [
     variant: 'destructive',
     separator: true,
     onClick: (customer) => {
-      toast.error(`Delete customer: ${customer.name}`)
+      toast.error(`Delete customer: ${customer.FirstName} ${customer.LastName}`)
     },
   },
 ]
 
 export const getSchema = (route: unknown): RichTableSchema<Customer> => {
   return {
-    // Frontend strategy - pass array of data directly
-    dataSource: {
-      url: CustomerService.getAllPaginatedUrl(),
-      method: 'POST'
-    } as RichTableDataSource<Customer>,
+    // Backend strategy - fetch data from API
+    dataFetcher: async (page: number, pageSize: number, sortField?: string, sortDirection?: 'asc' | 'desc', searchTerm?: string) => {
+      const filter: GetCustomerFilterModel = {
+        PageIndex: page - 1, // Backend uses 0-indexed pagination
+        PageSize: pageSize,
+        SortField: sortField,
+        SortDirection: sortDirection,
+        SearchTerm: searchTerm,
+      }
+
+      const response = await CustomerService.getAllPaginated(filter)
+
+      return {
+        data: response.Data,
+        total: response.Total,
+        page: response.PageIndex + 1, // Convert back to 1-indexed for frontend
+        pageSize: response.PageSize,
+        totalPages: response.TotalPages,
+      }
+    },
 
     // Router configuration for URL state
     router: {
@@ -87,95 +101,67 @@ export const getSchema = (route: unknown): RichTableSchema<Customer> => {
         enableSorting: false,
         enableHiding: false,
       },
-      // Name column
+      // ID column
       {
-        accessorKey: 'name',
+        accessorKey: 'Id',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Name' />
+          <DataTableColumnHeader column={column} title='ID' />
         ),
         cell: ({ row }) => (
-          <div className='font-medium'>{row.getValue('name')}</div>
+          <div className='font-medium'>{row.getValue('Id')}</div>
+        ),
+      },
+      // First Name column
+      {
+        accessorKey: 'FirstName',
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title='First Name' />
+        ),
+        cell: ({ row }) => (
+          <div className='font-medium'>{row.getValue('FirstName')}</div>
+        ),
+      },
+      // Last Name column
+      {
+        accessorKey: 'LastName',
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title='Last Name' />
+        ),
+        cell: ({ row }) => (
+          <div className='font-medium'>{row.getValue('LastName')}</div>
         ),
       },
       // Email column
       {
-        accessorKey: 'email',
+        accessorKey: 'Email',
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title='Email' />
         ),
         cell: ({ row }) => (
-          <div className='text-muted-foreground'>{row.getValue('email')}</div>
+          <div className='text-muted-foreground'>
+            {row.getValue('Email') || 'N/A'}
+          </div>
         ),
       },
       // Phone column
       {
-        accessorKey: 'phone',
+        accessorKey: 'Phone',
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title='Phone' />
         ),
-      },
-      // City column
-      {
-        accessorKey: 'city',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='City' />
+        cell: ({ row }) => (
+          <div>{row.getValue('Phone') || 'N/A'}</div>
         ),
       },
-      // Status column
+      // Account Number column
       {
-        accessorKey: 'status',
+        accessorKey: 'AccountNr',
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Status' />
-        ),
-        cell: ({ row }) => {
-          const status = customerStatuses.find(
-            (s) => s.value === row.getValue('status')
-          )
-
-          if (!status) return null
-
-          return (
-            <div className='flex items-center gap-2'>
-              {status.icon && (
-                <status.icon className='text-muted-foreground size-4' />
-              )}
-              <Badge
-                variant={status.value === 'active' ? 'default' : 'outline'}
-              >
-                {status.label}
-              </Badge>
-            </div>
-          )
-        },
-        filterFn: (row, id, value) => {
-          return value.includes(row.getValue(id))
-        },
-      },
-      // Total Orders column
-      {
-        accessorKey: 'totalOrders',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Orders' />
+          <DataTableColumnHeader column={column} title='Account #' />
         ),
         cell: ({ row }) => (
-          <div className='text-center'>{row.getValue('totalOrders')}</div>
+          <div className='font-mono'>{row.getValue('AccountNr')}</div>
         ),
-      },
-      // Total Spent column
-      {
-        accessorKey: 'totalSpent',
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title='Total Spent' />
-        ),
-        cell: ({ row }) => {
-          const amount = parseFloat(row.getValue('totalSpent'))
-          const formatted = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(amount)
-
-          return <div className='font-medium'>{formatted}</div>
-        },
       },
       // Actions column
       {
@@ -190,31 +176,8 @@ export const getSchema = (route: unknown): RichTableSchema<Customer> => {
     filters: {
       globalFilter: {
         enabled: true,
-        key: 'filter',
-        filterFn: (row, _columnId, filterValue) => {
-          const name = String(row.getValue('name')).toLowerCase()
-          const email = String(row.getValue('email')).toLowerCase()
-          const phone = String(row.getValue('phone')).toLowerCase()
-          const city = String(row.getValue('city')).toLowerCase()
-          const searchValue = String(filterValue).toLowerCase()
-
-          return (
-            name.includes(searchValue) ||
-            email.includes(searchValue) ||
-            phone.includes(searchValue) ||
-            city.includes(searchValue)
-          )
-        },
+        key: 'search',
       },
-      columnFilters: [
-        {
-          columnId: 'status',
-          searchKey: 'status',
-          type: 'array',
-          title: 'Status',
-          options: customerStatuses,
-        },
-      ],
     },
 
     // Row actions configuration
@@ -255,7 +218,7 @@ export const getSchema = (route: unknown): RichTableSchema<Customer> => {
 
     // Toolbar configuration
     toolbar: {
-      searchPlaceholder: 'Search customers by name, email, phone, or city...',
+      searchPlaceholder: 'Search customers by name, email, phone, or account number...',
       showViewOptions: true,
       showFilters: true,
     },

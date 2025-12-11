@@ -50,7 +50,15 @@ public class CustomerManager
         var filter = new CustomerGetAllFilter
         {
             PageIndex = filterModel.PageIndex,
-            PageSize = filterModel.PageSize
+            PageSize = filterModel.PageSize,
+            SortField = filterModel.SortField,
+            SortDirection = filterModel.SortDirection,
+            SearchTerm = filterModel.SearchTerm,
+            FirstName = filterModel.FirstName,
+            LastName = filterModel.LastName,
+            Email = filterModel.Email,
+            Phone = filterModel.Phone,
+            AccountNr = filterModel.AccountNr
         };
 
         var pagedList = await _customerService.GetAll(filter);
