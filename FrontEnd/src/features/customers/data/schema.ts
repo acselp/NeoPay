@@ -23,7 +23,6 @@ export const customerSchema = z.object({
   totalOrders: z.number().int().nonnegative(),
   totalSpent: z.number().nonnegative(),
   createdAt: z.coerce.date(),
-  updatedAt: z.coerce.date(),
 })
 
 export type Customer = z.infer<typeof customerSchema>
