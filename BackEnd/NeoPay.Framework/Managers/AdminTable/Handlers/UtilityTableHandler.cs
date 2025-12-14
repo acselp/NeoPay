@@ -18,6 +18,6 @@ public class UtilityTableHandler : AdminTableHandler<UtilityModel, UtilityEntity
     public override Dictionary<string, string> ColumnMappings => new()
     {
         { nameof(UtilityModel.Name), nameof(UtilityEntity.Name) },
-        { nameof(UtilityModel.UnitType), nameof(UtilityEntity.UnitType) },
+        { nameof(UtilityModel.UnitType), nameof(UtilityEntity.UnitType) }
     };
 }

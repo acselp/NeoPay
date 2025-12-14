@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getRouteApi } from '@tanstack/react-router'
 import {
-  type SortingState,
-  type VisibilityState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -10,10 +8,13 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  type SortingState,
   useReactTable,
+  type VisibilityState,
 } from '@tanstack/react-table'
-import { cn } from '@/lib/utils'
-import { useTableUrlState } from '@/hooks/use-table-url-state'
+import { Loader } from 'lucide-react'
+import { cn } from '@/lib/utils.ts'
+import { useTableUrlState } from '@/hooks/use-table-url-state.ts'
 import {
   Table,
   TableBody,
@@ -21,29 +22,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
+} from '@/components/ui/table.tsx'
 import { DataTablePagination, DataTableToolbar } from '@/components/data-table'
-import { priorities, statuses } from '../data/data'
-import { type Task } from '../data/schema'
-import { DataTableBulkActions } from './data-table-bulk-actions'
-import { tasksColumns as columns } from './tasks-columns'
+import { type RichTableState } from '@/components/rich-table/types.ts'
+import { DataTableBulkActions } from '@/features/tasks/components/data-table-bulk-actions.tsx'
 
-const route = getRouteApi('/_authenticated/tasks/')
-
-type DataTableProps = {
-  data: Task[]
-}
-
-export function TasksTable({ data }: DataTableProps) {
+export const TableUi = ({ schema, data, isLoading }: RichTableState) => {
   // Local UI-only states
   const [rowSelection, setRowSelection] = useState({})
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
-  // Local state management for table (uncomment to use local-only state, not synced with URL)
-  // const [globalFilter, onGlobalFilterChange] = useState('')
-  // const [columnFilters, onColumnFiltersChange] = useState<ColumnFiltersState>([])
-  // const [pagination, onPaginationChange] = useState<PaginationState>({ pageIndex: 0, pageSize: 10 })
+  const route = getRouteApi('/_authenticated/customers/')
 
   // Synced with URL states (updated to match route search schema defaults)
   const {
@@ -65,10 +55,9 @@ export function TasksTable({ data }: DataTableProps) {
     ],
   })
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data,
-    columns,
+    columns: schema.columns,
     state: {
       sorting,
       columnVisibility,
@@ -114,18 +103,6 @@ export function TasksTable({ data }: DataTableProps) {
       <DataTableToolbar
         table={table}
         searchPlaceholder='Filter by title or ID...'
-        filters={[
-          {
-            columnId: 'status',
-            title: 'Status',
-            options: statuses,
-          },
-          {
-            columnId: 'priority',
-            title: 'Priority',
-            options: priorities,
-          },
-        ]}
       />
       <div className='overflow-hidden rounded-md border'>
         <Table>
@@ -155,35 +132,46 @@ export function TasksTable({ data }: DataTableProps) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn(
-                        cell.column.columnDef.meta?.className,
-                        cell.column.columnDef.meta?.tdClassName
-                      )}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+            {!isLoading ? (
+              table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className={cn(
+                          cell.column.columnDef.meta?.className,
+                          cell.column.columnDef.meta?.tdClassName
+                        )}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={schema.columns.length}
+                    className='h-24 text-center'
+                  >
+                    No results.
+                  </TableCell>
                 </TableRow>
-              ))
+              )
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'
-                >
-                  No results.
+                <TableCell colSpan={schema.columns.length} className='h-24'>
+                  <div className={'flex w-full justify-center'}>
+                    <Loader className={'h-5 w-5 animate-spin'} />
+                    &nbsp;&nbsp;&nbsp;Loading items...
+                  </div>
                 </TableCell>
               </TableRow>
             )}

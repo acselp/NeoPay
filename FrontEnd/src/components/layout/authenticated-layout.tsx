@@ -6,12 +6,6 @@ import { SearchProvider } from '@/context/search-provider'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/layout/app-sidebar'
 import { SkipToMain } from '@/components/skip-to-main'
-import { Header } from '@/components/layout/header.tsx'
-import { Search } from '@/components/search.tsx'
-import { ThemeSwitch } from '@/components/theme-switch.tsx'
-import { ConfigDrawer } from '@/components/config-drawer.tsx'
-import { ProfileDropdown } from '@/components/profile-dropdown.tsx'
-import { Main } from '@/components/layout/main.tsx'
 
 type AuthenticatedLayoutProps = {
   children?: React.ReactNode
@@ -39,26 +33,7 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
               'peer-data-[variant=inset]:has-data-[layout=fixed]:h-[calc(100svh-(var(--spacing)*4))]'
             )}
           >
-            <Header fixed>
-              <Search />
-              <div className='ms-auto flex items-center space-x-4'>
-                <ThemeSwitch />
-                <ConfigDrawer />
-                <ProfileDropdown />
-              </div>
-            </Header>
-
-            <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
-              <div className='flex flex-wrap items-end justify-between gap-2'>
-                <div>
-                  <h2 className='text-2xl font-bold tracking-tight'>User List</h2>
-                  <p className='text-muted-foreground'>
-                    Manage your users and their roles here.
-                  </p>
-                </div>
-              </div>
-              {children ?? <Outlet />}
-            </Main>
+            {children ?? <Outlet />}
           </SidebarInset>
         </SidebarProvider>
       </LayoutProvider>

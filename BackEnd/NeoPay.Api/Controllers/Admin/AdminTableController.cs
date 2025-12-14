@@ -16,7 +16,7 @@ public class AdminTableController : ApiBaseController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Search(GridCommand command)
+    public async Task<IActionResult> Search([FromBody] GridCommand command)
     {
         var data = await _adminTableManager.Search(command);
         return Ok(data);

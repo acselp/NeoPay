@@ -1,13 +1,22 @@
-import { useState } from 'react'
-import { getRouteApi } from '@tanstack/react-router'
-import { RichTable, type RichTableSchema } from '@/components/rich-table'
-import { type Customer } from '@/features/customers/data/schema.ts'
-import { getSchema } from '@/features/customers/table-schema.tsx'
+import { AdminTableEntities } from '@/services/admin-table-service/types.ts'
+import { AdminLayout } from '@/components/layout/admin-layout.tsx'
+import { RichTable } from '@/components/rich-table/rich-table.tsx'
+import {
+  type RichTableProps,
+  TableStrategy,
+} from '@/components/rich-table/types.ts'
+import { GetSchema } from '@/features/customers/table-schema.tsx'
 
-const route = getRouteApi('/_authenticated/customers/')
+export const Customers = () => {
+  const tableProps: RichTableProps = {
+    mode: TableStrategy.Api,
+    entity: AdminTableEntities.Customer,
+    schema: GetSchema(),
+  }
 
-export function Customers() {
-  const [schema] = useState<RichTableSchema<Customer>>(getSchema(route))
-
-  return <RichTable schema={schema} />
+  return (
+    <AdminLayout>
+      <RichTable {...tableProps} />
+    </AdminLayout>
+  )
 }

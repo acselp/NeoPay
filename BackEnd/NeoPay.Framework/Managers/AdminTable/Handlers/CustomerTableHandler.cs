@@ -17,6 +17,7 @@ public class CustomerTableHandler : AdminTableHandler<CustomerModel, CustomerEnt
 
     public override Dictionary<string, string> ColumnMappings => new()
     {
+        { nameof(CustomerModel.Id), nameof(CustomerEntity.Id) },
         { nameof(CustomerModel.FirstName), nameof(CustomerEntity.FirstName) },
         { nameof(CustomerModel.LastName), nameof(CustomerEntity.LastName) },
         { nameof(CustomerModel.Email), nameof(CustomerEntity.Email) },
