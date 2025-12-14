@@ -33,7 +33,7 @@ export const TableUi = ({ schema, data, isLoading }: RichTableState) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
-  const route = getRouteApi('/_authenticated/customers/')
+  const route = getRouteApi('/_authenticated/customers/list')
 
   // Synced with URL states (updated to match route search schema defaults)
   const {

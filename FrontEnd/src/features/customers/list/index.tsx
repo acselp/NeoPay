@@ -1,13 +1,13 @@
-import { AdminTableEntities } from '@/services/admin-table-service/types.ts'
-import { AdminLayout } from '@/components/layout/admin-layout.tsx'
+import { AdminTableEntities } from '@/services/admin-table-service/types.ts';
+import { AdminLayout } from '@/components/layout/admin-layout.tsx';
 import { RichTable } from '@/components/rich-table/rich-table.tsx'
 import {
   type RichTableProps,
   TableStrategy,
 } from '@/components/rich-table/types.ts'
-import { GetSchema } from '@/features/customers/table-schema.tsx'
+import { GetSchema } from '@/features/customers/list/table-schema.tsx';
 
-export const Customers = () => {
+export const CustomersList = () => {
   const tableProps: RichTableProps = {
     mode: TableStrategy.Api,
     entity: AdminTableEntities.Customer,
@@ -15,7 +15,7 @@ export const Customers = () => {
   }
 
   return (
-    <AdminLayout>
+    <AdminLayout title={"Customer Management"} subtitle={"Here's a list of your customers"}>
       <RichTable {...tableProps} />
     </AdminLayout>
   )

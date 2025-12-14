@@ -58,7 +58,7 @@ export const sidebarData: SidebarData = {
         },
         {
           title: 'Customers',
-          url: '/customers',
+          url: '/customers/list',
           icon: Users,
         },
         {
