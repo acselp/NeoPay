@@ -7,7 +7,7 @@ namespace NeoPay.Framework.Managers.AdminTable.Handlers;
 
 public class CustomerTableHandler : AdminTableHandler<CustomerModel, CustomerEntity>
 {
-    public override    string                     Entity { get; set; } = "Customer";
+    public override    string                     Entity { get; set; } = AdminTableEntities.Customer;
     protected override IQueryable<CustomerEntity> Query  { get; set; }
 
     public CustomerTableHandler(ICustomerRepository repository, AdminTableService service) : base(service)
