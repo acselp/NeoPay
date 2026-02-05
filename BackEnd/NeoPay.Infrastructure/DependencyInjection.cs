@@ -15,14 +15,20 @@ public static class DependencyInjection
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-        services.AddControllers();
+        services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    // Use PascalCase for JSON property names (default .NET naming)
+                    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
         services.AddCors(options =>
         {
             options.AddPolicy("AllowFrontendCorsPolicy",
                               policy =>
                               {
-                                  policy.WithOrigins(configuration["Frontend:BaseUrl"])
+                                  // TODO: Restrict origins in production
+                                  policy.AllowAnyOrigin()
                                         .AllowAnyHeader()
                                         .AllowAnyMethod();
                               });
