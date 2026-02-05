@@ -11,8 +11,8 @@ public class UtilityMapper
     {
         return new UtilityModel
         {
-            Id = utility.Id,
-            Name = utility.Name,
+            Id       = utility.Id,
+            Name     = utility.Name,
             UnitType = utility.UnitType
         };
     }
@@ -21,7 +21,7 @@ public class UtilityMapper
     {
         return new UtilityEntity
         {
-            Name = utility.Name,
+            Name     = utility.Name,
             UnitType = utility.UnitType
         };
     }
@@ -30,8 +30,8 @@ public class UtilityMapper
     {
         return new UtilityEntity
         {
-            Id = utility.Id,
-            Name = utility.Name,
+            Id       = utility.Id,
+            Name     = utility.Name,
             UnitType = utility.UnitType
         };
     }
@@ -45,10 +45,10 @@ public class UtilityMapper
     {
         return new PagedResultModel<UtilityModel>
         {
-            Total = pagedList.TotalCount,
+            Total     = pagedList.TotalCount,
             PageIndex = pagedList.PageIndex,
-            PageSize = pagedList.PageSize,
-            Data = pagedList.ToList().Select(x => Map(x)).ToList()
+            PageSize  = pagedList.PageSize,
+            Data      = pagedList.ToList().Select(x => Map(x)).ToList()
         };
     }
 }

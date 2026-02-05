@@ -5,25 +5,26 @@ using NeoPay.Domain.Filters;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Customer;
 using NeoPay.Framework.Models.Shared;
+using NeoPay.Framework.Models.Shared.GridModels;
 using NeoPay.Framework.Validators;
 
 namespace NeoPay.Framework.Managers;
 
 public class CustomerManager
 {
-    private readonly CustomerService _customerService;
-    private readonly CustomerMapper _customerMapper;
+    private readonly CustomerService              _customerService;
+    private readonly CustomerMapper               _customerMapper;
     private readonly CreateCustomerModelValidator _createCustomerModelValidator;
     private readonly UpdateCustomerModelValidator _updateCustomerModelValidator;
 
     public CustomerManager(
-        CustomerService customerService,
-        CustomerMapper customerMapper,
+        CustomerService              customerService,
+        CustomerMapper               customerMapper,
         CreateCustomerModelValidator createCustomerModelValidator,
         UpdateCustomerModelValidator updateCustomerModelValidator)
     {
-        _customerService = customerService;
-        _customerMapper = customerMapper;
+        _customerService              = customerService;
+        _customerMapper               = customerMapper;
         _createCustomerModelValidator = createCustomerModelValidator;
         _updateCustomerModelValidator = updateCustomerModelValidator;
     }
@@ -49,16 +50,16 @@ public class CustomerManager
     {
         var filter = new CustomerGetAllFilter
         {
-            PageIndex = filterModel.PageIndex,
-            PageSize = filterModel.PageSize,
-            SortField = filterModel.SortField,
+            PageIndex     = filterModel.PageIndex,
+            PageSize      = filterModel.PageSize,
+            SortField     = filterModel.SortField,
             SortDirection = filterModel.SortDirection,
-            SearchTerm = filterModel.SearchTerm,
-            FirstName = filterModel.FirstName,
-            LastName = filterModel.LastName,
-            Email = filterModel.Email,
-            Phone = filterModel.Phone,
-            AccountNr = filterModel.AccountNr
+            SearchTerm    = filterModel.SearchTerm,
+            FirstName     = filterModel.FirstName,
+            LastName      = filterModel.LastName,
+            Email         = filterModel.Email,
+            Phone         = filterModel.Phone,
+            AccountNr     = filterModel.AccountNr
         };
 
         var pagedList = await _customerService.GetAll(filter);

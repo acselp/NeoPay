@@ -11,19 +11,19 @@ namespace NeoPay.Framework.Managers;
 
 public class UtilityManager
 {
-    private readonly UtilityService _utilityService;
-    private readonly UtilityMapper _utilityMapper;
+    private readonly UtilityService              _utilityService;
+    private readonly UtilityMapper               _utilityMapper;
     private readonly CreateUtilityModelValidator _createUtilityModelValidator;
     private readonly UpdateUtilityModelValidator _updateUtilityModelValidator;
 
     public UtilityManager(
-        UtilityService utilityService,
-        UtilityMapper utilityMapper,
+        UtilityService              utilityService,
+        UtilityMapper               utilityMapper,
         CreateUtilityModelValidator createUtilityModelValidator,
         UpdateUtilityModelValidator updateUtilityModelValidator)
     {
-        _utilityService = utilityService;
-        _utilityMapper = utilityMapper;
+        _utilityService              = utilityService;
+        _utilityMapper               = utilityMapper;
         _createUtilityModelValidator = createUtilityModelValidator;
         _updateUtilityModelValidator = updateUtilityModelValidator;
     }
@@ -50,7 +50,7 @@ public class UtilityManager
         var filter = new PagedFilter
         {
             PageIndex = filterModel.PageIndex,
-            PageSize = filterModel.PageSize
+            PageSize  = filterModel.PageSize
         };
 
         var pagedList = await _utilityService.GetAll(filter);

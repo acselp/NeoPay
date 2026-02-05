@@ -29,6 +29,10 @@ public class CustomerController : BaseAdminController
         {
             return ValidationError(ex);
         }
+        catch (CustomerAccountNumberAlreadyExists)
+        {
+            return BadRequest(FrontEndErrors.CustomerAccountNrAlreadyExists);
+        }
     }
 
     [HttpPut]

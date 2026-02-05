@@ -12,11 +12,11 @@ public class CustomerMapper
     {
         return new CustomerModel
         {
-            Id = customer.Id,
+            Id        = customer.Id,
             FirstName = customer.FirstName,
-            LastName = customer.LastName,
-            Email = customer.Email,
-            Phone = customer.Phone,
+            LastName  = customer.LastName,
+            Email     = customer.Email,
+            Phone     = customer.Phone,
             AccountNr = customer.AccountNr
         };
     }
@@ -27,9 +27,9 @@ public class CustomerMapper
         return new CustomerEntity
         {
             FirstName = customer.FirstName,
-            LastName = customer.LastName,
-            Email = customer.Email,
-            Phone = customer.Phone,
+            LastName  = customer.LastName,
+            Email     = customer.Email,
+            Phone     = customer.Phone,
             AccountNr = customer.AccountNr
         };
     }
@@ -39,11 +39,11 @@ public class CustomerMapper
     {
         return new CustomerEntity
         {
-            Id = customer.Id,
+            Id        = customer.Id,
             FirstName = customer.FirstName,
-            LastName = customer.LastName,
-            Email = customer.Email,
-            Phone = customer.Phone,
+            LastName  = customer.LastName,
+            Email     = customer.Email,
+            Phone     = customer.Phone,
             AccountNr = customer.AccountNr
         };
     }
@@ -59,10 +59,10 @@ public class CustomerMapper
     {
         return new PagedResultModel<CustomerModel>
         {
-            Total = pagedList.TotalCount,
+            Total     = pagedList.TotalCount,
             PageIndex = pagedList.PageIndex,
-            PageSize = pagedList.PageSize,
-            Data = pagedList.Select(x => Map(x)).ToList()
+            PageSize  = pagedList.PageSize,
+            Data      = pagedList.Select(x => Map(x)).ToList()
         };
     }
 }

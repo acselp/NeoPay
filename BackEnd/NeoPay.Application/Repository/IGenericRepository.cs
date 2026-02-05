@@ -5,7 +5,8 @@ namespace NeoPay.Application.Repository;
 
 public interface IGenericRepository<T> where T : BaseEntity
 {
-    Task<T?>            GetById(int id);
+    IQueryable<T>        GetQuery();
+    Task<T?>             GetById(int id);
     Task<IEnumerable<T>> GetAll();
     Task<T>              Insert(T                   entity);
     Task<IEnumerable<T>> InsertRange(IEnumerable<T> entities);

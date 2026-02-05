@@ -11,10 +11,10 @@ public class ConnectionMapper
     {
         return new ConnectionModel
         {
-            Id = connection.Id,
-            Status = connection.Status,
+            Id         = connection.Id,
+            Status     = connection.Status,
             CustomerId = connection.CustomerId,
-            UtilityId = connection.UtilityId
+            UtilityId  = connection.UtilityId
         };
     }
 
@@ -22,9 +22,9 @@ public class ConnectionMapper
     {
         return new ConnectionEntity
         {
-            Status = connection.Status,
+            Status     = connection.Status,
             CustomerId = connection.CustomerId,
-            UtilityId = connection.UtilityId
+            UtilityId  = connection.UtilityId
         };
     }
 
@@ -32,10 +32,10 @@ public class ConnectionMapper
     {
         return new ConnectionEntity
         {
-            Id = connection.Id,
-            Status = connection.Status,
+            Id         = connection.Id,
+            Status     = connection.Status,
             CustomerId = connection.CustomerId,
-            UtilityId = connection.UtilityId
+            UtilityId  = connection.UtilityId
         };
     }
 
@@ -48,10 +48,10 @@ public class ConnectionMapper
     {
         return new PagedResultModel<ConnectionModel>
         {
-            Total = pagedList.TotalCount,
+            Total     = pagedList.TotalCount,
             PageIndex = pagedList.PageIndex,
-            PageSize = pagedList.PageSize,
-            Data = pagedList.ToList().Select(x => Map(x)).ToList()
+            PageSize  = pagedList.PageSize,
+            Data      = pagedList.ToList().Select(x => Map(x)).ToList()
         };
     }
 }

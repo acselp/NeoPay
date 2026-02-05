@@ -11,19 +11,19 @@ namespace NeoPay.Framework.Managers;
 
 public class ConnectionManager
 {
-    private readonly ConnectionService _connectionService;
-    private readonly ConnectionMapper _connectionMapper;
+    private readonly ConnectionService              _connectionService;
+    private readonly ConnectionMapper               _connectionMapper;
     private readonly CreateConnectionModelValidator _createConnectionModelValidator;
     private readonly UpdateConnectionModelValidator _updateConnectionModelValidator;
 
     public ConnectionManager(
-        ConnectionService connectionService,
-        ConnectionMapper connectionMapper,
+        ConnectionService              connectionService,
+        ConnectionMapper               connectionMapper,
         CreateConnectionModelValidator createConnectionModelValidator,
         UpdateConnectionModelValidator updateConnectionModelValidator)
     {
-        _connectionService = connectionService;
-        _connectionMapper = connectionMapper;
+        _connectionService              = connectionService;
+        _connectionMapper               = connectionMapper;
         _createConnectionModelValidator = createConnectionModelValidator;
         _updateConnectionModelValidator = updateConnectionModelValidator;
     }
@@ -50,7 +50,7 @@ public class ConnectionManager
         var filter = new PagedFilter
         {
             PageIndex = filterModel.PageIndex,
-            PageSize = filterModel.PageSize
+            PageSize  = filterModel.PageSize
         };
 
         var pagedList = await _connectionService.GetAll(filter);

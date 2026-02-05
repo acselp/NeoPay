@@ -11,19 +11,19 @@ namespace NeoPay.Framework.Managers;
 
 public class AddressManager
 {
-    private readonly AddressService _addressService;
-    private readonly AddressMapper _addressMapper;
+    private readonly AddressService              _addressService;
+    private readonly AddressMapper               _addressMapper;
     private readonly CreateAddressModelValidator _createAddressModelValidator;
     private readonly UpdateAddressModelValidator _updateAddressModelValidator;
 
     public AddressManager(
-        AddressService addressService,
-        AddressMapper addressMapper,
+        AddressService              addressService,
+        AddressMapper               addressMapper,
         CreateAddressModelValidator createAddressModelValidator,
         UpdateAddressModelValidator updateAddressModelValidator)
     {
-        _addressService = addressService;
-        _addressMapper = addressMapper;
+        _addressService              = addressService;
+        _addressMapper               = addressMapper;
         _createAddressModelValidator = createAddressModelValidator;
         _updateAddressModelValidator = updateAddressModelValidator;
     }
@@ -50,7 +50,7 @@ public class AddressManager
         var filter = new PagedFilter
         {
             PageIndex = filterModel.PageIndex,
-            PageSize = filterModel.PageSize
+            PageSize  = filterModel.PageSize
         };
 
         var pagedList = await _addressService.GetAll(filter);

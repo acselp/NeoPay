@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   Monitor,
   Bug,
-  ListTodo,
   FileX,
   HelpCircle,
   Lock,
@@ -21,8 +20,6 @@ import {
   AudioWaveform,
   Command,
   GalleryVerticalEnd,
-  UserCircle,
-  Receipt,
 } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
@@ -60,19 +57,9 @@ export const sidebarData: SidebarData = {
           icon: LayoutDashboard,
         },
         {
-          title: 'Tasks',
-          url: '/tasks',
-          icon: ListTodo,
-        },
-        {
           title: 'Customers',
-          url: '/customers',
-          icon: UserCircle,
-        },
-        {
-          title: 'Bills',
-          url: '/bills',
-          icon: Receipt,
+          url: '/customers/list',
+          icon: Users,
         },
         {
           title: 'Apps',

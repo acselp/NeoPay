@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15
+    container_name: neopay_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - neopay-network
+
+  # Backend API (.NET 9.0)
+  backend:
+    build:
+      context: ../BackEnd
+      dockerfile: Dockerfile
+    container_name: neopay_backend
+    ports:
+      - "8083:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__PostgresConnection=User ID=postgres;Password=postgres;Host=postgres;Port=5432;Database=postgres;
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - neopay-network
+
+  # Frontend (React/Vite)
+  frontend:
+    build:
+      context: ../FrontEnd
+      dockerfile: Dockerfile
+    container_name: neopay_frontend
+    ports:
+      - "8085:80"
+    environment:
+      - VITE_API_URL=http://localhost:8083
+    depends_on:
+      - backend
+    networks:
+      - neopay-network
+
+volumes:
+  postgres-data:
+    driver: local
+
+networks:
+  neopay-network:
+    driver: bridge
