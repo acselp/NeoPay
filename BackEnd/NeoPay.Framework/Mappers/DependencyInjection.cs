@@ -9,6 +9,7 @@ public static class DependencyInjection
         services.AddScoped<AddressMapper>();
         services.AddScoped<ConnectionMapper>();
         services.AddScoped<CustomerMapper>();
+        services.AddScoped<MeterMapper>();
         services.AddScoped<UtilityMapper>();
     }
 }

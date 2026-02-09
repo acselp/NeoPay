@@ -12,6 +12,7 @@ public static class DependencyInjection
         services.AddScoped<AddressManager>();
         services.AddScoped<ConnectionManager>();
         services.AddScoped<CustomerManager>();
+        services.AddScoped<MeterManager>();
         services.AddScoped<UtilityManager>();
     }
 }

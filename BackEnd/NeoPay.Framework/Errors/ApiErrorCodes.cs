@@ -42,4 +42,11 @@ public static class ApiErrorCodes
         public const string UtilityCouldNotBeFound = "utility_could_not_be_found";
         public const string ErrorLoadingUtilities = "error_loading_utilities";
     }
+
+    public static class Meter
+    {
+        public const string MeterCouldNotBeFound = "meter_could_not_be_found";
+        public const string ErrorLoadingMeters = "error_loading_meters";
+        public const string MeterSerialNumberExists = "meter_serial_number_exists";
+    }
 }

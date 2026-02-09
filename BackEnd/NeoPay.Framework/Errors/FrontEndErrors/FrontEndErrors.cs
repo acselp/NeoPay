@@ -85,4 +85,22 @@ public static class FrontEndErrors
         ErrorCode    = ApiErrorCodes.Utility.ErrorLoadingUtilities,
         ErrorMessage = "An error occurred while loading utilities"
     };
+
+    public static Error MeterCouldNotBeFound { get; } = new()
+    {
+        ErrorCode    = ApiErrorCodes.Meter.MeterCouldNotBeFound,
+        ErrorMessage = "Meter could not be found"
+    };
+
+    public static Error ErrorLoadingMeters { get; } = new()
+    {
+        ErrorCode    = ApiErrorCodes.Meter.ErrorLoadingMeters,
+        ErrorMessage = "An error occurred while loading meters"
+    };
+
+    public static Error MeterSerialNumberExists { get; } = new()
+    {
+        ErrorCode    = ApiErrorCodes.Meter.MeterSerialNumberExists,
+        ErrorMessage = "Meter serial number already exists"
+    };
 }
