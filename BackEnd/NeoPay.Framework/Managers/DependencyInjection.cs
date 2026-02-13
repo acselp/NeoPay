@@ -14,5 +14,6 @@ public static class DependencyInjection
         services.AddScoped<CustomerManager>();
         services.AddScoped<MeterManager>();
         services.AddScoped<UtilityManager>();
+        services.AddScoped<MobileManager>();
     }
 }

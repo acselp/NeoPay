@@ -97,4 +97,14 @@ public class ConnectionService
 
         await _connectionRepository.Delete(connection);
     }
+
+    public async Task<ConnectionEntity?> GetByIdWithDetails(int id)
+    {
+        return await _connectionRepository.GetByIdWithDetails(id);
+    }
+
+    public async Task<IEnumerable<ConnectionEntity>> SearchForMobile(string? query, string status)
+    {
+        return await _connectionRepository.SearchForMobile(query, status);
+    }
 }

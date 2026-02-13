@@ -17,7 +17,7 @@ public class MeterService
 
     public async Task<MeterEntity> Create(MeterEntity entity)
     {
-        var connection = await _connectionRepository.GetById(entity.ConnectionId);
+        var connection = await _connectionRepository.GetById(entity.ConnectionId.Value);
         if (connection == null)
             throw new NotFoundException($"Connection with ID {entity.ConnectionId} not found");
 
@@ -48,13 +48,18 @@ public class MeterService
         return await _meterRepository.GetBySerialNumber(serialNumber);
     }
 
+    public async Task<MeterEntity?> GetByBarcode(string barcode)
+    {
+        return await _meterRepository.GetByBarcode(barcode);
+    }
+
     public async Task<MeterEntity> Update(MeterEntity entity)
     {
         var existingMeter = await _meterRepository.GetById(entity.Id);
         if (existingMeter == null)
             throw new NotFoundException($"Meter with ID {entity.Id} not found");
 
-        var connection = await _connectionRepository.GetById(entity.ConnectionId);
+        var connection = await _connectionRepository.GetById(entity.ConnectionId.Value);
         if (connection == null)
             throw new NotFoundException($"Connection with ID {entity.ConnectionId} not found");
 

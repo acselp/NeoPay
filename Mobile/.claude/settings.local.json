@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-expo-app@latest:*)",
+      "Bash(xcopy \"D:\\\\Projects\\\\Utility\\\\MobileApp\\\\*\" \"D:\\\\Projects\\\\Utility\\\\Mobile\"\" /E /Y /I && rmdir /S /Q \"D:ProjectsUtilityMobileApp \")",
+      "Bash(npm install @react-navigation/native @react-navigation/stack react-native-screens react-native-safe-area-context react-native-gesture-handler @tanstack/react-query axios @react-native-async-storage/async-storage @react-native-community/netinfo expo-barcode-scanner expo-camera zustand uuid @react-native-community/datetimepicker)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dir:*)"
+    ]
+  }
+}

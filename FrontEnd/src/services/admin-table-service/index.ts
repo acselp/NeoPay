@@ -5,7 +5,7 @@ import {
   type PagedResult,
 } from '@/services/admin-table-service/types.ts'
 
-const CONTROLLER_URL = 'http://localhost:8081/api/AdminTable'
+const CONTROLLER_URL = '/api/AdminTable'
 const getUrl = (url: string) => `${CONTROLLER_URL}/${url}`
 
 const searchEndpoint = 'Search'

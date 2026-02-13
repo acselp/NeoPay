@@ -29,4 +29,32 @@ public class ConsumptionRecordRepository : GenericRepository<ConsumptionRecord>,
                         cr.CreatedOnUtc <= endDate)
             .ToListAsync();
     }
+
+    public async Task<ConsumptionRecord?> GetLastByMeterId(int meterId)
+    {
+        return await _context.Set<ConsumptionRecord>()
+            .Where(cr => cr.MeterId == meterId)
+            .OrderByDescending(cr => cr.ReadingTimestamp)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<ConsumptionRecord?> GetByClientGeneratedId(string clientGeneratedId)
+    {
+        return await _context.Set<ConsumptionRecord>()
+            .FirstOrDefaultAsync(cr => cr.ClientGeneratedId == clientGeneratedId);
+    }
+
+    public async Task<decimal?> GetAverageConsumption(int meterId)
+    {
+        var records = await _context.Set<ConsumptionRecord>()
+            .Where(cr => cr.MeterId == meterId && cr.AmountUsed > 0)
+            .OrderByDescending(cr => cr.ReadingTimestamp)
+            .Take(10)
+            .ToListAsync();
+
+        if (records.Count == 0)
+            return null;
+
+        return records.Average(r => r.AmountUsed);
+    }
 }

@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "Utility Reader",
+    "slug": "utility-reader",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#007AFF"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.utility.reader",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan meter barcodes for quick reading entry."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#007AFF"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.utility.reader",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.INTERNET"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to scan meter barcodes."
+        }
+      ],
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access camera to scan meter barcodes."
+        }
+      ]
+    ]
+  }
+}

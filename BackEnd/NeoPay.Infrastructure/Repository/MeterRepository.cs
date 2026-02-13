@@ -26,4 +26,10 @@ public class MeterRepository : GenericRepository<MeterEntity>, IMeterRepository
         return await _context.Set<MeterEntity>()
             .FirstOrDefaultAsync(m => m.SerialNumber == serialNumber);
     }
+
+    public async Task<MeterEntity?> GetByBarcode(string barcode)
+    {
+        return await _context.Set<MeterEntity>()
+            .FirstOrDefaultAsync(m => m.BarcodeValue == barcode);
+    }
 }

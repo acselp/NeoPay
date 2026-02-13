@@ -67,4 +67,19 @@ public class ConsumptionRecordService
 
         await _consumptionRecordRepository.Delete(record);
     }
+
+    public async Task<ConsumptionRecord?> GetLastByMeterId(int meterId)
+    {
+        return await _consumptionRecordRepository.GetLastByMeterId(meterId);
+    }
+
+    public async Task<ConsumptionRecord?> GetByClientGeneratedId(string clientGeneratedId)
+    {
+        return await _consumptionRecordRepository.GetByClientGeneratedId(clientGeneratedId);
+    }
+
+    public async Task<decimal?> GetAverageConsumption(int meterId)
+    {
+        return await _consumptionRecordRepository.GetAverageConsumption(meterId);
+    }
 }
