@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
+  { name: 'Dashboard1', href: '/', icon: LayoutDashboard },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Connections', href: '/connections', icon: Cable },
   { name: 'Readings', href: '/readings', icon: Gauge },
