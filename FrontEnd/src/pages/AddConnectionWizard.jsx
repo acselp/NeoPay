@@ -29,7 +29,7 @@ export default function AddConnectionWizard() {
     locationId: '',
     newLocation: false,
     locationLabel: '',
-    address: '',
+    address: '2',
     city: '',
     state: '',
     zipCode: '',
