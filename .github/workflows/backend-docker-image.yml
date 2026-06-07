@@ -2,6 +2,7 @@ name: Backend Docker Image
 
 on:
   push:
+    branches: ["main"]
     paths: 
       - './BackEnd/**'
 
