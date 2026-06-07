@@ -2,7 +2,8 @@ name: Backend Docker Image
 
 on:
   push:
-    paths: './BackEnd/**'
+    paths: 
+      - './BackEnd/**'
 
 jobs:
   backend-image-build:
