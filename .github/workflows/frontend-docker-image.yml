@@ -2,6 +2,7 @@ name: Frontend Docker Image CI
 
 on:
   push:
+    branches: ["main"]
     paths:
      - './FrontEnd/**'
 
