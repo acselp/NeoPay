@@ -30,4 +30,4 @@ jobs:
       with:
         context: ./FrontEnd
         push: true
-        tags:  ${{ secrets.DOCKERHUB_USERNAME }}/neopay-frontend:latest
+        tags:  ${{ secrets.DOCKERHUB_USERNAME-test }}/neopay-frontend:latest
