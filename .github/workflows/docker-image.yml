@@ -28,6 +28,6 @@ jobs:
     - name: Build Frontend and push
       uses: docker/build-push-action@v5
       with:
-        context: .
+        context: ./FrontEnd
         push: true
         tags:  ${{ secrets.DOCKERHUB_USERNAME }}/neopay-frontend:latest
