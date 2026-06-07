@@ -15,8 +15,8 @@ import {
   Input,
   Select,
   EmptyState,
-} from '../components/ui';
-import { utilities as initialUtilities, connections } from '../data/mockData';
+} from '../../components/ui/index.js';
+import { utilities as initialUtilities, connections } from '../../data/mockData.js';
 
 export default function UtilitiesSetup() {
   const [utilities, setUtilities] = useState(initialUtilities);

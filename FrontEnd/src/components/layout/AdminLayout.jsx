@@ -10,14 +10,14 @@ import {
 } from 'lucide-react';
 
 const navigation = [
-  { name: 'Dashboard1', href: '/', icon: LayoutDashboard },
+  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Connections', href: '/connections', icon: Cable },
   { name: 'Readings', href: '/readings', icon: Gauge },
   { name: 'Setup', href: '/setup/utilities', icon: Settings },
 ];
 
-export default function Layout() {
+export default function AdminLayout() {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
