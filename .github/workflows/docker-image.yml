@@ -1,14 +1,13 @@
-name: Docker Image CI
+name: Frontend Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    paths:
+     - './FrontEnd/**'
 
 jobs:
 
-  build:
+  frontend-image:
 
     runs-on: ubuntu-latest
 
