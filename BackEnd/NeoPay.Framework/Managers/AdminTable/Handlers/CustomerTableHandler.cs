@@ -22,6 +22,7 @@ public class CustomerTableHandler : AdminTableHandler<CustomerModel, CustomerEnt
         { nameof(CustomerModel.LastName), nameof(CustomerEntity.LastName) },
         { nameof(CustomerModel.Email), nameof(CustomerEntity.Email) },
         { nameof(CustomerModel.Phone), nameof(CustomerEntity.Phone) },
-        { nameof(CustomerModel.AccountNr), nameof(CustomerEntity.AccountNr) }
+        { nameof(CustomerModel.AccountNr), nameof(CustomerEntity.AccountNr) },
+        { nameof(CustomerModel.Status), nameof(CustomerEntity.Status) }
     };
 }

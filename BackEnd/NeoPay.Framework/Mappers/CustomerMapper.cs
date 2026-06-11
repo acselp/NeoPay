@@ -17,7 +17,8 @@ public class CustomerMapper
             LastName  = customer.LastName,
             Email     = customer.Email,
             Phone     = customer.Phone,
-            AccountNr = customer.AccountNr
+            AccountNr = customer.AccountNr,
+            Status = customer.Status
         };
     }
 

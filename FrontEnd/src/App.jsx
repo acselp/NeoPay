@@ -2,14 +2,17 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AdminLayout from './components/layout/AdminLayout.jsx';
 import {
   Dashboard,
-  CustomersList,
-  CustomerDetail,
-  AddConnectionWizard,
-  ConnectionsList,
   ConnectionDetail,
+  ConnectionsList,
+  AddConnectionWizard,
   ReadingsList,
   UtilitiesSetup,
 } from './pages';
+
+import {
+  CustomerList,
+  CustomerDetails,
+} from './pages/customer/index.ts';
 
 function App() {
   return (
@@ -19,8 +22,8 @@ function App() {
         <Route path="/" element={<Dashboard />} />
 
         {/* Customers */}
-        <Route path="/customers" element={<CustomersList />} />
-        <Route path="/customers/:customerId" element={<CustomerDetail />} />
+        <Route path="/customers" element={<CustomerList />} />
+        <Route path="/customers/:customerId" element={<CustomerDetails />} />
         <Route
           path="/customers/:customerId/connections/new"
           element={<AddConnectionWizard />}

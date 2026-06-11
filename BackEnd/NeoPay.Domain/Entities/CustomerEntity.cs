@@ -1,3 +1,5 @@
+using NeoPay.Domain.Enums;
+
 namespace NeoPay.Domain.Entities;
 
 public class CustomerEntity : BaseEntity
@@ -7,7 +9,7 @@ public class CustomerEntity : BaseEntity
     public string? Email { get; set; }
     public string? Phone { get; set; }
     public int AccountNr { get; set; }
-    public int Status { get; set; } = 1; // 0 = inactive, 1 = active, 2 = pending
+    public CustomerStatus Status { get; set; }
     public string? Notes { get; set; }
 
     // Computed property for full name

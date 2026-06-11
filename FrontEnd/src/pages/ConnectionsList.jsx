@@ -257,7 +257,7 @@ export default function ConnectionsList() {
                       <Link
                         to={`/connections/${conn.id}`}
                         className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
-                        title="View connection"
+                        title="TableUi connection"
                       >
                         <Eye className="h-4 w-4" />
                       </Link>

@@ -26,7 +26,7 @@ import {
   EmptyState,
   Card,
   CardTitle,
-} from '../components/ui';
+} from '../../components/ui';
 import {
   getCustomer,
   getCustomerConnections,
@@ -37,9 +37,9 @@ import {
   getLocation,
   readings,
   meters,
-} from '../data/mockData';
+} from '../../data/mockData';
 
-export default function CustomerDetail() {
+export default function Detail() {
   const { customerId } = useParams();
   const navigate = useNavigate();
   const customer = getCustomer(customerId);
@@ -293,7 +293,7 @@ function ConnectionsTab({ connections, customerId, navigate }) {
                   <Link
                     to={`/connections/${conn.id}`}
                     className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
-                    title="View connection"
+                    title="TableUi connection"
                   >
                     <Eye className="h-4 w-4" />
                   </Link>

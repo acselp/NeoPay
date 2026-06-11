@@ -37,7 +37,7 @@ public static class PagedListExtension
         var data = source
                   .Skip(pageIndex * pageSize)
                   .Take(pageSize);
-        var fetched = await data.ToListAsync();
+        var fetched = await data.ToListAsync() ?? new List<T>();
         return new PagedList<T>(fetched, totalCount, pageSize, pageIndex);
     }
 }
