@@ -2,7 +2,7 @@ import {RichTableState} from "./types";
 import {Table, TableBody, TableHead, TableCell, TableHeader, TableRow} from "../ui";
 import {useReactTable, flexRender, getCoreRowModel} from "@tanstack/react-table";
 
-export const TableUi = (props: RichTableState) => {
+export const TableUi = (props: RichTableState<any>) => {
     const table = useReactTable({
         columns: props.schema.columns,
         data: props.data,

@@ -2,7 +2,7 @@ import {RichTableProps, TableStrategy} from "../types";
 import {ApiTableStrategy} from "./api-table";
 import {FrontendTableStrategy} from "./frontend-table/frontend-table";
 
-export const renderTable = (props: RichTableProps) => {
+export const renderTable = (props: RichTableProps<any>) => {
     const { mode } = props;
     switch (mode) {
         case TableStrategy.Api:

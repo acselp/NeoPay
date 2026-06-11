@@ -70,8 +70,8 @@ export const CreateUpdate = ({ active, onClose, onSubmit }: CreateUpdateProps) =
                         label="Status"
                         onChange={handleChange}
                         options={[
-                            { value: CustomerStatus.Active, label: 'Active' },
-                            { value: CustomerStatus.Inactive, label: 'Inactive' },
+                            { value: `${CustomerStatus.Active}`, label: 'Active' },
+                            { value: `${CustomerStatus.Inactive}`, label: 'Inactive' },
                         ]}
                     />
 

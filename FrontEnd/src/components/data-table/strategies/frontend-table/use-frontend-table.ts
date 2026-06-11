@@ -3,7 +3,7 @@ import {FrontendStrategyProps, RichTableState, TableSortDirection} from "../../t
 
 export const useFrontendTable = ({
                                      data,
-                                 }: FrontendStrategyProps): RichTableState => {
+                                 }: FrontendStrategyProps<any>): RichTableState<any> => {
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [sortCol, setSortCol] = useState<string | null>(null)
@@ -55,5 +55,5 @@ export const useFrontendTable = ({
                 }
             },
         },
-    }
+    } as any
 }

@@ -67,7 +67,7 @@ export const GetSchema = () => {
                 },
                 {
                     id: "actions",
-                    header: () => <span class="w-full text-right block"> Actions </span>,
+                    header: () => <span className="w-full text-right block"> Actions </span>,
                     cell: ({ row }) => (
                         <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                             <Link

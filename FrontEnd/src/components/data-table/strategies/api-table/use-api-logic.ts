@@ -3,7 +3,7 @@ import {ApiTableStrategyProps, RichTableState, TableSortDirection} from "../../t
 import {GridCommand} from "../../../../services/admin-table-service/types";
 import {AdminTableService} from "../../../../services/admin-table-service";
 
-export const useApiTable = ({ entity, schema }: ApiTableStrategyProps): RichTableState => {
+export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): RichTableState<T> => {
     const [data, setData] = useState<[]>([])
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(10)
