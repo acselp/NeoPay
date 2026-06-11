@@ -8,6 +8,7 @@ import {CustomerService} from "../../services/customer/customer-service";
 import {CreateUpdate} from "./CreateUpdate";
 import {DataTable} from "../../components/data-table/data-table";
 import {GetSchema} from "./schema";
+import {Loading} from "../../components/ui/Loading";
 
 export default function List() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function List() {
 
   return (
     <div className="p-8">
+    <Loading/>
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Customers</h1>
