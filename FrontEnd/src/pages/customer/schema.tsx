@@ -1,10 +1,18 @@
 import {ApiTableStrategyProps, TableStrategy} from "../../components/data-table/types";
 import {AdminTableEntities} from "../../services/admin-table-service/types";
-import {Customer} from "./types";
-import {Cable} from "lucide-react";
-import {Eye} from "lucide-react";
-import { useNavigate, Link } from 'react-router-dom';
-import { Badge } from '../../components/ui';
+import {Customer, CustomerStatus} from "./types";
+import {Cable, Eye} from "lucide-react";
+import {Link} from 'react-router-dom';
+import {Badge} from '../../components/ui';
+
+const mapStatusToVariantBadge = (status: CustomerStatus) => {
+    switch (status) {
+        case CustomerStatus.Active:
+            return 'active'
+        case CustomerStatus.Inactive:
+            return 'default';
+    }
+}
 
 export const GetSchema = () => {
     return {
@@ -28,8 +36,8 @@ export const GetSchema = () => {
                     header: "Contact",
                     cell: ({ row }) => (
                         <>
-                            <div className="text-gray-900">{row.original.FirstName}</div>
-                            <div className="text-gray-500 text-xs">{row.original.FirstName}</div>
+                            <div className="text-gray-900">{row.original.Email}</div>
+                            <div className="text-gray-500 text-xs">{row.original.Phone}</div>
                         </>
                     )
                 },
@@ -37,22 +45,22 @@ export const GetSchema = () => {
                     header: "Status",
                     cell: ({ row }) => (
                         <>
-                            <Badge variant="active">{row.original.Status}</Badge>
+                            <Badge variant={mapStatusToVariantBadge(row.original.Status)}>{CustomerStatus[row.original.Status]}</Badge>
                         </>
                     )
                 },
-                {
-                    header: "Connections",
-                    cell: ({ row }) => (
-                        <div className="flex items-center gap-2">
-                            <span className="font-medium">{row.original.FirstName}</span>
-                            <span className="text-gray-500">/ {row.original.FirstName}</span>
-                            {row.original.FirstName && (
-                                <span className="w-2 h-2 bg-orange-500 rounded-full" title="Missing recent readings" />
-                            )}
-                        </div>
-                    )
-                },
+                // {
+                //     header: "Connections",
+                //     cell: ({ row }) => (
+                //         <div className="flex items-center gap-2">
+                //             <span className="font-medium">{row.original.FirstName}</span>
+                //             <span className="text-gray-500">/ {row.original.FirstName}</span>
+                //             {row.original.FirstName && (
+                //                 <span className="w-2 h-2 bg-orange-500 rounded-full" title="Missing recent readings" />
+                //             )}
+                //         </div>
+                //     )
+                // },
                 {
                     header: "Last Reading",
                     cell: () => ('No readings')
@@ -63,14 +71,14 @@ export const GetSchema = () => {
                     cell: ({ row }) => (
                         <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                             <Link
-                                to={`/customers/${row.original.FirstName}`}
+                                to={`/customers/${row.original.Id}`}
                                 className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
                                 title="View customer"
                             >
                                 <Eye className="h-4 w-4" />
                             </Link>
                             <Link
-                                to={`/customers/${row.original.FirstName}/connections/new`}
+                                to={`/customers/${row.original.Id}/connections/new`}
                                 className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
                                 title="Add connection"
                             >
@@ -83,6 +91,5 @@ export const GetSchema = () => {
         },
         entity: AdminTableEntities.Customer,
         mode: TableStrategy.Api
-    } as ApiTableStrategyProps
+    } as ApiTableStrategyProps<Customer>
 }
-

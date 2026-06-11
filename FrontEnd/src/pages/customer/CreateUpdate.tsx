@@ -1,11 +1,13 @@
-import { Modal, Input, Button, Select } from '../../components/ui';
-import { useState } from "react";
-import type { ChangeEvent } from "react";
-import type { Customer } from "./types";
-import type { CreateUpdateProps } from "./types";
+import {Button, Input, Modal, Select} from '../../components/ui';
+import type {ChangeEvent} from "react";
+import {useState} from "react";
+import type {CreateUpdateProps} from "./types";
+import {Customer, CustomerStatus} from "./types";
 
 export const CreateUpdate = ({ active, onClose, onSubmit }: CreateUpdateProps) => {
-    const [formData, setFormData] = useState<Partial<Customer>>({});
+    const [formData, setFormData] = useState<Partial<Customer>>({
+        Status: CustomerStatus.Active
+    });
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -66,12 +68,11 @@ export const CreateUpdate = ({ active, onClose, onSubmit }: CreateUpdateProps) =
                         value={formData.Status}
                         name="Status"
                         label="Status"
-                        placeholder="Select the customer status"
                         onChange={handleChange}
                         options={[
-                        { value: 'inactive', label: 'Inactive' },
-                        { value: 'active', label: 'Active' },
-                    ]}
+                            { value: CustomerStatus.Active, label: 'Active' },
+                            { value: CustomerStatus.Inactive, label: 'Inactive' },
+                        ]}
                     />
 
                     <Input

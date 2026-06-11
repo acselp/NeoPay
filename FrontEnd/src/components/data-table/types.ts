@@ -6,16 +6,16 @@ export enum TableStrategy {
     Frontend = 1,
 }
 
-export interface RichTableState {
+export interface RichTableState<T> {
     data: []
     isLoading: boolean
     pagination: TablePaginationState
     sorting: TableSortState
-    schema: RichTableSchema
+    schema: RichTableSchema<T>
 }
 
-export interface RichTableSchema {
-    columns: ColumnDef<unknown>[]
+export interface RichTableSchema<T> {
+    columns: ColumnDef<T, any>[]
 }
 
 export interface TablePaginationState {
@@ -37,19 +37,19 @@ export enum TableSortDirection {
     Desc = 'desc',
 }
 
-export interface RichTablePropsBase {
+export interface RichTablePropsBase<T> {
     mode: TableStrategy
-    schema: RichTableSchema
+    schema: RichTableSchema<T>
 }
 
-export interface ApiTableStrategyProps extends RichTablePropsBase {
+export interface ApiTableStrategyProps<T> extends RichTablePropsBase<T> {
     mode: TableStrategy.Api
     entity: AdminTableEntities
 }
 
-export interface FrontendStrategyProps extends RichTablePropsBase {
+export interface FrontendStrategyProps<T> extends RichTablePropsBase<T> {
     mode: TableStrategy.Frontend
     data: []
 }
 
-export type RichTableProps = ApiTableStrategyProps | FrontendStrategyProps
+export type RichTableProps<T> = ApiTableStrategyProps<T> | FrontendStrategyProps<T>
