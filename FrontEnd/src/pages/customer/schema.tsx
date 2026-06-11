@@ -1,7 +1,10 @@
 import {ApiTableStrategyProps, TableStrategy} from "../../components/data-table/types";
 import {AdminTableEntities} from "../../services/admin-table-service/types";
 import {Customer} from "./types";
-import {Badge, Cable, Eye, Link} from "lucide-react";
+import {Cable} from "lucide-react";
+import {Eye} from "lucide-react";
+import { useNavigate, Link } from 'react-router-dom';
+import { Badge } from '../../components/ui';
 
 export const GetSchema = () => {
     return {
@@ -10,13 +13,13 @@ export const GetSchema = () => {
                 {
                     header: "Customer",
                     accessorFn: (row: Customer) => `${row.FirstName} ${row.LastName}`,
-                    cell: (info) => (
+                    cell: ({ row }) => (
                         <div>
                             <div className="font-medium text-gray-900">
-                                {info.getValue()}
+                                { `${row.original.FirstName} ${row.original.LastName}` }
                             </div>
                             <div className="text-gray-500 text-xs">
-                                Since {new Date().toLocaleDateString()}
+                                Since {new Date(row.original.CreatedOn ?? new Date()).toLocaleDateString()}
                             </div>
                         </div>
                     )
@@ -34,7 +37,7 @@ export const GetSchema = () => {
                     header: "Status",
                     cell: ({ row }) => (
                         <>
-                            <Badge>{row.original.FirstName}</Badge>
+                            <Badge variant="active">{row.original.Status}</Badge>
                         </>
                     )
                 },
@@ -55,7 +58,8 @@ export const GetSchema = () => {
                     cell: () => ('No readings')
                 },
                 {
-                    header: "Actions",
+                    id: "actions",
+                    header: () => <span class="w-full text-right block"> Actions </span>,
                     cell: ({ row }) => (
                         <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
                             <Link

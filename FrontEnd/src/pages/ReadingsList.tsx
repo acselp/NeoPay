@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Plus, Upload, Download, Gauge } from 'lucide-react';
+import { Upload, Download, Gauge } from 'lucide-react';
 import {
   Button,
   Badge,
@@ -24,7 +24,6 @@ import {
   utilities,
   getCustomer,
   getLocation,
-  getConnection,
   getUtility,
   calculateConsumption,
 } from '../data/mockData';
@@ -54,7 +53,7 @@ export default function ReadingsList() {
         // Find previous reading for consumption calculation
         const meterReadings = readings
           .filter((r) => r.meterId === reading.meterId)
-          .sort((a, b) => new Date(b.readingDate) - new Date(a.readingDate));
+          .sort((a, b) => new Date(b.readingDate).getTime() - new Date(a.readingDate).getTime());
         const currentIndex = meterReadings.findIndex((r) => r.id === reading.id);
         const previousReading = meterReadings[currentIndex + 1];
         const consumption = previousReading
@@ -75,7 +74,7 @@ export default function ReadingsList() {
           consumption,
         };
       })
-      .sort((a, b) => new Date(b.readingDate) - new Date(a.readingDate));
+      .sort((a, b) => new Date(b.readingDate).getTime() - new Date(a.readingDate).getTime());
   }, []);
 
   // Apply filters

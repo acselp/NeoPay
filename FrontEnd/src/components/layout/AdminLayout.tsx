@@ -8,8 +8,15 @@ import {
   ChevronRight,
   Zap,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
-const navigation = [
+interface NavItem {
+  name: string;
+  href: string;
+  icon: LucideIcon;
+}
+
+const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Connections', href: '/connections', icon: Cable },

@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { X } from 'lucide-react';
+import type { ModalProps, ModalSize } from './types';
 
-export default function Modal({ isOpen, onClose, title, children, size = 'md' }) {
-  const sizes = {
+export default function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalProps) {
+  const sizes: Record<ModalSize, string> = {
     sm: 'max-w-md',
     md: 'max-w-lg',
     lg: 'max-w-2xl',

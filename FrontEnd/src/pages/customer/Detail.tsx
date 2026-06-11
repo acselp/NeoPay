@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   Plus,
@@ -38,6 +38,13 @@ import {
   readings,
   meters,
 } from '../../data/mockData';
+import type { Meter } from '../../types';
+import type {
+  ConnectionsTabProps,
+  CustomerReading,
+  NotesTabProps,
+  ReadingsTabProps,
+} from './types';
 
 export default function Detail() {
   const { customerId } = useParams();
@@ -67,7 +74,7 @@ export default function Detail() {
   }, 0);
 
   // Find latest reading date and check for alerts
-  let latestReadingDate = null;
+  let latestReadingDate: Date | null = null;
   let alertCount = 0;
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -91,15 +98,15 @@ export default function Detail() {
   });
 
   // Get all readings for this customer
-  const customerReadings = useMemo(() => {
+  const customerReadings = useMemo<CustomerReading[]>(() => {
     const meterIds = connections
       .map(conn => getConnectionMeter(conn.id))
-      .filter(Boolean)
+      .filter((m): m is Meter => Boolean(m))
       .map(m => m.id);
 
     return readings
       .filter(r => meterIds.includes(r.meterId))
-      .sort((a, b) => new Date(b.readingDate) - new Date(a.readingDate))
+      .sort((a, b) => new Date(b.readingDate).getTime() - new Date(a.readingDate).getTime())
       .slice(0, 10)
       .map(reading => {
         const meter = meters.find(m => m.id === reading.meterId);
@@ -178,7 +185,7 @@ export default function Detail() {
         />
         <KPICard
           title="Last Reading"
-          value={latestReadingDate ? latestReadingDate.toLocaleDateString() : 'Never'}
+          value={latestReadingDate ? (latestReadingDate as Date).toLocaleDateString() : 'Never'}
           icon={Calendar}
         />
         <KPICard
@@ -197,7 +204,7 @@ export default function Detail() {
   );
 }
 
-function ConnectionsTab({ connections, customerId, navigate }) {
+function ConnectionsTab({ connections, customerId, navigate }: ConnectionsTabProps) {
   if (connections.length === 0) {
     return (
       <EmptyState
@@ -325,7 +332,7 @@ function ConnectionsTab({ connections, customerId, navigate }) {
   );
 }
 
-function ReadingsTab({ readings }) {
+function ReadingsTab({ readings }: ReadingsTabProps) {
   if (readings.length === 0) {
     return (
       <EmptyState
@@ -374,7 +381,7 @@ function ReadingsTab({ readings }) {
   );
 }
 
-function NotesTab({ customer }) {
+function NotesTab({ customer }: NotesTabProps) {
   return (
     <Card>
       <CardTitle className="mb-4">Customer Notes</CardTitle>

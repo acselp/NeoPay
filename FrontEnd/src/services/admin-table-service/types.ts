@@ -22,10 +22,10 @@ export interface GridPagination {
 }
 
 export interface PagedResult {
-    total: number
-    pageIndex: number
-    pageSize: number
-    data: []
+    Total: number
+    PageIndex: number
+    PageSize: number
+    Data: []
 }
 
 export enum AdminTableEntities {

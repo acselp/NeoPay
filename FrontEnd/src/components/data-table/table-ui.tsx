@@ -5,7 +5,7 @@ import {useReactTable, flexRender, getCoreRowModel} from "@tanstack/react-table"
 export const TableUi = (props: RichTableState) => {
     const table = useReactTable({
         columns: props.schema.columns,
-        data: [{ FirstName: "fn", LastName: "ln" }],
+        data: props.data,
         getCoreRowModel: getCoreRowModel()
     } as any)
     

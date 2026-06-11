@@ -1,6 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Check, ChevronLeft, ChevronRight, MapPin, Zap, FileText, Gauge, Plus } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Button, Input, Select, Breadcrumbs, Card } from '../components/ui';
 import {
   getCustomer,
@@ -8,8 +9,22 @@ import {
   utilities,
   getAvailableMeters,
 } from '../data/mockData';
+import type {
+  ConnectionFormData,
+  DetailsStepProps,
+  LocationStepProps,
+  MeterStepProps,
+  UtilityStepProps,
+  WizardErrors,
+} from './types';
 
-const steps = [
+interface WizardStep {
+  id: string;
+  name: string;
+  icon: LucideIcon;
+}
+
+const steps: WizardStep[] = [
   { id: 'location', name: 'Location', icon: MapPin },
   { id: 'utility', name: 'Utility', icon: Zap },
   { id: 'details', name: 'Details', icon: FileText },
@@ -24,7 +39,7 @@ export default function AddConnectionWizard() {
   const availableMeters = getAvailableMeters();
 
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ConnectionFormData>({
     // Location step
     locationId: '',
     newLocation: false,
@@ -49,7 +64,7 @@ export default function AddConnectionWizard() {
     initialReading: '',
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<WizardErrors>({});
 
   if (!customer) {
     return (
@@ -60,7 +75,7 @@ export default function AddConnectionWizard() {
     );
   }
 
-  const updateFormData = (field, value) => {
+  const updateFormData = (field: keyof ConnectionFormData, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: null }));
@@ -68,7 +83,7 @@ export default function AddConnectionWizard() {
   };
 
   const validateStep = () => {
-    const newErrors = {};
+    const newErrors: WizardErrors = {};
 
     if (currentStep === 0) {
       if (!formData.newLocation && !formData.locationId) {
@@ -271,7 +286,7 @@ export default function AddConnectionWizard() {
   );
 }
 
-function LocationStep({ formData, updateFormData, existingLocations, errors }) {
+function LocationStep({ formData, updateFormData, existingLocations, errors }: LocationStepProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -366,7 +381,7 @@ function LocationStep({ formData, updateFormData, existingLocations, errors }) {
   );
 }
 
-function UtilityStep({ formData, updateFormData, errors }) {
+function UtilityStep({ formData, updateFormData, errors }: UtilityStepProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -419,7 +434,7 @@ function UtilityStep({ formData, updateFormData, errors }) {
   );
 }
 
-function DetailsStep({ formData, updateFormData, errors }) {
+function DetailsStep({ formData, updateFormData, errors }: DetailsStepProps) {
   return (
     <div className="space-y-6">
       <div>
@@ -463,7 +478,7 @@ function DetailsStep({ formData, updateFormData, errors }) {
   );
 }
 
-function MeterStep({ formData, updateFormData, availableMeters, selectedUtility, errors }) {
+function MeterStep({ formData, updateFormData, availableMeters, selectedUtility, errors }: MeterStepProps) {
   const filteredMeters = availableMeters.filter(m => {
     // Filter meters that match the utility type (basic logic based on serial prefix)
     if (selectedUtility?.name === 'Electricity') return m.serialNumber.startsWith('EM');

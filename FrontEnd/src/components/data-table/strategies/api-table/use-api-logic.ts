@@ -27,7 +27,7 @@ export const useApiTable = ({ entity, schema }: ApiTableStrategyProps): RichTabl
         setIsLoading(true)
         AdminTableService.search(buildGridCommand())
             .then((res) => {
-                setData(res?.data?.data ?? [])
+                setData(res?.data?.Data ?? [])
             })
             .finally(() => {
                 setIsLoading(false)
@@ -36,7 +36,7 @@ export const useApiTable = ({ entity, schema }: ApiTableStrategyProps): RichTabl
     
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [page, pageSize, sortCol, sortDir])
 
     return {
         data: data,

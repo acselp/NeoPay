@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { Plus, Edit2, Trash2, AlertTriangle, Zap, Droplets, Flame } from 'lucide-react';
 import {
   Button,
@@ -15,16 +16,18 @@ import {
   Input,
   Select,
   EmptyState,
-} from '../../components/ui/index.js';
-import { utilities as initialUtilities, connections } from '../../data/mockData.js';
+} from '../../components/ui';
+import { utilities as initialUtilities, connections } from '../../data/mockData';
+import type { Utility } from '../../types';
+import type { UtilityFormState, UtilityModalProps } from './types';
 
 export default function UtilitiesSetup() {
-  const [utilities, setUtilities] = useState(initialUtilities);
+  const [utilities, setUtilities] = useState<Utility[]>(initialUtilities);
   const [showModal, setShowModal] = useState(false);
-  const [editingUtility, setEditingUtility] = useState(null);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+  const [editingUtility, setEditingUtility] = useState<Utility | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<Utility | null>(null);
 
-  const handleEdit = (utility) => {
+  const handleEdit = (utility: Utility) => {
     setEditingUtility(utility);
     setShowModal(true);
   };
@@ -34,7 +37,7 @@ export default function UtilitiesSetup() {
     setShowModal(true);
   };
 
-  const handleDelete = (utilityId) => {
+  const handleDelete = (utilityId: string | undefined) => {
     // Check if utility has connections
     const hasConnections = connections.some((c) => c.utilityId === utilityId);
     if (hasConnections) {
@@ -45,7 +48,7 @@ export default function UtilitiesSetup() {
     setShowDeleteConfirm(null);
   };
 
-  const getUtilityIcon = (name) => {
+  const getUtilityIcon = (name?: string) => {
     switch (name?.toLowerCase()) {
       case 'electricity':
         return <Zap className="h-5 w-5 text-yellow-500" />;
@@ -58,7 +61,7 @@ export default function UtilitiesSetup() {
     }
   };
 
-  const getConnectionCount = (utilityId) => {
+  const getConnectionCount = (utilityId: string | undefined) => {
     return connections.filter((c) => c.utilityId === utilityId).length;
   };
 
@@ -192,7 +195,7 @@ export default function UtilitiesSetup() {
           if (editingUtility) {
             setUtilities(
               utilities.map((u) =>
-                u.id === editingUtility.id ? { ...u, ...data } : u
+                u.id === editingUtility.id ? ({ ...u, ...data } as Utility) : u
               )
             );
           } else {
@@ -203,7 +206,7 @@ export default function UtilitiesSetup() {
                 id: `util-${Date.now()}`,
                 createdAt: new Date().toISOString().split('T')[0],
                 updatedBy: 'admin',
-              },
+              } as Utility,
             ]);
           }
           setShowModal(false);
@@ -248,8 +251,8 @@ export default function UtilitiesSetup() {
   );
 }
 
-function UtilityModal({ isOpen, onClose, utility, onSave }) {
-  const [formData, setFormData] = useState({
+function UtilityModal({ isOpen, onClose, utility, onSave }: UtilityModalProps) {
+  const [formData, setFormData] = useState<UtilityFormState>({
     name: utility?.name || '',
     unit: utility?.unit || '',
     readingType: utility?.readingType || 'cumulative',
@@ -258,12 +261,12 @@ function UtilityModal({ isOpen, onClose, utility, onSave }) {
     rolloverBehavior: utility?.rolloverBehavior || 'reset',
     warningThreshold: utility?.warningThreshold?.toString() || '',
   });
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<Record<string, string | null>>({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newErrors = {};
+    const newErrors: Record<string, string | null> = {};
     if (!formData.name) newErrors.name = 'Name is required';
     if (!formData.unit) newErrors.unit = 'Unit is required';
 

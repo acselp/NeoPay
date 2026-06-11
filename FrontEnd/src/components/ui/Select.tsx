@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
+import type { SelectProps } from './types';
 
-const Select = forwardRef(function Select(
+const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
   { label, error, options, placeholder, className = '', ...props },
   ref
 ) {

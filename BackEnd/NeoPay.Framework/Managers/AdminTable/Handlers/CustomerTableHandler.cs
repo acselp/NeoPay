@@ -23,6 +23,7 @@ public class CustomerTableHandler : AdminTableHandler<CustomerModel, CustomerEnt
         { nameof(CustomerModel.Email), nameof(CustomerEntity.Email) },
         { nameof(CustomerModel.Phone), nameof(CustomerEntity.Phone) },
         { nameof(CustomerModel.AccountNr), nameof(CustomerEntity.AccountNr) },
-        { nameof(CustomerModel.Status), nameof(CustomerEntity.Status) }
+        { nameof(CustomerModel.Status), nameof(CustomerEntity.Status) },
+        { nameof(CustomerModel.CreatedOn), nameof(CustomerEntity.CreatedOnUtc) },
     };
 }

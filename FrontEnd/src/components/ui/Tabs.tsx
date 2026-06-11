@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import type { TabsProps } from './types';
 
-export default function Tabs({ tabs, defaultTab, onChange }) {
-  const [activeTab, setActiveTab] = useState(defaultTab || tabs[0]?.id);
+export default function Tabs({ tabs, defaultTab, onChange }: TabsProps) {
+  const [activeTab, setActiveTab] = useState<string | undefined>(defaultTab || tabs[0]?.id);
 
-  const handleTabChange = (tabId) => {
+  const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
     onChange?.(tabId);
   };

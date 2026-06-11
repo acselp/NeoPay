@@ -158,7 +158,7 @@ export default function ConnectionDetail() {
                 <div>
                   <p className="text-sm text-gray-500">Installed</p>
                   <p className="font-medium">
-                    {new Date(meter.installDate).toLocaleDateString()}
+                    {meter.installDate ? new Date(meter.installDate).toLocaleDateString() : '—'}
                   </p>
                 </div>
                 <div>
@@ -254,7 +254,7 @@ export default function ConnectionDetail() {
                 Meter History
               </CardTitle>
               <div className="space-y-4">
-                {history.map((event, index) => (
+                {history.map((event) => (
                   <div key={event.id} className="flex items-start gap-3">
                     <div
                       className={`mt-1 w-2 h-2 rounded-full ${
@@ -347,7 +347,7 @@ export default function ConnectionDetail() {
                   <div className="mt-4 pt-4 border-t border-gray-200">
                     <p className="text-sm text-gray-500">Last period consumption</p>
                     <p className="text-xl font-semibold text-green-600">
-                      {readingsWithConsumption[0].consumption.toLocaleString()} {utility?.unit}
+                      {readingsWithConsumption[0].consumption?.toLocaleString()} {utility?.unit}
                     </p>
                   </div>
                 )}

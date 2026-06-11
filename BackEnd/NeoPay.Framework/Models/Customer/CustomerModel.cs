@@ -11,4 +11,5 @@ public class CustomerModel : BaseModel
     public string? Phone { get; set; }
     public int AccountNr { get; set; }
     public CustomerStatus Status { get; set; }
+    public DateTime CreatedOn { get; set; }
 }

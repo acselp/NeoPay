@@ -1,5 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import AdminLayout from './components/layout/AdminLayout.jsx';
+import AdminLayout from './components/layout/AdminLayout';
 import {
   Dashboard,
   ConnectionDetail,
@@ -12,7 +12,7 @@ import {
 import {
   CustomerList,
   CustomerDetails,
-} from './pages/customer/index.ts';
+} from './pages/customer';
 
 function App() {
   return (

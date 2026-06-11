@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 import { AlertTriangle, CheckCircle } from 'lucide-react';
 import { Modal, Button, Input } from './ui';
 import { calculateConsumption } from '../data/mockData';
+import type { AddReadingModalProps, ReadingWarning } from './types';
 
 export default function AddReadingModal({
   isOpen,
@@ -10,13 +12,13 @@ export default function AddReadingModal({
   meter,
   utility,
   latestReading,
-}) {
+}: AddReadingModalProps) {
   const [value, setValue] = useState('');
   const [readingDate, setReadingDate] = useState(
     new Date().toISOString().split('T')[0]
   );
-  const [errors, setErrors] = useState({});
-  const [warnings, setWarnings] = useState([]);
+  const [errors, setErrors] = useState<Record<string, string | null>>({});
+  const [warnings, setWarnings] = useState<ReadingWarning[]>([]);
 
   // Reset form when modal opens
   useEffect(() => {
@@ -37,7 +39,7 @@ export default function AddReadingModal({
 
     const newValue = parseFloat(value);
     const prevValue = latestReading.value;
-    const newWarnings = [];
+    const newWarnings: ReadingWarning[] = [];
 
     // Check for negative consumption (not rollover)
     if (newValue < prevValue) {
@@ -46,7 +48,7 @@ export default function AddReadingModal({
         prevValue,
         utility?.rolloverValue
       );
-      if (newValue > utility?.rolloverValue * 0.1) {
+      if (newValue > (utility?.rolloverValue ?? 0) * 0.1) {
         // Not likely a rollover
         newWarnings.push({
           type: 'error',
@@ -75,10 +77,10 @@ export default function AddReadingModal({
     setWarnings(newWarnings);
   }, [value, latestReading, utility]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const newErrors = {};
+    const newErrors: Record<string, string | null> = {};
     if (!value) {
       newErrors.value = 'Reading value is required';
     }
@@ -94,7 +96,7 @@ export default function AddReadingModal({
     // In a real app, this would save to the backend
     console.log('Saving reading:', {
       connectionId: connection.id,
-      meterId: meter.id,
+      meterId: meter?.id,
       value: parseFloat(value),
       readingDate,
     });
@@ -135,9 +137,9 @@ export default function AddReadingModal({
           <Input
             label={`New Reading (${utility?.unit})`}
             type="number"
-            step={utility?.decimalsAllowed > 0 ? `0.${'0'.repeat(utility.decimalsAllowed - 1)}1` : '1'}
+            step={utility && utility.decimalsAllowed > 0 ? `0.${'0'.repeat(utility.decimalsAllowed - 1)}1` : '1'}
             value={value}
-            onChange={(e) => {
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setValue(e.target.value);
               if (errors.value) setErrors({ ...errors, value: null });
             }}
@@ -149,7 +151,7 @@ export default function AddReadingModal({
             label="Reading Date"
             type="date"
             value={readingDate}
-            onChange={(e) => {
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
               setReadingDate(e.target.value);
               if (errors.readingDate) setErrors({ ...errors, readingDate: null });
             }}
@@ -165,7 +167,7 @@ export default function AddReadingModal({
                   Consumption: {consumption.toLocaleString()} {utility?.unit}
                 </p>
                 <p className="text-xs text-green-600">
-                  From {latestReading.value.toLocaleString()} to {parseFloat(value).toLocaleString()}
+                  From {latestReading?.value.toLocaleString()} to {parseFloat(value).toLocaleString()}
                 </p>
               </div>
             </div>

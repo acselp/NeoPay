@@ -1,6 +1,16 @@
 // Mock Data for Utility Management Platform
 
-export const utilities = [
+import type {
+  Connection,
+  Customer,
+  Location,
+  Meter,
+  MeterHistoryEntry,
+  Reading,
+  Utility,
+} from '../types';
+
+export const utilities: Utility[] = [
   {
     id: 'util-1',
     name: 'Electricity',
@@ -39,7 +49,7 @@ export const utilities = [
   },
 ];
 
-export const customers = [
+export const customers: Customer[] = [
   {
     id: 'cust-1',
     name: 'John Smith',
@@ -114,7 +124,7 @@ export const customers = [
   },
 ];
 
-export const locations = [
+export const locations: Location[] = [
   {
     id: 'loc-1',
     customerId: 'cust-1',
@@ -207,7 +217,7 @@ export const locations = [
   },
 ];
 
-export const connections = [
+export const connections: Connection[] = [
   {
     id: 'conn-1',
     customerId: 'cust-1',
@@ -392,7 +402,7 @@ export const connections = [
   },
 ];
 
-export const meters = [
+export const meters: Meter[] = [
   {
     id: 'meter-1',
     connectionId: 'conn-1',
@@ -572,7 +582,7 @@ export const meters = [
   },
 ];
 
-export const readings = [
+export const readings: Reading[] = [
   // Connection 1 - Electricity (John Smith - Main Residence)
   { id: 'read-1', meterId: 'meter-1', value: 1250, readingDate: '2024-02-01', source: 'manual', createdBy: 'field-tech-1' },
   { id: 'read-2', meterId: 'meter-1', value: 1520, readingDate: '2024-03-01', source: 'manual', createdBy: 'field-tech-2' },
@@ -646,7 +656,7 @@ export const readings = [
 ];
 
 // Meter history for tracking replacements
-export const meterHistory = [
+export const meterHistory: MeterHistoryEntry[] = [
   {
     id: 'hist-1',
     connectionId: 'conn-1',
@@ -679,40 +689,46 @@ export const meterHistory = [
 ];
 
 // Helper functions to get related data
-export const getCustomerConnections = (customerId) =>
+export const getCustomerConnections = (customerId: string | undefined): Connection[] =>
   connections.filter(c => c.customerId === customerId);
 
-export const getCustomerLocations = (customerId) =>
+export const getCustomerLocations = (customerId: string | undefined): Location[] =>
   locations.filter(l => l.customerId === customerId);
 
-export const getConnectionMeter = (connectionId) =>
+export const getConnectionMeter = (connectionId: string): Meter | undefined =>
   meters.find(m => m.connectionId === connectionId);
 
-export const getMeterReadings = (meterId) =>
-  readings.filter(r => r.meterId === meterId).sort((a, b) => new Date(b.readingDate) - new Date(a.readingDate));
+export const getMeterReadings = (meterId: string): Reading[] =>
+  readings
+    .filter(r => r.meterId === meterId)
+    .sort((a, b) => new Date(b.readingDate).getTime() - new Date(a.readingDate).getTime());
 
-export const getLatestReading = (meterId) => {
+export const getLatestReading = (meterId: string): Reading | null => {
   const meterReadings = getMeterReadings(meterId);
   return meterReadings.length > 0 ? meterReadings[0] : null;
 };
 
-export const getUtility = (utilityId) =>
+export const getUtility = (utilityId: string): Utility | undefined =>
   utilities.find(u => u.id === utilityId);
 
-export const getLocation = (locationId) =>
+export const getLocation = (locationId: string): Location | undefined =>
   locations.find(l => l.id === locationId);
 
-export const getCustomer = (customerId) =>
+export const getCustomer = (customerId: string | undefined): Customer | undefined =>
   customers.find(c => c.id === customerId);
 
-export const getConnection = (connectionId) =>
+export const getConnection = (connectionId: string | undefined): Connection | undefined =>
   connections.find(c => c.id === connectionId);
 
-export const getAvailableMeters = () =>
+export const getAvailableMeters = (): Meter[] =>
   meters.filter(m => m.status === 'available');
 
 // Calculate consumption between two readings
-export const calculateConsumption = (currentValue, previousValue, rolloverValue = 99999) => {
+export const calculateConsumption = (
+  currentValue: number,
+  previousValue: number,
+  rolloverValue = 99999
+): number => {
   if (currentValue >= previousValue) {
     return currentValue - previousValue;
   }

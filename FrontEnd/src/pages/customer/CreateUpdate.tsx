@@ -1,19 +1,21 @@
 import { Modal, Input, Button, Select } from '../../components/ui';
-import {FormEvent, useState} from "react";
-import {Customer} from "./types";
+import { useState } from "react";
+import type { ChangeEvent } from "react";
+import type { Customer } from "./types";
+import type { CreateUpdateProps } from "./types";
 
-export const CreateUpdate = ({ active, onClose, onSubmit }) => {
-    const [formData, setFormData] = useState<Customer>({});
-    const handleChange = (e) => {
+export const CreateUpdate = ({ active, onClose, onSubmit }: CreateUpdateProps) => {
+    const [formData, setFormData] = useState<Partial<Customer>>({});
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     }
-    
+
     const handleSubmit = () => {
-        onSubmit?.(formData);
+        onSubmit?.(formData as Customer);
         onClose();
     }
-    
+
     return (
         <>
             <Modal isOpen={active} onClose={onClose} title="Create customer" size="md">
@@ -36,7 +38,7 @@ export const CreateUpdate = ({ active, onClose, onSubmit }) => {
                     />
 
                     <Input
-                        value={formData.Email}
+                        value={formData.Email ?? ''}
                         name="Email"
                         label="Email"
                         placeholder="Enter customer email"
@@ -44,7 +46,7 @@ export const CreateUpdate = ({ active, onClose, onSubmit }) => {
                     />
 
                     <Input
-                        value={formData.Phone}
+                        value={formData.Phone ?? ''}
                         name="Phone"
                         label="Phone number"
                         placeholder="Enter customer phone number"
@@ -73,14 +75,14 @@ export const CreateUpdate = ({ active, onClose, onSubmit }) => {
                     />
 
                     <Input
-                        value={formData.Notes}
+                        value={formData.Notes ?? ''}
                         name="Notes"
                         label="Notes"
                         placeholder="Enter some notes about the customer"
                         onChange={handleChange}
                     />
                 </div>
-                    
+
                 {/* Actions */}
                 <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-200">
                     <Button variant="secondary" type="button" onClick={onClose}>

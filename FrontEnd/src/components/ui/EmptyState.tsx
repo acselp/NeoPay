@@ -1,5 +1,6 @@
 import { FileX } from 'lucide-react';
 import Button from './Button';
+import type { EmptyStateProps } from './types';
 
 export default function EmptyState({
   icon: Icon = FileX,
@@ -7,7 +8,7 @@ export default function EmptyState({
   description,
   action,
   actionLabel,
-}) {
+}: EmptyStateProps) {
   return (
     <div className="text-center py-12">
       <Icon className="mx-auto h-12 w-12 text-gray-400" />

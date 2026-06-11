@@ -1,4 +1,6 @@
-export default function KPICard({ title, value, subtitle, icon: Icon, trend, trendUp }) {
+import type { KPICardProps } from './types';
+
+export default function KPICard({ title, value, subtitle, icon: Icon, trend, trendUp }: KPICardProps) {
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
       <div className="flex items-start justify-between">

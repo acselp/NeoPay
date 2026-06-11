@@ -1,4 +1,4 @@
-import AdminPageWrapper from "../../../components/layout/AdminPageWrapper.jsx";
+import AdminPageWrapper from "../../../components/layout/AdminPageWrapper";
 
 export default function UtilitiesList() {
     return (<AdminPageWrapper>

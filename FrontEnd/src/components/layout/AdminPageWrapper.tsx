@@ -1,8 +1,9 @@
-import {Button, Card} from "../ui/index.js";
-import {AlertTriangle, Plus} from "lucide-react";
-import {Outlet} from "react-router-dom";
+import type { PropsWithChildren } from "react";
+import { Button, Card } from "../ui";
+import { AlertTriangle, Plus } from "lucide-react";
+import { Outlet } from "react-router-dom";
 
-export default function AdminPageWrapper() {
+export default function AdminPageWrapper(_props: PropsWithChildren) {
     return <>
         <div className="p-8">
             {/* Header */}

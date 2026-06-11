@@ -1,6 +1,7 @@
 import { Search, X } from 'lucide-react';
+import type { SearchInputProps } from './types';
 
-export default function SearchInput({ value, onChange, placeholder = 'Search...' }) {
+export default function SearchInput({ value, onChange, placeholder = 'Search...' }: SearchInputProps) {
   return (
     <div className="relative">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />

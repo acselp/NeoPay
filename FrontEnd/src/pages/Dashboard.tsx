@@ -36,7 +36,7 @@ export default function Dashboard() {
 
   // Recent readings
   const recentReadings = [...readings]
-    .sort((a, b) => new Date(b.readingDate) - new Date(a.readingDate))
+    .sort((a, b) => new Date(b.readingDate).getTime() - new Date(a.readingDate).getTime())
     .slice(0, 5)
     .map(reading => {
       const meter = meters.find(m => m.id === reading.meterId);

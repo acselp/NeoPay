@@ -1,4 +1,6 @@
-export default function Table({ children, className = '' }) {
+import type { TableCellProps, TableProps, TableRowProps, TableSectionProps } from './types';
+
+export default function Table({ children, className = '' }: TableProps) {
   return (
     <div className={`overflow-x-auto ${className}`}>
       <table className="min-w-full divide-y divide-gray-200">
@@ -8,7 +10,7 @@ export default function Table({ children, className = '' }) {
   );
 }
 
-export function TableHeader({ children }) {
+export function TableHeader({ children }: TableSectionProps) {
   return (
     <thead className="bg-gray-50">
       {children}
@@ -16,7 +18,7 @@ export function TableHeader({ children }) {
   );
 }
 
-export function TableBody({ children }) {
+export function TableBody({ children }: TableSectionProps) {
   return (
     <tbody className="bg-white divide-y divide-gray-200">
       {children}
@@ -24,7 +26,7 @@ export function TableBody({ children }) {
   );
 }
 
-export function TableRow({ children, onClick, className = '' }) {
+export function TableRow({ children, onClick, className = '' }: TableRowProps) {
   return (
     <tr
       onClick={onClick}
@@ -35,7 +37,7 @@ export function TableRow({ children, onClick, className = '' }) {
   );
 }
 
-export function TableHead({ children, className = '' }) {
+export function TableHead({ children, className = '' }: TableCellProps) {
   return (
     <th
       scope="col"
@@ -46,7 +48,7 @@ export function TableHead({ children, className = '' }) {
   );
 }
 
-export function TableCell({ children, className = '' }) {
+export function TableCell({ children, className = '' }: TableCellProps) {
   return (
     <td className={`px-6 py-4 whitespace-nowrap text-sm ${className}`}>
       {children}
