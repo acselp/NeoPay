@@ -1,22 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {ApiTableStrategyProps, RichTableState, TableSortDirection} from "../../types";
 import {GridCommand} from "../../../../services/admin-table-service/types";
 import {AdminTableService} from "../../../../services/admin-table-service";
+import { debounce } from "../../../../helpers/debounce";
 
 export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): RichTableState<T> => {
     const [data, setData] = useState<[]>([])
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(10)
     const [sortCol, setSortCol] = useState<string | null>(null)
-    const [sortDir, setSortDir] = useState<TableSortDirection>(
-        TableSortDirection.Asc
-    )
+    const [sortDir, setSortDir] = useState<TableSortDirection>(TableSortDirection.Asc)
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const [searchText, setSearchText] = useState<string>('')
 
     const fetchData = () => {
+        setIsLoading(true)
         const buildGridCommand = (): GridCommand => {
             return {
                 Entity: entity,
+                Search: {
+                    SearchQuery: searchText
+                },
                 Pagination: {
                     PageIndex: page,
                     PageSize: pageSize,
@@ -24,7 +28,6 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
             } as GridCommand
         }
 
-        setIsLoading(true)
         AdminTableService.search(buildGridCommand())
             .then((res) => {
                 setData(res?.data?.Data ?? [])
@@ -34,14 +37,24 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
             })
     }
 
+    const fetchDataWithDebounce = useMemo(() => debounce(fetchData, 300), [])
+
     useEffect(() => {
-        fetchData()
-    }, [page, pageSize, sortCol, sortDir])
+        fetchDataWithDebounce()
+    }, [page, pageSize, sortCol, sortDir, searchText])
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     return {
         data: data,
         isLoading,
         schema,
+        search: {
+            value: searchText,
+            onSearchChange: setSearchText
+        },
         pagination: {
             pageIndex: page,
             pageSize,

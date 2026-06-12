@@ -18,10 +18,10 @@ export function TableHeader({ children }: TableSectionProps) {
   );
 }
 
-export function TableBody({ children }: TableSectionProps) {
+export function TableBody(props: TableSectionProps) {
   return (
-    <tbody className="bg-white divide-y divide-gray-200">
-      {children}
+    <tbody className="bg-white divide-y divide-gray-200" {...props}>
+      {props.children}
     </tbody>
   );
 }

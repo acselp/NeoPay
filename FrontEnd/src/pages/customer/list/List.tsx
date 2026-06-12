@@ -36,9 +36,8 @@ export default function List() {
                 </Button>
             </div>
 
-            <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                <DataTable { ...tableSchema }/>
-            </div>
+
+            <DataTable { ...tableSchema }/>
 
             <CreateUpdate
                 active={ isCreateModalOpen }

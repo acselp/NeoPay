@@ -175,10 +175,6 @@ export default function ReadingsList() {
         </div>
       </div>
 
-      {/* Results count */}
-      <div className="text-sm text-gray-500 mb-4">
-        Showing {filteredReadings.length} of {readings.length} readings
-      </div>
 
       {/* Table */}
       <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">

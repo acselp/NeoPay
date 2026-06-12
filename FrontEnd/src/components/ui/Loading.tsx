@@ -1,6 +1,6 @@
-export const Loading = () => {
+export const Loading = (props: any) => {
     return (
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center" {...props}>
             <div className="h-16 w-16 animate-spin rounded-full border-4 border-gray border-t-transparent"></div>
         </div>
     )

@@ -10,6 +10,7 @@ export interface RichTableState<T> {
     data: []
     isLoading: boolean
     pagination: TablePaginationState
+    search: TableSearchState
     sorting: TableSortState
     schema: RichTableSchema<T>
 }
@@ -30,6 +31,11 @@ export interface TableSortState {
     column: string | null
     direction: TableSortDirection
     onSort: (column: string, direction: TableSortDirection) => void
+}
+
+export interface TableSearchState {
+    value: string
+    onSearchChange: (value: string) => void
 }
 
 export enum TableSortDirection {

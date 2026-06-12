@@ -88,6 +88,7 @@ export interface TableProps {
 }
 
 export interface TableSectionProps {
+  className?: string;
   children: ReactNode;
 }
 
@@ -100,7 +101,7 @@ export interface TableRowProps {
 export interface TableCellProps {
   children?: ReactNode;
   className?: string;
-  colSpan?: string;
+  colSpan?: number;
 }
 
 export interface BreadcrumbItem {
@@ -121,7 +122,7 @@ export interface EmptyStateProps {
 }
 
 export interface SearchInputProps {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
   placeholder?: string;
 }
