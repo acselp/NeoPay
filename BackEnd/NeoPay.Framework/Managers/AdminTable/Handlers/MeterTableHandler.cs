@@ -15,11 +15,8 @@ public class MeterTableHandler : AdminTableHandler<MeterModel, MeterEntity>
         Query = repository.GetQuery();
     }
 
-    public override Dictionary<string, string> ColumnMappings => new()
+    protected override MeterModel Map(MeterEntity entity)
     {
-        { nameof(MeterModel.Id), nameof(MeterEntity.Id) },
-        { nameof(MeterModel.SerialNumber), nameof(MeterEntity.SerialNumber) },
-        { nameof(MeterModel.Status), nameof(MeterEntity.Status) },
-        { nameof(MeterModel.ConnectionId), nameof(MeterEntity.ConnectionId) }
-    };
+        return new MeterModel();
+    }
 }

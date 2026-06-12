@@ -1,30 +1,27 @@
-import {ApiTableStrategyProps, TableStrategy} from "../../components/data-table/types";
-import {AdminTableEntities} from "../../services/admin-table-service/types";
-import {Customer, CustomerStatus} from "./types";
+import {ApiTableStrategyProps, TableStrategy} from "../../../components/data-table/types";
+import {AdminTableEntities} from "../../../services/admin-table-service/types";
+import {Customer, CustomerStatus} from "../types";
 import {Cable, Eye} from "lucide-react";
-import {Link} from 'react-router-dom';
-import {Badge} from '../../components/ui';
+import { Link, useNavigate } from 'react-router-dom';
+import {Badge} from '../../../components/ui';
+import { mapStatusToVariantBadge } from "../helpers";
 
-const mapStatusToVariantBadge = (status: CustomerStatus) => {
-    switch (status) {
-        case CustomerStatus.Active:
-            return 'active'
-        case CustomerStatus.Inactive:
-            return 'default';
-    }
-}
-
-export const GetSchema = () => {
+export const GetSchema = ({ navigate }) => {
     return {
         schema: {
+            table: {
+                row: {
+                    onRowClick: (row) => { navigate(`/customers/${row.Id}`) }
+                }
+            },
             columns: [
                 {
                     header: "Customer",
-                    accessorFn: (row: Customer) => `${row.FirstName} ${row.LastName}`,
+                    accessorFn: (row: Customer) => row.FullName,
                     cell: ({ row }) => (
                         <div>
                             <div className="font-medium text-gray-900">
-                                { `${row.original.FirstName} ${row.original.LastName}` }
+                                { row.original.FullName }
                             </div>
                             <div className="text-gray-500 text-xs">
                                 Since {new Date(row.original.CreatedOn ?? new Date()).toLocaleDateString()}
@@ -46,6 +43,14 @@ export const GetSchema = () => {
                     cell: ({ row }) => (
                         <>
                             <Badge variant={mapStatusToVariantBadge(row.original.Status)}>{CustomerStatus[row.original.Status]}</Badge>
+                        </>
+                    )
+                },
+                {
+                    header: "Account number",
+                    cell: ({ row }) => (
+                        <>
+                            {row.original.AccountNr}
                         </>
                     )
                 },

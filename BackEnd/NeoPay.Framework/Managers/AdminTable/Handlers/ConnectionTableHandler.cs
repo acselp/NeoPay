@@ -15,11 +15,8 @@ public class ConnectionTableHandler : AdminTableHandler<ConnectionModel, Connect
         Query = repository.GetQuery();
     }
 
-    public override Dictionary<string, string> ColumnMappings => new()
+    protected override ConnectionModel Map(ConnectionEntity entity)
     {
-        { nameof(ConnectionModel.Id), nameof(ConnectionEntity.Id) },
-        { nameof(ConnectionModel.Status), nameof(ConnectionEntity.Status) },
-        { nameof(ConnectionModel.CustomerId), nameof(ConnectionEntity.CustomerId) },
-        { nameof(ConnectionModel.UtilityId), nameof(ConnectionEntity.UtilityId) }
-    };
+        return new ConnectionModel();
+    }
 }

@@ -18,10 +18,10 @@ export function TableHeader({ children }: TableSectionProps) {
   );
 }
 
-export function TableBody({ children }: TableSectionProps) {
+export function TableBody(props: TableSectionProps) {
   return (
-    <tbody className="bg-white divide-y divide-gray-200">
-      {children}
+    <tbody className="bg-white divide-y divide-gray-200" {...props}>
+      {props.children}
     </tbody>
   );
 }
@@ -48,9 +48,9 @@ export function TableHead({ children, className = '' }: TableCellProps) {
   );
 }
 
-export function TableCell({ children, className = '' }: TableCellProps) {
+export function TableCell({ children, colSpan, className = ''}: TableCellProps) {
   return (
-    <td className={`px-6 py-4 whitespace-nowrap text-sm ${className}`}>
+    <td className={`px-6 py-4 whitespace-nowrap text-sm ${className}`} colSpan={colSpan}>
       {children}
     </td>
   );

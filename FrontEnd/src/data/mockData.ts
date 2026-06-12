@@ -715,7 +715,7 @@ export const getLocation = (locationId: string): Location | undefined =>
   locations.find(l => l.id === locationId);
 
 export const getCustomer = (customerId: string | undefined): Customer | undefined =>
-  customers.find(c => c.id === customerId);
+  customers[5]
 
 export const getConnection = (connectionId: string | undefined): Connection | undefined =>
   connections.find(c => c.id === connectionId);

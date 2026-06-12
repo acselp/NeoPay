@@ -13,13 +13,13 @@ public class CustomerMapper
         return new CustomerModel
         {
             Id        = customer.Id,
-            FirstName = customer.FirstName,
-            LastName  = customer.LastName,
+            FullName  = $"{customer.FirstName} {customer.LastName}",
             Email     = customer.Email,
             Phone     = customer.Phone,
             AccountNr = customer.AccountNr,
-            Status = customer.Status,
+            Status    = customer.Status,
             CreatedOn = customer.CreatedOnUtc,
+            Notes     = customer.Notes ?? string.Empty,
         };
     }
 

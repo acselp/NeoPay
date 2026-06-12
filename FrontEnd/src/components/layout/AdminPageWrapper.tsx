@@ -14,7 +14,7 @@ export default function AdminPageWrapper(_props: PropsWithChildren) {
                         Configure utility types, units, and reading rules
                     </p>
                 </div>
-                <Button onClick={handleAdd}>
+                <Button>
                     <Plus className="h-4 w-4 mr-2" />
                     Add Utility
                 </Button>

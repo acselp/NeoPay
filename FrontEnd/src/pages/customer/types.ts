@@ -10,8 +10,7 @@ import type {
 
 export interface Customer {
     Id: number;
-    FirstName: string;
-    LastName: string;
+    FullName: string;
     Email?: string | null;
     Phone?: string | null;
     AccountNr: number;
@@ -29,6 +28,7 @@ export interface CreateUpdateProps {
     active: boolean;
     onClose: () => void;
     onSubmit?: (model: Customer) => void;
+    model?: Customer;
 }
 
 export interface CustomerReading {
@@ -50,5 +50,5 @@ export interface ReadingsTabProps {
 }
 
 export interface NotesTabProps {
-    customer: DomainCustomer;
+    customer: Customer;
 }
