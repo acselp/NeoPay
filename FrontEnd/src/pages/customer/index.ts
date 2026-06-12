@@ -1,4 +1,4 @@
 import CustomerDetails from "./Detail"
-import CustomerList from "./List"
+import CustomerList from "./list/List"
 
 export { CustomerDetails, CustomerList }

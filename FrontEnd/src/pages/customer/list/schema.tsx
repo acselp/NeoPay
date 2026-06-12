@@ -1,9 +1,9 @@
-import {ApiTableStrategyProps, TableStrategy} from "../../components/data-table/types";
-import {AdminTableEntities} from "../../services/admin-table-service/types";
-import {Customer, CustomerStatus} from "./types";
+import {ApiTableStrategyProps, TableStrategy} from "../../../components/data-table/types";
+import {AdminTableEntities} from "../../../services/admin-table-service/types";
+import {Customer, CustomerStatus} from "../types";
 import {Cable, Eye} from "lucide-react";
 import {Link} from 'react-router-dom';
-import {Badge} from '../../components/ui';
+import {Badge} from '../../../components/ui';
 
 const mapStatusToVariantBadge = (status: CustomerStatus) => {
     switch (status) {
@@ -46,6 +46,14 @@ export const GetSchema = () => {
                     cell: ({ row }) => (
                         <>
                             <Badge variant={mapStatusToVariantBadge(row.original.Status)}>{CustomerStatus[row.original.Status]}</Badge>
+                        </>
+                    )
+                },
+                {
+                    header: "Account number",
+                    cell: ({ row }) => (
+                        <>
+                            {row.original.AccountNr}
                         </>
                     )
                 },

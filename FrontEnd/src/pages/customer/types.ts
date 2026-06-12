@@ -29,6 +29,7 @@ export interface CreateUpdateProps {
     active: boolean;
     onClose: () => void;
     onSubmit?: (model: Customer) => void;
+    model?: Customer;
 }
 
 export interface CustomerReading {
