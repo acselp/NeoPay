@@ -15,15 +15,17 @@ public class CustomerTableHandler : AdminTableHandler<CustomerModel, CustomerEnt
         Query = repository.GetQuery();
     }
 
-    public override Dictionary<string, string> ColumnMappings => new()
+    protected override CustomerModel Map(CustomerEntity entity)
     {
-        { nameof(CustomerModel.Id), nameof(CustomerEntity.Id) },
-        { nameof(CustomerModel.FirstName), nameof(CustomerEntity.FirstName) },
-        { nameof(CustomerModel.LastName), nameof(CustomerEntity.LastName) },
-        { nameof(CustomerModel.Email), nameof(CustomerEntity.Email) },
-        { nameof(CustomerModel.Phone), nameof(CustomerEntity.Phone) },
-        { nameof(CustomerModel.AccountNr), nameof(CustomerEntity.AccountNr) },
-        { nameof(CustomerModel.Status), nameof(CustomerEntity.Status) },
-        { nameof(CustomerModel.CreatedOn), nameof(CustomerEntity.CreatedOnUtc) },
-    };
+        return new CustomerModel
+        {
+            Id =  entity.Id,
+            Email = entity.Email,
+            FullName = $"{entity.FirstName} {entity.LastName}",
+            AccountNr =  entity.AccountNr,
+            CreatedOn = entity.CreatedOnUtc,
+            Phone =  entity.Phone,
+            Status =  entity.Status,
+        };
+    }
 }

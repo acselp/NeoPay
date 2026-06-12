@@ -15,10 +15,8 @@ public class UtilityTableHandler : AdminTableHandler<UtilityModel, UtilityEntity
         Query = repository.GetQuery();
     }
 
-    public override Dictionary<string, string> ColumnMappings => new()
+    protected override UtilityModel Map(UtilityEntity entity)
     {
-        { nameof(UtilityModel.Id), nameof(UtilityEntity.Id) },
-        { nameof(UtilityModel.Name), nameof(UtilityEntity.Name) },
-        { nameof(UtilityModel.UnitType), nameof(UtilityEntity.UnitType) }
-    };
+        return new UtilityModel();
+    }
 }

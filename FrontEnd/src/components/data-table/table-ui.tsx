@@ -57,7 +57,11 @@ export const TableUi = (props: RichTableState<any>) => {
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows.length > 0 ? table.getRowModel().rows.map((row) => (
-                            <TableRow key={row.id}>
+                            <TableRow
+                                key={row.id}
+                                onClick={() => props.schema?.table?.row?.onRowClick?.(row.original)}
+                                className="cursor-pointer"
+                            >
                                 {row.getVisibleCells().map((cell) => (
                                     <TableCell key={cell.id}>
                                         {flexRender(

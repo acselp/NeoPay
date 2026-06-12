@@ -1,5 +1,5 @@
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
     Button,
 } from '../../../components/ui';
@@ -8,17 +8,14 @@ import { CustomerService } from "../../../services/customer/customer-service";
 import { CreateUpdate } from "../create-update/CreateUpdate";
 import { DataTable } from "../../../components/data-table/data-table";
 import { GetSchema } from "./schema";
-import { toast } from "../../../components/ui/toast/helpers";
-import { SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export default function List() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-    const tableSchema = GetSchema();
+    const navigate = useNavigate()
+    const tableSchema = useMemo(() => GetSchema({ navigate }), []);
     const onCreateSubmit = (model: Customer) => {
         CustomerService.create(model)
-            .then(response => {
-
-            })
     }
 
     return (

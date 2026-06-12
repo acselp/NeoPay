@@ -43,10 +43,6 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
         fetchDataWithDebounce()
     }, [page, pageSize, sortCol, sortDir, searchText])
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
     return {
         data: data,
         isLoading,
