@@ -13,6 +13,7 @@ import {
   CustomerList,
   CustomerDetails,
 } from './pages/customer';
+import { UtilitiesList } from './pages/utility-setup';
 
 function App() {
   return (
@@ -41,8 +42,7 @@ function App() {
         <Route path="/readings" element={<ReadingsList />} />
 
         {/* Setup */}
-        <Route path="/setup" element={<Navigate to="/setup/utilities" replace />} />
-        <Route path="/setup/utilities" element={<UtilitiesSetup />} />
+        <Route path="/utilities" element={<UtilitiesList />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />

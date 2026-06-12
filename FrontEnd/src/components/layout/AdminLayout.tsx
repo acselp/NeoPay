@@ -21,7 +21,7 @@ const navigation: NavItem[] = [
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Connections', href: '/connections', icon: Cable },
   { name: 'Readings', href: '/readings', icon: Gauge },
-  { name: 'Setup', href: '/setup/utilities', icon: Settings },
+  { name: 'Utilities', href: '/utilities', icon: Settings },
 ];
 
 export default function AdminLayout() {
@@ -52,9 +52,6 @@ export default function AdminLayout() {
             >
               <item.icon className="h-5 w-5 mr-3" />
               {item.name}
-              {item.href === '/setup/utilities' && (
-                <ChevronRight className="h-4 w-4 ml-auto" />
-              )}
             </NavLink>
           ))}
         </nav>

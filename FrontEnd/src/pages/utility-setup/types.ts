@@ -27,3 +27,15 @@ export interface UtilityModalProps {
   utility: Utility | null;
   onSave: (data: UtilityFormValues) => void;
 }
+
+
+export enum UnitType {
+  M3 = 0,
+  Kwh = 1
+}
+
+export interface UtilityModel {
+  Name: string
+  UnitType: UnitType
+  CreatedOn: Date
+}
