@@ -11,8 +11,8 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
     const [sortDir, setSortDir] = useState<TableSortDirection>(
         TableSortDirection.Asc
     )
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    
+    const [isLoading, setIsLoading] = useState<boolean>(true)
+
     const fetchData = () => {
         const buildGridCommand = (): GridCommand => {
             return {
@@ -23,7 +23,7 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
                 },
             } as GridCommand
         }
-        
+
         setIsLoading(true)
         AdminTableService.search(buildGridCommand())
             .then((res) => {
@@ -33,7 +33,7 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
                 setIsLoading(false)
             })
     }
-    
+
     useEffect(() => {
         fetchData()
     }, [page, pageSize, sortCol, sortDir])

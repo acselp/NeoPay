@@ -100,6 +100,7 @@ export interface TableRowProps {
 export interface TableCellProps {
   children?: ReactNode;
   className?: string;
+  colSpan?: string;
 }
 
 export interface BreadcrumbItem {
