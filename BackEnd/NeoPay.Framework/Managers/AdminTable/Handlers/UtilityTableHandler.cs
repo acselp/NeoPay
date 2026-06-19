@@ -17,6 +17,11 @@ public class UtilityTableHandler : AdminTableHandler<UtilityModel, UtilityEntity
 
     protected override UtilityModel Map(UtilityEntity entity)
     {
-        return new UtilityModel();
+        return new UtilityModel
+        {
+            Name     = entity.Name,
+            UnitType = entity.UnitType,
+            Id       = entity.Id,
+        };
     }
 }

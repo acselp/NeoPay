@@ -36,6 +36,6 @@ export enum UnitType {
 
 export interface UtilityModel {
   Name: string
-  UnitType: UnitType
+  UnitType: number
   CreatedOn: Date
 }

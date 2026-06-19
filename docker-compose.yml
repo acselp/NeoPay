@@ -51,6 +51,12 @@ services:
       - backend
     networks:
       - neopay-network
+        
+        
+  redis:
+    image: redis:7-alpine
+    ports: 
+     - "6379:6379"
 
 volumes:
   postgres-data:

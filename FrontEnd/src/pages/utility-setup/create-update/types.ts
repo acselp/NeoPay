@@ -4,6 +4,6 @@ import { UtilityModel } from "../types"
 export interface CreateUpdatePorps {
     onSubmit: any
     onClose: any
-    model: UtilityModel
+    model?: UtilityModel
     active: boolean
 }

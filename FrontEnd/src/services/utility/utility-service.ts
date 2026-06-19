@@ -8,6 +8,6 @@ const createEndpoint = "create"
 
 export const UtilityService = {
     create(model: UtilityModel) {
-        return apiSetup.post(getUrl(createEndpoint), { model })
+        return apiSetup.post(getUrl(createEndpoint), model)
     }
 }

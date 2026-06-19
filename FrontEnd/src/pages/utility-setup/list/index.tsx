@@ -12,7 +12,10 @@ export default function UtilitiesList() {
     const [isCreateUpdateOpen, setIsCreateModalOpen] = useState<boolean>(false);
 
     const onCreate = (model: UtilityModel) => {
-        UtilityService.create(model);
+        UtilityService.create(model)
+            .then((data) => {
+                console.log("hello")
+            })
     }
 
     return (
@@ -31,8 +34,8 @@ export default function UtilitiesList() {
                 </Button>
             </div>
 
-            <CreateUpdate 
-                onClose={() => setIsCreateModalOpen(false)} 
+            <CreateUpdate
+                onClose={() => setIsCreateModalOpen(false)}
                 active={isCreateUpdateOpen}
                 onSubmit={onCreate}
             />

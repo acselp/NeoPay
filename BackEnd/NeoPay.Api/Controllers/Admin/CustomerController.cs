@@ -18,11 +18,11 @@ public class CustomerController : BaseAdminController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateCustomerModel customer)
+    public async Task<IActionResult> Create(CreateCustomerModel model)
     {
         try
         {
-            await _customerManager.Create(customer);
+            await _customerManager.Create(model);
             return Ok();
         }
         catch (ValidationException ex)

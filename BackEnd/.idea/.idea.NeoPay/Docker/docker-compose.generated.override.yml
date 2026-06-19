@@ -1,0 +1,19 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  backend:
+    build:
+      context: "E:\\Projects\\NeoPay\\BackEnd"
+      dockerfile: "Dockerfile"
+      target: "build"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/NeoPay.Api.dll"
+    environment: {}
+    image: "neopay.api:dev"
+    ports: []
+    volumes:
+    - "E:\\Projects\\NeoPay\\BackEnd\\NeoPay.Api:/app:rw"
+    - "E:\\Projects\\NeoPay\\BackEnd:/src:rw"
+    - "C:\\Users\\Admin\\.nuget\\packages:/root/.nuget/packages"
+    working_dir: "/app"

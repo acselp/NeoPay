@@ -22,7 +22,6 @@ public class UtilityMapper
         return new UtilityEntity
         {
             Name     = utility.Name,
-            UnitType = utility.UnitType
         };
     }
 

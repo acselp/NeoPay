@@ -18,11 +18,11 @@ public class UtilityController : BaseAdminController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateUtilityModel utility)
+    public async Task<IActionResult> Create([FromBody]CreateUtilityModel model)
     {
         try
         {
-            await _utilityManager.Create(utility);
+            await _utilityManager.Create(model);
             return Ok();
         }
         catch (ValidationException ex)

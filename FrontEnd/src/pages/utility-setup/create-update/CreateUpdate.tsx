@@ -25,14 +25,14 @@ export const CreateUpdate = ({ onClose, onSubmit, model, active }: CreateUpdateP
                             {...register("Name", { required: "This field is required" })}
                         />
 
-                        <Select
-                            label="Unit type"
-                            {...register("UnitType")}
-                            options={[
-                                { value: "1", label: 'KWH' },
-                                { value: "2", label: 'M3' },
-                            ]}
-                        />
+                        {/*<Select*/}
+                        {/*    label="Unit type"*/}
+                        {/*    {...register("UnitType")}*/}
+                        {/*    options={[*/}
+                        {/*        { value: 1, label: 'KWH' },*/}
+                        {/*        { value: 0, label: 'M3' },*/}
+                        {/*    ]}*/}
+                        {/*/>*/}
 
                     </div>
 
