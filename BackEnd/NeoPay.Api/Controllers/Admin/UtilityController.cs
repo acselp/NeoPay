@@ -18,7 +18,7 @@ public class UtilityController : BaseAdminController
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody]CreateUtilityModel model)
+    public async Task<IActionResult> Create(CreateUtilityModel model)
     {
         try
         {
