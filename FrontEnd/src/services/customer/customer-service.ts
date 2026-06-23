@@ -5,11 +5,15 @@ const CONTROLLER_URL = "/api/customer/"
 const getUrl = (url: string) => `${CONTROLLER_URL}${url}`
 
 const createEndpoint = "create"
+const updateEndpoint = "update"
 const getByIdEndpoint = "getById"
 
 export const CustomerService = {
     create(model: Customer) {
         return apiSetup.post(getUrl(createEndpoint), model)
+    },
+    update(model: Customer) {
+        return apiSetup.put(getUrl(updateEndpoint), model)
     },
     getById(id: string) {
         return apiSetup.get(getUrl(getByIdEndpoint), { params: { id } })

@@ -40,6 +40,7 @@ public static class DependencyInjection
         services.AddServices();
         services.AddPersistance(configuration);
         services.AddHostedServices();
+        // services.AddInfrastructure(configuration);
     }
 
     private static void AddOptions(this IServiceCollection services, IConfiguration configuration)

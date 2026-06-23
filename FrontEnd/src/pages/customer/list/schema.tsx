@@ -1,12 +1,12 @@
 import {ApiTableStrategyProps, TableStrategy} from "../../../components/data-table/types";
 import {AdminTableEntities} from "../../../services/admin-table-service/types";
 import {Customer, CustomerStatus} from "../types";
-import {Cable, Eye} from "lucide-react";
+import {Cable, Eye, Pencil} from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 import {Badge} from '../../../components/ui';
 import { mapStatusToVariantBadge } from "../helpers";
 
-export const GetSchema = ({ navigate }) => {
+export const GetSchema = ({ navigate, onEdit }) => {
     return {
         schema: {
             table: {
@@ -17,11 +17,10 @@ export const GetSchema = ({ navigate }) => {
             columns: [
                 {
                     header: "Customer",
-                    accessorFn: (row: Customer) => row.FullName,
                     cell: ({ row }) => (
                         <div>
                             <div className="font-medium text-gray-900">
-                                { row.original.FullName }
+                                { row.original.FirstName } { row.original.LastName }
                             </div>
                             <div className="text-gray-500 text-xs">
                                 Since {new Date(row.original.CreatedOn ?? new Date()).toLocaleDateString()}
@@ -82,6 +81,13 @@ export const GetSchema = ({ navigate }) => {
                             >
                                 <Eye className="h-4 w-4" />
                             </Link>
+                            <div
+                                className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"
+                                title="Add connection"
+                                onClick={() => {onEdit(row.original)}}
+                            >
+                                <Pencil className="h-4 w-4" />
+                            </div>
                             <Link
                                 to={`/customers/${row.original.Id}/connections/new`}
                                 className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"

@@ -21,7 +21,8 @@ public class CustomerTableHandler : AdminTableHandler<CustomerModel, CustomerEnt
         {
             Id =  entity.Id,
             Email = entity.Email,
-            FullName = $"{entity.FirstName} {entity.LastName}",
+            FirstName = entity.FirstName,
+            LastName = entity.LastName,
             AccountNr =  entity.AccountNr,
             CreatedOn = entity.CreatedOnUtc,
             Phone =  entity.Phone,

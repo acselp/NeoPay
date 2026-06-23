@@ -6,7 +6,7 @@ export default function KPICard({ title, value, subtitle, icon: Icon, trend, tre
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-gray-500">{title}</p>
-          <p className="mt-2 text-3xl font-semibold text-gray-900">{value}</p>
+          <p className="mt-2 text-2xl font-semibold text-gray-900">{value}</p>
           {subtitle && (
             <p className="mt-1 text-sm text-gray-500">{subtitle}</p>
           )}

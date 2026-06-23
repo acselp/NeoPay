@@ -1,3 +1,5 @@
+using NeoPay.Domain.Enums;
+
 namespace NeoPay.Framework.Models.Customer;
 
 public class UpdateCustomerModel
@@ -8,4 +10,6 @@ public class UpdateCustomerModel
     public string? Email     { get; set; }
     public string? Phone     { get; set; }
     public int     AccountNr { get; set; }
+    public CustomerStatus Status  { get; set; }
+    public string? Notes { get; set; }
 }

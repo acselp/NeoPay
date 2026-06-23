@@ -13,7 +13,8 @@ public class CustomerMapper
         return new CustomerModel
         {
             Id        = customer.Id,
-            FullName  = $"{customer.FirstName} {customer.LastName}",
+            FirstName =  customer.FirstName,
+            LastName  = customer.LastName,
             Email     = customer.Email,
             Phone     = customer.Phone,
             AccountNr = customer.AccountNr,
@@ -32,7 +33,9 @@ public class CustomerMapper
             LastName  = customer.LastName,
             Email     = customer.Email,
             Phone     = customer.Phone,
-            AccountNr = customer.AccountNr
+            AccountNr = customer.AccountNr,
+            // Status    = customer.Status,
+            Notes    = customer.Notes
         };
     }
 
@@ -46,7 +49,9 @@ public class CustomerMapper
             LastName  = customer.LastName,
             Email     = customer.Email,
             Phone     = customer.Phone,
-            AccountNr = customer.AccountNr
+            AccountNr = customer.AccountNr,
+            Notes    = customer.Notes,
+            Status =  customer.Status
         };
     }
 

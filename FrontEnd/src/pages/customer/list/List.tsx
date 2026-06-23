@@ -1,22 +1,19 @@
 import { Plus } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
     Button,
 } from '../../../components/ui';
-import { Customer } from "../types";
-import { CustomerService } from "../../../services/customer/customer-service";
 import { CreateUpdate } from "../create-update/CreateUpdate";
 import { DataTable } from "../../../components/data-table/data-table";
 import { GetSchema } from "./schema";
 import { useNavigate } from "react-router-dom";
+import {useCreateUpdate} from "../create-update/useCreateUpdate";
 
 export default function List() {
-    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const navigate = useNavigate()
-    const tableSchema = useMemo(() => GetSchema({ navigate }), []);
-    const onCreateSubmit = (model: Customer) => {
-        CustomerService.create(model)
-    }
+    const { onEdit, editModel, onModalClose, setIsCreateModalOpen, isCreateModalOpen, onSubmit } = useCreateUpdate();
+    
+    const tableSchema = useMemo(() => GetSchema({ navigate, onEdit }), []);
 
     return (
         <div className="p-8">
@@ -38,8 +35,9 @@ export default function List() {
 
             <CreateUpdate
                 active={ isCreateModalOpen }
-                onClose={ () => setIsCreateModalOpen(false) }
-                onSubmit={ onCreateSubmit }
+                model={editModel}
+                onClose={ () => onModalClose() }
+                onSubmit={ onSubmit }
             />
         </div>
     );

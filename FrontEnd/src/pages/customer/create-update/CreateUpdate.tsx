@@ -3,9 +3,10 @@ import type {CreateUpdateProps} from "../types";
 import {Customer, CustomerStatus} from "../types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { RegexConstants } from "../../../constants/regex";
+import {useEffect} from "react";
 
 export const CreateUpdate = ({ active, onClose, onSubmit, model }: CreateUpdateProps) => {
-    const { handleSubmit, register, formState: { errors } } = useForm<Customer>({
+    const { handleSubmit, register, reset, formState: { errors } } = useForm<Customer>({
         defaultValues: model
     });
     const formSubmit: SubmitHandler<Customer> = (data: Customer) => {
@@ -13,12 +14,19 @@ export const CreateUpdate = ({ active, onClose, onSubmit, model }: CreateUpdateP
         onClose?.();
     }
 
+    useEffect(() => {
+        if (active) {
+            reset(model);
+        }
+    }, [active, reset]);
+    
     return (
         <>
             <Modal isOpen={active} onClose={onClose} title="Create customer" size="md">
                 <form onSubmit={handleSubmit(formSubmit)}>
                     {/* Form fields */}
                     <div className="space-y-4">
+                        <input type="number" className="hidden" {...register("Id")} />
                         <Input
                             label="First Name"
                             placeholder="Enter customer first name"

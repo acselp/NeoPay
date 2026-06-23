@@ -8,6 +8,7 @@ using NeoPay.Framework.Models.Shared;
 
 namespace NeoPay.Api.Controllers.Shared;
 
+[ApiController]
 public class ApiBaseController : Controller
 {
     protected PagedResultModel<T> PagedResult<T>(IList<T> data, int page, int pageSize)

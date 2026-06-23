@@ -1,7 +1,6 @@
 import type { NavigateFunction } from 'react-router-dom';
 import type {
   Connection,
-  Customer as DomainCustomer,
   Location,
   Meter,
   Reading,
@@ -10,13 +9,15 @@ import type {
 
 export interface Customer {
     Id: number;
-    FullName: string;
+    FirstName: string;
+    LastName: string;
     Email?: string | null;
     Phone?: string | null;
     AccountNr: number;
     Status: CustomerStatus;
     Notes: string | null;
     CreatedOn: number;
+    UpdatedOn: number;
 }
 
 export enum CustomerStatus {
