@@ -1,12 +1,12 @@
 import {ApiTableStrategyProps, TableStrategy} from "../../../components/data-table/types";
 import {AdminTableEntities} from "../../../services/admin-table-service/types";
 import {Customer, CustomerStatus} from "../types";
-import {Cable, Eye, Pencil} from "lucide-react";
+import {Cable, Eye, Pencil, Trash2} from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom';
 import {Badge} from '../../../components/ui';
 import { mapStatusToVariantBadge } from "../helpers";
 
-export const GetSchema = ({ navigate, onEdit }) => {
+export const GetSchema = ({ navigate, onEdit, onDelete }) => {
     return {
         schema: {
             table: {
@@ -95,6 +95,13 @@ export const GetSchema = ({ navigate, onEdit }) => {
                             >
                                 <Cable className="h-4 w-4" />
                             </Link>
+                            <div
+                                className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg cursor-pointer"
+                                title="Delete customer"
+                                onClick={() => {onDelete(row.original)}}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </div>
                         </div>
                     )
                 },

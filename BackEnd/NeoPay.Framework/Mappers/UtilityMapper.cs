@@ -42,6 +42,16 @@ public class UtilityMapper
     {
         return utilities.Select(Map).ToList();
     }
+    
+    public List<SelectListItem> MapToSelectListItem(IEnumerable<UtilityEntity> utilities)
+    {
+        return utilities.Select(x => new SelectListItem
+        {
+            Selected = false,
+            Text = x.Name,
+            Value = x.Id.ToString()
+        }).ToList();
+    }
 
     public PagedResultModel<UtilityModel> Map(PagedList<UtilityEntity> pagedList)
     {

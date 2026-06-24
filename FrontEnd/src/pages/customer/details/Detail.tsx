@@ -20,13 +20,16 @@ import {mapStatusToVariantBadge} from "../helpers";
 import {GetTabs} from "./tabs";
 import {CreateUpdate} from "../create-update/CreateUpdate";
 import {useCreateUpdate} from "../create-update/useCreateUpdate";
+import {CreateConnection} from "../create-connection/CreateConnection";
+import {useCreateConnection} from "../create-connection/useCreateConnection";
 
 export default function Detail() {
     const {customerId} = useParams();
     const [customer, setCustomer] = useState<Customer | null>(null);
     const navigate = useNavigate()
     const tabs = GetTabs({customer});
-    const { onEdit, editModel, onModalClose, isCreateModalOpen, onSubmit } = useCreateUpdate();
+    const { onEdit, editModel, onModalClose, isCreateModalOpen, onSubmit } = useCreateUpdate({});
+    const { isCreateConnectionModalOpen, onSubmitCreateConnection, onCloseCreateConnection, openCreateConnectionModal } = useCreateConnection();
 
     useEffect(() => {
         CustomerService.getById(customerId)
@@ -71,7 +74,7 @@ export default function Detail() {
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Button onClick={() => navigate(`/customers/${customerId}/connections/new`)}>
+                    <Button onClick={() => openCreateConnectionModal()}>
                         <Plus className="h-4 w-4 mr-2"/>
                         Add Connection
                     </Button>
@@ -117,6 +120,13 @@ export default function Detail() {
                 model={editModel}
                 onClose={ () => onModalClose() }
                 onSubmit={ onSubmit }
+            />
+            
+            <CreateConnection 
+                active={isCreateConnectionModalOpen} 
+                onClose={onCloseCreateConnection} 
+                onSubmit={ onSubmitCreateConnection }
+                customerId={Number(customerId)} 
             />
         </div>
     );

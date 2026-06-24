@@ -1,4 +1,3 @@
-using System.Diagnostics.Metrics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NeoPay.Domain.Entities;
@@ -22,7 +21,7 @@ public class ConnectionEntityConfigurator : IEntityTypeConfiguration<ConnectionE
         builder.Property(c => c.UtilityId)
             .IsRequired();
 
-        builder.HasOne(c => c.Customer)
+        builder.HasOne(c => c.CustomerEntity)
             .WithMany(cust => cust.Connections)
             .HasForeignKey(c => c.CustomerId)
             .OnDelete(DeleteBehavior.Cascade);
@@ -30,11 +29,6 @@ public class ConnectionEntityConfigurator : IEntityTypeConfiguration<ConnectionE
         builder.HasOne(c => c.UtilityEntity)
             .WithMany(u => u.Connections)
             .HasForeignKey(c => c.UtilityId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.HasOne(c => c.Meter)
-            .WithOne(m => m.Connection)
-            .HasForeignKey<MeterEntity>(m => m.ConnectionId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

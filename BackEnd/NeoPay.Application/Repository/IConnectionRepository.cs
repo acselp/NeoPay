@@ -8,5 +8,4 @@ public interface IConnectionRepository : IGenericRepository<ConnectionEntity>
     Task<IEnumerable<ConnectionEntity>> GetByUtilityId(int utilityId);
     Task<bool> ConnectionExists(int customerId, int utilityId);
     Task<ConnectionEntity?> GetByIdWithDetails(int id);
-    Task<IEnumerable<ConnectionEntity>> SearchForMobile(string? query, string status);
 }

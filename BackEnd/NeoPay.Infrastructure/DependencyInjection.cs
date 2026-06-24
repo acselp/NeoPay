@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NeoPay.Application.Service;
 using NeoPay.Framework;
+using NeoPay.Infrastructure.Constants;
 using NeoPay.Infrastructure.HostedServices;
 using NeoPay.Infrastructure.Options;
 using NeoPay.Infrastructure.Persistence;
@@ -21,6 +22,12 @@ public static class DependencyInjection
                     // Use PascalCase for JSON property names (default .NET naming)
                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
+        
+        services.AddOutputCache(options =>
+        {
+            options.AddPolicy(CachePolicyConstants.Cache1Day, policy =>
+                policy.Expire(TimeSpan.FromDays(1)));
+        });
 
         services.AddCors(options =>
         {

@@ -1,9 +1,11 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using NeoPay.Domain.Exceptions;
 using NeoPay.Framework.Errors.FrontEndErrors;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.Utility;
+using NeoPay.Infrastructure.Constants;
 
 namespace NeoPay.Api.Controllers.Admin;
 
@@ -69,6 +71,21 @@ public class UtilityController : BaseAdminController
         try
         {
             var result = await _utilityManager.GetAll(filter);
+            return Ok(result);
+        }
+        catch (Exception)
+        {
+            return BadRequest(FrontEndErrors.ErrorLoadingUtilities);
+        }
+    }
+    
+    [HttpGet]
+    [OutputCache(PolicyName = CachePolicyConstants.Cache1Day)]
+    public async Task<IActionResult> GetAllGetAllAsSelectListItem()
+    {
+        try
+        {
+            var result = await _utilityManager.GetAllAsSelectListItem();
             return Ok(result);
         }
         catch (Exception)

@@ -31,18 +31,7 @@ public class ConnectionService
         if (utility == null)
             throw new NotFoundException($"Utility with ID {entity.UtilityId} not found");
         
-        if (await _connectionRepository.ConnectionExists(customer.Id, utility.Id))
-            throw new ConnectionExistsException($"Connection with this customerId: {customer.Id} and this utilityId: {utility.Id} already exists");
-
-        var meterEntity = new MeterEntity
-        {
-            Status = 0,
-            SerialNumber = "123",
-            CreatedOnUtc = DateTime.UtcNow,
-            UpdatedOnUtc = DateTime.UtcNow
-        };
-
-        entity.Meter = meterEntity;
+       
         
         await _connectionRepository.Insert(entity);
     }
@@ -101,10 +90,5 @@ public class ConnectionService
     public async Task<ConnectionEntity?> GetByIdWithDetails(int id)
     {
         return await _connectionRepository.GetByIdWithDetails(id);
-    }
-
-    public async Task<IEnumerable<ConnectionEntity>> SearchForMobile(string? query, string status)
-    {
-        return await _connectionRepository.SearchForMobile(query, status);
     }
 }

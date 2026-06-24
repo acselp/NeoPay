@@ -48,7 +48,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export interface SelectOption {
-  value: string;
+  value: string | number;
   label: string;
 }
 

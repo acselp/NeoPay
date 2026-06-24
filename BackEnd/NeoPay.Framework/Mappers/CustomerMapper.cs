@@ -34,7 +34,7 @@ public class CustomerMapper
             Email     = customer.Email,
             Phone     = customer.Phone,
             AccountNr = customer.AccountNr,
-            // Status    = customer.Status,
+            Status    = customer.Status,
             Notes    = customer.Notes
         };
     }

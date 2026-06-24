@@ -25,11 +25,29 @@ export enum CustomerStatus {
     Inactive = 1,
 }
 
+export enum ConnectionStatus {
+    Active = 0,
+    Inactive = 1,
+}
+
 export interface CreateUpdateProps {
     active: boolean;
     onClose: () => void;
     onSubmit?: (model: Customer) => void;
     model?: Customer;
+}
+
+export interface CreateConnectionProps {
+    active: boolean;
+    onClose: () => void;
+    onSubmit?: (model: CreateConnectionModel) => void;
+    customerId: number;
+}
+
+export interface CreateConnectionModel {
+    UtilityId: number;
+    CustomerId: number;
+    Status: ConnectionStatus;
 }
 
 export interface CustomerReading {

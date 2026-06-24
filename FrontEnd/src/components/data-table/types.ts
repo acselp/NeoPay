@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import {AdminTableEntities} from "../../services/admin-table-service/types";
+import {AdminTableEntities, GridFilter} from "../../services/admin-table-service/types";
 
 export enum TableStrategy {
     Api = 0,
@@ -62,6 +62,7 @@ export interface RichTablePropsBase<T> {
 export interface ApiTableStrategyProps<T> extends RichTablePropsBase<T> {
     mode: TableStrategy.Api
     entity: AdminTableEntities
+    filters?: GridFilter[]
 }
 
 export interface FrontendStrategyProps<T> extends RichTablePropsBase<T> {

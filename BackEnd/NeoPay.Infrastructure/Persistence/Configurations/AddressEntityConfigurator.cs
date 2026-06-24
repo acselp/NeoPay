@@ -38,10 +38,5 @@ public class AddressEntityConfigurator : IEntityTypeConfiguration<AddressEntity>
 
         builder.Property(a => a.CustomerId)
             .IsRequired();
-
-        builder.HasOne(a => a.Customer)
-            .WithOne(c => c.Address)
-            .HasForeignKey<AddressEntity>(a => a.CustomerId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

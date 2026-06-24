@@ -1,7 +1,8 @@
 import { Plus } from 'lucide-react';
-import { useMemo } from 'react';
+import {useMemo, useState} from 'react';
 import {
     Button,
+    ConfirmDialog,
 } from '../../../components/ui';
 import { CreateUpdate } from "../create-update/CreateUpdate";
 import { DataTable } from "../../../components/data-table/data-table";
@@ -11,9 +12,22 @@ import {useCreateUpdate} from "../create-update/useCreateUpdate";
 
 export default function List() {
     const navigate = useNavigate()
-    const { onEdit, editModel, onModalClose, setIsCreateModalOpen, isCreateModalOpen, onSubmit } = useCreateUpdate();
-    
-    const tableSchema = useMemo(() => GetSchema({ navigate, onEdit }), []);
+    const [refreshKey, setRefreshKey] = useState(0);
+    const refreshTable = () => setRefreshKey((prev) => prev + 1);
+    const {
+        onEdit,
+        editModel,
+        onModalClose,
+        setIsCreateModalOpen,
+        isCreateModalOpen,
+        onSubmit,
+        deleteModel,
+        onDelete,
+        onDeleteCancel,
+        onDeleteConfirm,
+    } = useCreateUpdate({ onChange: refreshTable });
+
+    const tableSchema = useMemo(() => GetSchema({ navigate, onEdit, onDelete }), []);
 
     return (
         <div className="p-8">
@@ -31,13 +45,30 @@ export default function List() {
             </div>
 
 
-            <DataTable { ...tableSchema }/>
+            <DataTable key={refreshKey} { ...tableSchema }/>
 
             <CreateUpdate
                 active={ isCreateModalOpen }
                 model={editModel}
                 onClose={ () => onModalClose() }
                 onSubmit={ onSubmit }
+            />
+
+            <ConfirmDialog
+                isOpen={!!deleteModel}
+                title="Delete customer"
+                message={
+                    <>
+                        Are you sure you want to delete{' '}
+                        <span className="font-medium text-gray-900">
+                            {deleteModel?.FirstName} {deleteModel?.LastName}
+                        </span>?
+                        This action cannot be undone.
+                    </>
+                }
+                confirmLabel="Delete"
+                onConfirm={onDeleteConfirm}
+                onCancel={onDeleteCancel}
             />
         </div>
     );

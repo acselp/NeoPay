@@ -18,12 +18,11 @@ export const GetTabs = ({ customer }: { customer: Customer }) => {
         //         />
         //     ),
         // },
-        // {
-        //     id: 'readings',
-        //     label: 'Readings',
-        //     count: customerReadings.length,
-        //     content: <ReadingsTab readings={customerReadings} />,
-        // },
+        {
+            id: 'connections',
+            label: 'Connections',
+            content: <ConnectionsTab customerId={customer?.Id} />,
+        },
         {
             id: 'notes',
             label: 'Notes',

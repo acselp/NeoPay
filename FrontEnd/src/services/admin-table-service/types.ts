@@ -32,4 +32,5 @@ export enum AdminTableEntities {
     Customer = 'Customer',
     Utility = 'Utility',
     Unit = 'Unit',
+    Connection = 'Connection',
 }

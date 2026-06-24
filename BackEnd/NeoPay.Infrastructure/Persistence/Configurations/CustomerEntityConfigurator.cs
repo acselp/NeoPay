@@ -32,13 +32,8 @@ public class CustomerEntityConfigurator : IEntityTypeConfiguration<CustomerEntit
         builder.HasIndex(c => c.AccountNr)
             .IsUnique();
 
-        builder.HasOne(c => c.Address)
-            .WithOne(a => a.Customer)
-            .HasForeignKey<AddressEntity>(a => a.CustomerId)
-            .OnDelete(DeleteBehavior.Cascade);
-
         builder.HasMany(c => c.Connections)
-            .WithOne(conn => conn.Customer)
+            .WithOne(conn => conn.CustomerEntity)
             .HasForeignKey(conn => conn.CustomerId)
             .OnDelete(DeleteBehavior.Cascade);
     }

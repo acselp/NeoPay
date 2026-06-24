@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {ApiTableStrategyProps, RichTableState, TableSortDirection} from "../../types";
 import {GridCommand} from "../../../../services/admin-table-service/types";
 import {AdminTableService} from "../../../../services/admin-table-service";
 import { debounce } from "../../../../helpers/debounce";
 
-export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): RichTableState<T> => {
+export const useApiTable = <T,>({ entity, schema, filters }: ApiTableStrategyProps<T>): RichTableState<T> => {
     const [data, setData] = useState<[]>([])
     const [page, setPage] = useState(0)
     const [pageSize, setPageSize] = useState(10)
@@ -25,6 +25,7 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
                     PageIndex: page,
                     PageSize: pageSize,
                 },
+                Filters: filters ?? [],
             } as GridCommand
         }
 
@@ -37,11 +38,17 @@ export const useApiTable = <T,>({ entity, schema }: ApiTableStrategyProps<T>): R
             })
     }
 
-    const fetchDataWithDebounce = useMemo(() => debounce(fetchData, 300), [])
+    // Keep a ref to the latest fetchData so the debounced caller always runs
+    // against current state/props instead of a stale closure.
+    const fetchDataRef = useRef(fetchData)
+    fetchDataRef.current = fetchData
+    const fetchDataWithDebounce = useRef(debounce(() => fetchDataRef.current(), 300))
+
+    const filtersKey = JSON.stringify(filters ?? [])
 
     useEffect(() => {
-        fetchDataWithDebounce()
-    }, [page, pageSize, sortCol, sortDir, searchText])
+        fetchDataWithDebounce.current()
+    }, [page, pageSize, sortCol, sortDir, searchText, filtersKey])
 
     return {
         data: data,

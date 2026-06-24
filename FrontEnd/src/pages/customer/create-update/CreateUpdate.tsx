@@ -74,10 +74,10 @@ export const CreateUpdate = ({ active, onClose, onSubmit, model }: CreateUpdateP
 
                         <Select
                             label="Status"
-                            {...register("Status", { required: "This field is required" })}
+                            {...register("Status", { required: "This field is required", valueAsNumber: true })}
                             options={[
-                                { value: `${CustomerStatus.Active}`, label: 'Active' },
-                                { value: `${CustomerStatus.Inactive}`, label: 'Inactive' },
+                                { value: CustomerStatus.Active, label: 'Active' },
+                                { value: CustomerStatus.Inactive, label: 'Inactive' },
                             ]}
                         />
 

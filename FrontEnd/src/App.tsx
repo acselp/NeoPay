@@ -3,7 +3,6 @@ import AdminLayout from './components/layout/AdminLayout';
 import {
   Dashboard,
   ConnectionDetail,
-  ConnectionsList,
   AddConnectionWizard,
   ReadingsList,
   UtilitiesSetup,
@@ -15,6 +14,7 @@ import {
 } from './pages/customer';
 import { UtilitiesList } from './pages/utility-setup';
 import { UnitList } from './pages/unit';
+import { ConnectionsListPage } from './features/connections';
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         />
 
         {/* Connections */}
-        <Route path="/connections" element={<ConnectionsList />} />
+        <Route path="/connections" element={<ConnectionsListPage />} />
         <Route path="/connections/:connectionId" element={<ConnectionDetail />} />
         <Route
           path="/connections/:connectionId/readings/new"
