@@ -14,6 +14,7 @@ import {
   CustomerDetails,
 } from './pages/customer';
 import { UtilitiesList } from './pages/utility-setup';
+import { UnitList } from './pages/unit';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
 
         {/* Setup */}
         <Route path="/utilities" element={<UtilitiesList />} />
+        <Route path="/utilities/units" element={<UnitList />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -12,5 +12,6 @@ public static class DependencyInjection
         services.AddScoped<CustomerService>();
         services.AddScoped<MeterService>();
         services.AddScoped<UtilityService>();
+        services.AddScoped<UnitService>();
     }
 }

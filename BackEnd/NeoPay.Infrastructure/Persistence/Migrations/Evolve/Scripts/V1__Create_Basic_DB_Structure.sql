@@ -26,11 +26,22 @@ CREATE TABLE ${schema}.address
     updated_on_utc TIMESTAMPTZ DEFAULT now()
 );
 
+CREATE TABLE ${schema}.unit
+(
+    id             SERIAL PRIMARY KEY,
+    code           VARCHAR(50),
+    long_name      VARCHAR(100),
+    description    VARCHAR(255),
+    symbol         VARCHAR(50),
+    created_on_utc TIMESTAMPTZ DEFAULT now(),
+    updated_on_utc TIMESTAMPTZ DEFAULT now()
+);
+
 CREATE TABLE ${schema}.utility
 (
     id             SERIAL PRIMARY KEY,
     name           VARCHAR(100) NOT NULL,
-    unit_type      INT          NOT NULL,
+    unit_id        INT NOT NULL REFERENCES ${schema}.unit (id),
     created_on_utc TIMESTAMPTZ DEFAULT now(),
     updated_on_utc TIMESTAMPTZ DEFAULT now()
 );

@@ -16,8 +16,10 @@ public class UtilityEntityConfigurator : IEntityTypeConfiguration<UtilityEntity>
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(u => u.UnitType)
-            .IsRequired();
+        builder.HasOne<UnitEntity>(u => u.Unit)
+            .WithMany(x => x.UtilityList)
+            .HasForeignKey(u => u.UnitId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(u => u.Connections)
             .WithOne(conn => conn.UtilityEntity)

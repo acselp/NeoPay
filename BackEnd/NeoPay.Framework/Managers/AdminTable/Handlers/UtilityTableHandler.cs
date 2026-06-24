@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using NeoPay.Application.Repository;
 using NeoPay.Domain.Entities;
 using NeoPay.Framework.Managers.AdminTable.Abstractions;
+using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Utility;
 
 namespace NeoPay.Framework.Managers.AdminTable.Handlers;
@@ -10,18 +12,16 @@ public class UtilityTableHandler : AdminTableHandler<UtilityModel, UtilityEntity
     public override    string                    Entity { get; set; } = AdminTableEntities.Utility;
     protected override IQueryable<UtilityEntity> Query  { get; set; }
 
-    public UtilityTableHandler(IUtilityRepository repository, AdminTableService service) : base(service)
+    private readonly UtilityMapper _utilityMapper;
+
+    public UtilityTableHandler(IUtilityRepository repository, AdminTableService service, UtilityMapper utilityMapper) : base(service)
     {
-        Query = repository.GetQuery();
+        Query = repository.GetQuery().Include(x => x.Unit);
+        _utilityMapper = utilityMapper;
     }
 
     protected override UtilityModel Map(UtilityEntity entity)
     {
-        return new UtilityModel
-        {
-            Name     = entity.Name,
-            UnitType = entity.UnitType,
-            Id       = entity.Id,
-        };
+        return _utilityMapper.Map(entity);
     }
 }

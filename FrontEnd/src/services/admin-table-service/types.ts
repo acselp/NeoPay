@@ -31,4 +31,5 @@ export interface PagedResult {
 export enum AdminTableEntities {
     Customer = 'Customer',
     Utility = 'Utility',
+    Unit = 'Unit',
 }

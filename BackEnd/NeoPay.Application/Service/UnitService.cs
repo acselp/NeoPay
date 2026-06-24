@@ -35,7 +35,7 @@ public class UnitService
     }
 
     public async Task<UnitEntity> Update(UnitEntity entity)
-    {
+    { 
         return await _unitRepository.Update(entity);
     }
 
@@ -43,7 +43,7 @@ public class UnitService
     {
         var utility = await _unitRepository.GetById(id);
         if (utility == null)
-            throw new NotFoundException($"Utility with ID {id} not found");
+            throw new NotFoundException($"Unit with ID {id} not found");
 
         await _unitRepository.Delete(utility);
     }

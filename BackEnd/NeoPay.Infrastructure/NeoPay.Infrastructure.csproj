@@ -33,9 +33,6 @@
       <EmbeddedResource Include="Persistence\Migrations\Evolve\Scripts\V2__Add_notes_and_status_columns_for_customer.sql">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </EmbeddedResource>
-      <EmbeddedResource Include="Persistence\Migrations\Evolve\Scripts\V3__Add_units_table.sql">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </EmbeddedResource>
       <None Remove="Persistence\Migrations\Evolve\Scripts\V1__Create_Basic_DB_Structure.sql" />
       <EmbeddedResource Include="Persistence\Migrations\Evolve\Scripts\V1__Create_Basic_DB_Structure.sql">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

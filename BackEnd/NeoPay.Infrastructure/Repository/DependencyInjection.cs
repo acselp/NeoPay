@@ -13,5 +13,6 @@ public static class DependencyInjection
         services.AddScoped<IConnectionRepository, ConnectionRepository>();
         services.AddScoped<IMeterRepository, MeterRepository>();
         services.AddScoped<IConsumptionRecordRepository, ConsumptionRecordRepository>();
+        services.AddScoped<IUnitRepository, UnitRepository>();
     }
 }

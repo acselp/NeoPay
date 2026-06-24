@@ -1,12 +1,12 @@
-import { Plus } from "lucide-react";
-import { Button, ConfirmDialog } from "../../../components/ui";
+import { Plus } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Button, ConfirmDialog } from '../../../components/ui';
+import { CreateUpdate } from "../create-update/CreateUpdate";
 import { DataTable } from "../../../components/data-table/data-table";
 import { GetSchema } from "./schema";
-import { useMemo, useState } from "react";
-import { CreateUpdate } from "../create-update/CreateUpdate";
 import { useCreateUpdate } from "../create-update/useCreateUpdate";
 
-export default function UtilitiesList() {
+export default function List() {
     const [refreshKey, setRefreshKey] = useState(0);
     const refresh = () => setRefreshKey((prev) => prev + 1);
 
@@ -23,25 +23,24 @@ export default function UtilitiesList() {
         onDeleteConfirm,
     } = useCreateUpdate(refresh);
 
-    const schema = useMemo(() => GetSchema({ onEdit, onDelete }), []);
+    const tableSchema = useMemo(() => GetSchema({ onEdit, onDelete }), []);
 
     return (
         <div className="p-8">
-            {/* Header */}
             <div className="flex items-center justify-between mb-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Utilities Setup</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Units</h1>
                     <p className="text-gray-500 mt-1">
-                        Configure utility types and their measurement units
+                        Manage measurement units used by utilities
                     </p>
                 </div>
                 <Button onClick={() => setIsCreateModalOpen(true)}>
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Utility
+                    Add Unit
                 </Button>
             </div>
 
-            <DataTable key={refreshKey} {...schema} />
+            <DataTable key={refreshKey} {...tableSchema} />
 
             <CreateUpdate
                 active={isCreateModalOpen}
@@ -52,11 +51,11 @@ export default function UtilitiesList() {
 
             <ConfirmDialog
                 isOpen={!!deleteModel}
-                title="Delete utility"
+                title="Delete unit"
                 message={
                     <>
                         Are you sure you want to delete{' '}
-                        <span className="font-medium text-gray-900">{deleteModel?.Name}</span>?
+                        <span className="font-medium text-gray-900">{deleteModel?.LongName}</span>?
                         This action cannot be undone.
                     </>
                 }
@@ -65,5 +64,5 @@ export default function UtilitiesList() {
                 onCancel={onDeleteCancel}
             />
         </div>
-    )
+    );
 }

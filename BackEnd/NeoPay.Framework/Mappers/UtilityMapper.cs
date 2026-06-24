@@ -1,6 +1,7 @@
 using NeoPay.Domain.Entities;
 using NeoPay.Domain.Paged;
 using NeoPay.Framework.Models.Shared;
+using NeoPay.Framework.Models.Unit;
 using NeoPay.Framework.Models.Utility;
 
 namespace NeoPay.Framework.Mappers;
@@ -11,9 +12,10 @@ public class UtilityMapper
     {
         return new UtilityModel
         {
-            Id       = utility.Id,
-            Name     = utility.Name,
-            UnitType = utility.UnitType
+            Id     = utility.Id,
+            Name   = utility.Name,
+            UnitId = utility.UnitId,
+            Unit   = utility.Unit != null ? MapUnit(utility.Unit) : null
         };
     }
 
@@ -21,7 +23,8 @@ public class UtilityMapper
     {
         return new UtilityEntity
         {
-            Name     = utility.Name,
+            Name   = utility.Name,
+            UnitId = utility.UnitId
         };
     }
 
@@ -29,9 +32,9 @@ public class UtilityMapper
     {
         return new UtilityEntity
         {
-            Id       = utility.Id,
-            Name     = utility.Name,
-            UnitType = utility.UnitType
+            Id     = utility.Id,
+            Name   = utility.Name,
+            UnitId = utility.UnitId
         };
     }
 
@@ -48,6 +51,18 @@ public class UtilityMapper
             PageIndex = pagedList.PageIndex,
             PageSize  = pagedList.PageSize,
             Data      = pagedList.ToList().Select(x => Map(x)).ToList()
+        };
+    }
+
+    private static UnitModel MapUnit(UnitEntity unit)
+    {
+        return new UnitModel
+        {
+            Id          = unit.Id,
+            Code        = unit.Code,
+            LongName    = unit.LongName,
+            Description = unit.Description,
+            Symbol      = unit.Symbol
         };
     }
 }
