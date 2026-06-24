@@ -41,7 +41,7 @@ CREATE TABLE ${schema}.utility
 (
     id             SERIAL PRIMARY KEY,
     name           VARCHAR(100) NOT NULL,
-    unit_id        INT NOT NULL REFERENCES ${schema}.unit (id),
+    unit_id        INT          NOT NULL REFERENCES ${schema}.unit (id),
     created_on_utc TIMESTAMPTZ DEFAULT now(),
     updated_on_utc TIMESTAMPTZ DEFAULT now()
 );
@@ -52,6 +52,7 @@ CREATE TABLE ${schema}.connection
     customer_id    INT NOT NULL REFERENCES ${schema}.customer (id),
     utility_id     INT NOT NULL REFERENCES ${schema}.utility (id),
     status         INT NOT NULL,
+    meter_id       INT NOT NULL REFERENCES ${schema}.meter (id),
     created_on_utc TIMESTAMPTZ DEFAULT now(),
     updated_on_utc TIMESTAMPTZ DEFAULT now()
 );
@@ -59,7 +60,6 @@ CREATE TABLE ${schema}.connection
 CREATE TABLE ${schema}.meter
 (
     id             SERIAL PRIMARY KEY,
-    connection_id  INT                 NOT NULL REFERENCES ${schema}.connection (id),
     serial_number  VARCHAR(100) UNIQUE NOT NULL,
     status         INT                 NOT NULL,
     created_on_utc TIMESTAMPTZ DEFAULT now(),

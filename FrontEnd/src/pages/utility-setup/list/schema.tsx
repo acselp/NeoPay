@@ -3,6 +3,7 @@ import { UtilityModel } from "../types"
 import { Badge } from '../../../components/ui';
 import { AdminTableEntities } from "../../../services/admin-table-service/types";
 import { Pencil, Trash2 } from "lucide-react";
+import {BillingType} from "../create-update/types";
 
 interface SchemaArgs {
     onEdit: (model: UtilityModel) => void;
@@ -31,6 +32,13 @@ export const GetSchema = ({ onEdit, onDelete }: SchemaArgs): ApiTableStrategyPro
                         row.original.Unit
                             ? <Badge variant="default">{row.original.Unit.LongName} ({row.original.Unit.Symbol})</Badge>
                             : <span className="text-gray-400">—</span>
+                    ),
+                },
+                {
+                    id: "billing_type",
+                    header: "Billing type",
+                    cell: ({ row }) => (
+                        BillingType[row.original.BillingType]
                     ),
                 },
                 {

@@ -16,6 +16,9 @@ public class UtilityEntityConfigurator : IEntityTypeConfiguration<UtilityEntity>
             .IsRequired()
             .HasMaxLength(100);
 
+        builder.Property(u => u.BillingType)
+            .IsRequired();
+
         builder.HasOne<UnitEntity>(u => u.Unit)
             .WithMany(x => x.UtilityList)
             .HasForeignKey(u => u.UnitId)

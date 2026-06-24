@@ -18,10 +18,5 @@ public class ConsumptionRecordConfigurator : IEntityTypeConfiguration<Consumptio
 
         builder.Property(cr => cr.MeterId)
             .IsRequired();
-
-        builder.HasOne(cr => cr.Meter)
-            .WithMany(m => m.ConsumptionRecords)
-            .HasForeignKey(cr => cr.MeterId)
-            .OnDelete(DeleteBehavior.Cascade);
     }
 }

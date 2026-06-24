@@ -19,12 +19,8 @@ public class MeterEntityConfigurator : IEntityTypeConfiguration<MeterEntity>
         builder.Property(m => m.Status)
             .IsRequired();
 
-        builder.Property(m => m.ConnectionId)
-            .IsRequired();
-
-        builder.HasMany(m => m.ConsumptionRecords)
-            .WithOne(cr => cr.Meter)
-            .HasForeignKey(cr => cr.MeterId)
-            .OnDelete(DeleteBehavior.Cascade);
+        builder.HasMany<ConnectionEntity>()
+            .WithOne(m => m.Meter)
+            .HasForeignKey(x => x.MeterId);
     }
 }

@@ -6,3 +6,8 @@ export interface CreateUpdateProps {
     onSubmit?: (model: UtilityModel) => void
     model?: UtilityModel | null
 }
+
+export enum BillingType {
+    Metered = 0,
+    FixedRecurring = 1
+}

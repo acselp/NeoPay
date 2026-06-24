@@ -14,7 +14,6 @@ public class MeterMapper
             Id           = meter.Id,
             SerialNumber = meter.SerialNumber,
             Status       = meter.Status,
-            ConnectionId = meter.ConnectionId.Value
         };
     }
 
@@ -24,7 +23,6 @@ public class MeterMapper
         {
             SerialNumber = meter.SerialNumber,
             Status       = meter.Status,
-            ConnectionId = meter.ConnectionId
         };
     }
 
@@ -35,7 +33,6 @@ public class MeterMapper
             Id           = meter.Id,
             SerialNumber = meter.SerialNumber,
             Status       = meter.Status,
-            ConnectionId = meter.ConnectionId
         };
     }
 

@@ -65,10 +65,4 @@ public class MeterManager
 
         return _meterMapper.Map(entity);
     }
-
-    public async Task<List<MeterModel>> GetByConnectionId(int connectionId)
-    {
-        var entities = await _meterService.GetByConnectionId(connectionId);
-        return _meterMapper.Map(entities);
-    }
 }

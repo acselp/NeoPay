@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form"
 import { useEffect, useMemo, useState } from "react"
 import { Button, Input, Modal, Select } from "../../../components/ui"
-import { CreateUpdateProps } from "./types"
+import {BillingType, CreateUpdateProps} from "./types"
 import { UtilityModel } from "../types"
 import { Unit } from "../../unit/types"
 import { UnitService } from "../../../services/unit/unit-service"
@@ -69,6 +69,26 @@ export const CreateUpdate = ({ onClose, onSubmit, model, active }: CreateUpdateP
                             valueAsNumber: true,
                             validate: (value) =>
                                 (!!value && value > 0) || "This field is required",
+                        })}
+                    />
+
+                    <Select
+                        label="Billing type"
+                        placeholder="Select billing type"
+                        error={errors.UnitId?.message}
+                        options={[
+                            {
+                                label: "Metered",
+                                value: BillingType.Metered
+                            },
+                            {
+                                label: "Fixed recurring",
+                                value: BillingType.FixedRecurring
+                            }
+                        ]}
+                        {...register("BillingType", {
+                            valueAsNumber: true,
+                            required: "This field is required"
                         })}
                     />
                 </div>
