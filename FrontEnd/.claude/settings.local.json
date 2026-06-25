@@ -8,7 +8,8 @@
       "Bash(taskkill:*)",
       "Bash(npm uninstall:*)",
       "Bash(timeout /t 3 /nobreak)",
-      "Bash(rtk ls *)"
+      "Bash(rtk ls *)",
+      "Bash(rtk find *)"
     ]
   }
 }

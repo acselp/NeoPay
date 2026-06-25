@@ -103,4 +103,16 @@ public static class FrontEndErrors
         ErrorCode    = ApiErrorCodes.Meter.MeterSerialNumberExists,
         ErrorMessage = "Meter serial number already exists"
     };
+
+    public static Error TariffCouldNotBeFound { get; } = new()
+    {
+        ErrorCode    = ApiErrorCodes.Tariff.TariffCouldNotBeFound,
+        ErrorMessage = "Tariff could not be found"
+    };
+
+    public static Error ErrorLoadingTariffs { get; } = new()
+    {
+        ErrorCode    = ApiErrorCodes.Tariff.ErrorLoadingTariffs,
+        ErrorMessage = "An error occurred while loading tariffs"
+    };
 }

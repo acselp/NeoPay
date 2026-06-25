@@ -15,5 +15,6 @@ public static class DependencyInjection
         services.AddScoped<MeterManager>();
         services.AddScoped<UtilityManager>();
         services.AddScoped<UnitManager>();
+        services.AddScoped<TariffManager>();
     }
 }

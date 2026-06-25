@@ -14,5 +14,6 @@ public static class DependencyInjection
         services.AddScoped<IMeterRepository, MeterRepository>();
         services.AddScoped<IConsumptionRecordRepository, ConsumptionRecordRepository>();
         services.AddScoped<IUnitRepository, UnitRepository>();
+        services.AddScoped<ITariffRepository, TariffRepository>();
     }
 }

@@ -49,6 +49,16 @@ CREATE TABLE ${schema}.utility
     updated_on_utc TIMESTAMPTZ           DEFAULT now()
 );
 
+CREATE TABLE ${schema}.tariff
+(
+    id             SERIAL PRIMARY KEY,
+    title          VARCHAR(100) NOT NULL,
+    unit_price     NUMERIC(10, 2) NOT NULL,
+    utility_id     INT REFERENCES ${schema}.utility (id),
+    created_on_utc TIMESTAMPTZ DEFAULT now(),
+    updated_on_utc TIMESTAMPTZ DEFAULT now()
+);
+
 CREATE TABLE ${schema}.meter
 (
     id             SERIAL PRIMARY KEY,

@@ -13,6 +13,7 @@ import {
   CustomerDetails,
 } from './pages/customer';
 import { UtilitiesList } from './pages/utility-setup';
+import { UtilityDetails } from './pages/utility';
 import { UnitList } from './pages/unit';
 import { ConnectionsListPage } from './features/connections';
 import {MeterList} from "./pages/meter";
@@ -43,6 +44,7 @@ function App() {
         {/* Setup */}
         <Route path="/utilities" element={<UtilitiesList />} />
         <Route path="/utilities/units" element={<UnitList />} />
+        <Route path="/utilities/:utilityId" element={<UtilityDetails />} />
 
         {/* Meters */}
         <Route path="/meter/list" element={<MeterList />} />

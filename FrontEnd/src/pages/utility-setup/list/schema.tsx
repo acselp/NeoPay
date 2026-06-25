@@ -2,7 +2,8 @@ import { ApiTableStrategyProps, TableStrategy } from "../../../components/data-t
 import { Utility } from "../types"
 import { Badge } from '../../../components/ui';
 import { AdminTableEntities } from "../../../services/admin-table-service/types";
-import { Pencil, Trash2 } from "lucide-react";
+import { Eye, Pencil, Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 import {BillingType} from "../create-update/types";
 
 interface SchemaArgs {
@@ -46,6 +47,13 @@ export const GetSchema = ({ onEdit, onDelete }: SchemaArgs): ApiTableStrategyPro
                     header: () => <span className="w-full text-right block"> Actions </span>,
                     cell: ({ row }) => (
                         <div className="flex items-center justify-end gap-2" onClick={(e) => e.stopPropagation()}>
+                            <Link
+                                to={`/utilities/${row.original.Id}`}
+                                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg"
+                                title="View utility"
+                            >
+                                <Eye className="h-4 w-4" />
+                            </Link>
                             <div
                                 className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg cursor-pointer"
                                 title="Edit utility"

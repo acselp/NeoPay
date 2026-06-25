@@ -112,7 +112,7 @@ export default function Detail() {
 
             {/* Tabs */}
             <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <Tabs tabs={tabs} defaultTab="notes"/>
+                <Tabs tabs={tabs} defaultTab="connections"/>
             </div>
 
             <CreateUpdate

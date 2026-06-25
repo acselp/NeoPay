@@ -9,4 +9,5 @@ public class UtilityEntity : BaseEntity
     public int? UnitId { get; set; }
     public virtual UnitEntity? Unit { get; set; }
     public virtual ICollection<ConnectionEntity> Connections { get; set; } = new List<ConnectionEntity>();
+    public virtual ICollection<TariffEntity> Tariffs { get; set; } =  new List<TariffEntity>();
 }

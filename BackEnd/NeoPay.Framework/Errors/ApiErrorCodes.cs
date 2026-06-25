@@ -49,4 +49,10 @@ public static class ApiErrorCodes
         public const string ErrorLoadingMeters = "error_loading_meters";
         public const string MeterSerialNumberExists = "meter_serial_number_exists";
     }
+
+    public static class Tariff
+    {
+        public const string TariffCouldNotBeFound = "tariff_could_not_be_found";
+        public const string ErrorLoadingTariffs = "error_loading_tariffs";
+    }
 }

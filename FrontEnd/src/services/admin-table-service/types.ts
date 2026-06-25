@@ -34,4 +34,5 @@ export enum AdminTableEntities {
     Unit = 'Unit',
     Meter = 'Meter',
     Connection = 'Connection',
+    Tariff = 'Tariff',
 }

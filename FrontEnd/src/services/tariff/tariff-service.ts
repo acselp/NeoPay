@@ -1,30 +1,30 @@
 import { apiSetup } from "../../api-setup";
-import {AxiosResponse} from "axios";
-import {Utility} from "../../pages/utility-setup/types";
+import { AxiosResponse } from "axios";
+import { Tariff } from "../../pages/utility/types";
 
-const CONTROLLER_URL = "/api/utility/"
+const CONTROLLER_URL = "/api/tariff/"
 const getUrl = (url: string) => `${CONTROLLER_URL}${url}`
 
 const createEndpoint = "create"
 const updateEndpoint = "update"
 const deleteEndpoint = "delete"
 const getByIdEndpoint = "getById"
-const getAllAsSelectListItemEndpoint = "getAll"
+const getAllEndpoint = "getAll"
 
-export const UtilityService = {
-    create(model: Utility) {
+export const TariffService = {
+    create(model: Tariff) {
         return apiSetup.post(getUrl(createEndpoint), model)
     },
-    update(model: Utility) {
+    update(model: Tariff) {
         return apiSetup.put(getUrl(updateEndpoint), model)
     },
     delete(id: number) {
         return apiSetup.delete(getUrl(deleteEndpoint), { params: { id } })
     },
-    getById(id: number): Promise<AxiosResponse<Utility>> {
+    getById(id: number): Promise<AxiosResponse<Tariff>> {
         return apiSetup.get(getUrl(getByIdEndpoint), { params: { id } })
     },
-    getAll(): Promise<AxiosResponse<Utility[]>> {
-        return apiSetup.get(getUrl(getAllAsSelectListItemEndpoint))
+    getAll(): Promise<AxiosResponse<Tariff[]>> {
+        return apiSetup.get(getUrl(getAllEndpoint))
     }
 }
