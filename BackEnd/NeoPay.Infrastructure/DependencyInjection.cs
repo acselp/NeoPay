@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NeoPay.Application;
 using NeoPay.Application.Service;
 using NeoPay.Framework;
 using NeoPay.Infrastructure.Constants;
@@ -44,7 +45,7 @@ public static class DependencyInjection
         services.AddOptions();
         services.AddFramework();
         services.AddRepositories();
-        services.AddServices();
+        services.AddApplication();
         services.AddPersistance(configuration);
         services.AddHostedServices();
         // services.AddInfrastructure(configuration);

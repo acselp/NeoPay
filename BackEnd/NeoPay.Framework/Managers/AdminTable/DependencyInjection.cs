@@ -12,7 +12,6 @@ public static class DependencyInjection
     public static void AddAdminTableManager(this IServiceCollection services)
     {
         services.AddScoped<AdminTableManager>();
-
         services.AddScoped<AdminTableService>();
 
         services.AddScoped<IAdminTableHandler, ConnectionTableHandler>();
@@ -21,5 +20,6 @@ public static class DependencyInjection
         services.AddScoped<IAdminTableHandler, UtilityTableHandler>();
         services.AddScoped<IAdminTableHandler, UnitTableHandler>();
         services.AddScoped<IAdminTableHandler, TariffTableHandler>();
+        services.AddScoped<IAdminTableHandler, MeterReadingTableHandler>();
     }
 }

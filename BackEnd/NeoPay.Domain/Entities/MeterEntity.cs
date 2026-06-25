@@ -7,4 +7,5 @@ public class MeterEntity : BaseEntity
     public string? Description { get; set; }
 
     public virtual IEnumerable<ConnectionEntity> ConnectionList { get; set; }
+    public virtual IEnumerable<MeterReadingEntity> MeterReadingList { get; set; }
 }

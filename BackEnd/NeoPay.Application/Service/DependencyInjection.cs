@@ -8,7 +8,7 @@ public static class DependencyInjection
     {
         services.AddScoped<AddressService>();
         services.AddScoped<ConnectionService>();
-        services.AddScoped<ConsumptionRecordService>();
+        services.AddScoped<MeterReadingService>();
         services.AddScoped<CustomerService>();
         services.AddScoped<MeterService>();
         services.AddScoped<UtilityService>();

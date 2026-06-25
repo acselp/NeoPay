@@ -52,7 +52,7 @@ CREATE TABLE ${schema}.utility
 CREATE TABLE ${schema}.tariff
 (
     id             SERIAL PRIMARY KEY,
-    title          VARCHAR(100) NOT NULL,
+    title          VARCHAR(100)   NOT NULL,
     unit_price     NUMERIC(10, 2) NOT NULL,
     utility_id     INT REFERENCES ${schema}.utility (id),
     created_on_utc TIMESTAMPTZ DEFAULT now(),
@@ -82,11 +82,11 @@ CREATE TABLE ${schema}.connection
     updated_on_utc   TIMESTAMPTZ DEFAULT now()
 );
 
-CREATE TABLE ${schema}.consumption_record
+CREATE TABLE ${schema}.meter_reading
 (
     id             SERIAL PRIMARY KEY,
     meter_id       INT            NOT NULL REFERENCES ${schema}.meter (id),
-    amount_used    NUMERIC(10, 2) NOT NULL,
+    value          NUMERIC(10, 2) NOT NULL,
     created_on_utc TIMESTAMPTZ DEFAULT now(),
     updated_on_utc TIMESTAMPTZ DEFAULT now()
 );

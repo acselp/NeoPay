@@ -11,6 +11,8 @@ public class MeterEntityConfigurator : IEntityTypeConfiguration<MeterEntity>
         builder.ToTable("meter", "public");
 
         builder.HasKey(m => m.Id);
+        
+        builder.Property(m => m.Description);
 
         builder.Property(m => m.SerialNumber)
             .IsRequired()
