@@ -1,16 +1,19 @@
-import { SubmitHandler, useForm } from "react-hook-form"
-import { useEffect, useMemo, useState } from "react"
-import { Button, Input, Modal, Select } from "../../../components/ui"
+import {SubmitHandler, useForm} from "react-hook-form"
+import {useEffect, useMemo, useState} from "react"
+import {Button, Input, Modal, Select} from "../../../components/ui"
 import {BillingType, CreateUpdateProps} from "./types"
-import { UtilityModel } from "../types"
-import { Unit } from "../../unit/types"
-import { UnitService } from "../../../services/unit/unit-service"
+import {Utility} from "../types"
+import {Unit} from "../../unit/types"
+import {UnitService} from "../../../services/unit/unit-service"
 
 export const CreateUpdate = ({ onClose, onSubmit, model, active }: CreateUpdateProps) => {
-    const { handleSubmit, register, reset, setValue, formState: { errors } } = useForm<UtilityModel>({
-        defaultValues: model ?? undefined
+    const { handleSubmit, register, reset, setValue, formState: { errors } } = useForm<Utility>({
+        defaultValues: {
+            ...model ?? undefined
+        },
     })
 
+    const [selectedBillingType, setSelectedBillingType] = useState(BillingType.FixedRecurring)
     const [units, setUnits] = useState<Unit[]>([])
 
     useEffect(() => {
@@ -41,7 +44,7 @@ export const CreateUpdate = ({ onClose, onSubmit, model, active }: CreateUpdateP
         [units]
     )
 
-    const formSubmit: SubmitHandler<UtilityModel> = (data) => {
+    const formSubmit: SubmitHandler<Utility> = (data) => {
         onSubmit?.(data)
         onClose?.()
     }
@@ -52,7 +55,6 @@ export const CreateUpdate = ({ onClose, onSubmit, model, active }: CreateUpdateP
                 {/* Form fields */}
                 <div className="space-y-4">
                     <input type="number" className="hidden" {...register("Id")} />
-
                     <Input
                         label="Utility name"
                         placeholder="Enter utility name"
@@ -61,21 +63,9 @@ export const CreateUpdate = ({ onClose, onSubmit, model, active }: CreateUpdateP
                     />
 
                     <Select
-                        label="Unit"
-                        placeholder="Select a unit"
-                        error={errors.UnitId?.message}
-                        options={unitOptions}
-                        {...register("UnitId", {
-                            valueAsNumber: true,
-                            validate: (value) =>
-                                (!!value && value > 0) || "This field is required",
-                        })}
-                    />
-
-                    <Select
                         label="Billing type"
                         placeholder="Select billing type"
-                        error={errors.UnitId?.message}
+                        error={errors.BillingType?.message}
                         options={[
                             {
                                 label: "Metered",
@@ -90,7 +80,22 @@ export const CreateUpdate = ({ onClose, onSubmit, model, active }: CreateUpdateP
                             valueAsNumber: true,
                             required: "This field is required"
                         })}
+                        onChange={(event) => setSelectedBillingType(Number(event.target.value))}
                     />
+
+                    {
+                        selectedBillingType == BillingType.Metered && (<Select
+                            label="Unit"
+                            placeholder="Select a unit"
+                            error={errors.UnitId?.message}
+                            options={unitOptions}
+                            {...register("UnitId", {
+                                valueAsNumber: true,
+                                validate: (value) =>
+                                    (!!value && value > 0) || "This field is required",
+                            })}
+                        />)
+                    }
                 </div>
 
                 {/* Actions */}

@@ -1,13 +1,13 @@
 import { useState } from "react"
-import { UtilityModel } from "../types"
+import { Utility } from "../types"
 import { UtilityService } from "../../../services/utility/utility-service"
 
 export const useCreateUpdate = (onChanged?: () => void) => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
-    const [editModel, setEditModel] = useState<UtilityModel | null>(null)
-    const [deleteModel, setDeleteModel] = useState<UtilityModel | null>(null)
+    const [editModel, setEditModel] = useState<Utility | null>(null)
+    const [deleteModel, setDeleteModel] = useState<Utility | null>(null)
 
-    const onEdit = (model: UtilityModel) => {
+    const onEdit = (model: Utility) => {
         setEditModel(model)
         setIsCreateModalOpen(true)
     }
@@ -17,20 +17,20 @@ export const useCreateUpdate = (onChanged?: () => void) => {
         setEditModel(null)
     }
 
-    const onCreateSubmit = (model: UtilityModel) =>
+    const onCreateSubmit = (model: Utility) =>
         UtilityService.create(model).then(() => onChanged?.())
 
-    const onEditSubmit = (model: UtilityModel) =>
+    const onEditSubmit = (model: Utility) =>
         UtilityService.update(model).then(() => onChanged?.())
 
-    const onSubmit = (data: UtilityModel) => {
+    const onSubmit = (data: Utility) => {
         if (!!editModel)
             onEditSubmit(data)
         else
             onCreateSubmit(data)
     }
 
-    const onDelete = (model: UtilityModel) => setDeleteModel(model)
+    const onDelete = (model: Utility) => setDeleteModel(model)
 
     const onDeleteCancel = () => setDeleteModel(null)
 

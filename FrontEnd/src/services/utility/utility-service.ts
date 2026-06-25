@@ -1,7 +1,6 @@
-import { UtilityModel } from "../../pages/utility-setup/types";
 import { apiSetup } from "../../api-setup";
-import {SelectListItem} from "../../models/shared";
 import {AxiosResponse} from "axios";
+import {Utility} from "../../pages/utility-setup/types";
 
 const CONTROLLER_URL = "/api/utility/"
 const getUrl = (url: string) => `${CONTROLLER_URL}${url}`
@@ -9,19 +8,19 @@ const getUrl = (url: string) => `${CONTROLLER_URL}${url}`
 const createEndpoint = "create"
 const updateEndpoint = "update"
 const deleteEndpoint = "delete"
-const getAllAsSelectListItemEndpoint = "GetAllGetAllAsSelectListItem"
+const getAllAsSelectListItemEndpoint = "getAll"
 
 export const UtilityService = {
-    create(model: UtilityModel) {
+    create(model: Utility) {
         return apiSetup.post(getUrl(createEndpoint), model)
     },
-    update(model: UtilityModel) {
+    update(model: Utility) {
         return apiSetup.put(getUrl(updateEndpoint), model)
     },
     delete(id: number) {
         return apiSetup.delete(getUrl(deleteEndpoint), { params: { id } })
     },
-    getAllAsSelectList(): Promise<AxiosResponse<SelectListItem[]>> {
+    getAll(): Promise<AxiosResponse<Utility[]>> {
         return apiSetup.get(getUrl(getAllAsSelectListItemEndpoint))
     }
 }

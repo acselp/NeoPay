@@ -1,10 +1,8 @@
 using FluentValidation;
 using NeoPay.Application.Service;
 using NeoPay.Domain.Exceptions;
-using NeoPay.Domain.Paged;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Meter;
-using NeoPay.Framework.Models.Shared;
 using NeoPay.Framework.Validators;
 
 namespace NeoPay.Framework.Managers;
@@ -44,18 +42,6 @@ public class MeterManager
     {
         await _meterService.Delete(id);
     }
-    //
-    // public async Task<PagedResultModel<MeterModel>> GetAll(GetMeterFilterModel filterModel)
-    // {
-    //     var filter = new PagedFilter
-    //     {
-    //         PageIndex = filterModel.PageIndex,
-    //         PageSize  = filterModel.PageSize
-    //     };
-    //
-    //     var pagedList = await _meterService.GetAll(filter);
-    //     return _meterMapper.Map(pagedList);
-    // }
 
     public async Task<MeterModel> GetById(int id)
     {
@@ -64,5 +50,11 @@ public class MeterManager
             throw new NotFoundException($"Meter with ID {id} not found");
 
         return _meterMapper.Map(entity);
+    }
+    
+    public async Task<IEnumerable<MeterModel>> GetAll()
+    {
+        var entityList = await _meterService.GetAll();
+        return entityList.Select(x => _meterMapper.Map(x));
     }
 }

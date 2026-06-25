@@ -1,22 +1,27 @@
+using Microsoft.EntityFrameworkCore;
 using NeoPay.Application.Repository;
 using NeoPay.Domain.Entities;
 using NeoPay.Framework.Managers.AdminTable.Abstractions;
+using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Meter;
 
 namespace NeoPay.Framework.Managers.AdminTable.Handlers;
 
 public class MeterTableHandler : AdminTableHandler<MeterModel, MeterEntity>
 {
+    private readonly MeterMapper _meterMapper;
+    
     public override    string                  Entity { get; set; } = AdminTableEntities.Meter;
     protected override IQueryable<MeterEntity> Query  { get; set; }
 
-    public MeterTableHandler(IMeterRepository repository, AdminTableService service) : base(service)
+    public MeterTableHandler(IMeterRepository repository, AdminTableService service, MeterMapper meterMapper) : base(service)
     {
+        _meterMapper = meterMapper;
         Query = repository.GetQuery();
     }
 
     protected override MeterModel Map(MeterEntity entity)
     {
-        return new MeterModel();
+        return _meterMapper.Map(entity);
     }
 }

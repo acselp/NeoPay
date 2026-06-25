@@ -1,7 +1,7 @@
 import type { Unit } from '../unit/types';
 import {BillingType} from "./create-update/types";
 
-export interface UtilityModel {
+export interface Utility {
   Id?: number;
   Name: string;
   UnitId: number;

@@ -9,4 +9,6 @@ public class ConnectionModel : BaseModel
     public int     UtilityId    { get; set; }
     public string? CustomerName { get; set; }
     public string? UtilityName  { get; set; }
+    public int? BillingQuantity { get; set; }
+    public string? Description { get; set; }
 }

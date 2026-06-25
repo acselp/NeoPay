@@ -1,10 +1,11 @@
-import { CustomerStatus } from "./types";
-
-export const mapStatusToVariantBadge = (status: CustomerStatus) => {
+export const mapStatusToVariantBadge = (status: number) => {
     switch (status) {
-        case CustomerStatus.Active:
+        case 0:
             return 'active'
-        case CustomerStatus.Inactive:
+        case 1:
+            return 'default';
+            
+        default:
             return 'default';
     }
 }

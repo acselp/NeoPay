@@ -66,26 +66,12 @@ public class UtilityController : BaseAdminController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll(GetUtilityFilterModel filter)
-    {
-        try
-        {
-            var result = await _utilityManager.GetAll(filter);
-            return Ok(result);
-        }
-        catch (Exception)
-        {
-            return BadRequest(FrontEndErrors.ErrorLoadingUtilities);
-        }
-    }
-    
-    [HttpGet]
     [OutputCache(PolicyName = CachePolicyConstants.Cache1Day)]
-    public async Task<IActionResult> GetAllGetAllAsSelectListItem()
+    public async Task<IActionResult> GetAll()
     {
         try
         {
-            var result = await _utilityManager.GetAllAsSelectListItem();
+            var result = await _utilityManager.GetAll();
             return Ok(result);
         }
         catch (Exception)

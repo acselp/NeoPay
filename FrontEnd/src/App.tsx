@@ -15,6 +15,7 @@ import {
 import { UtilitiesList } from './pages/utility-setup';
 import { UnitList } from './pages/unit';
 import { ConnectionsListPage } from './features/connections';
+import {MeterList} from "./pages/meter";
 
 function App() {
   return (
@@ -39,12 +40,13 @@ function App() {
           element={<ConnectionDetail />}
         />
 
-        {/* Readings */}
-        <Route path="/readings" element={<ReadingsList />} />
-
         {/* Setup */}
         <Route path="/utilities" element={<UtilitiesList />} />
         <Route path="/utilities/units" element={<UnitList />} />
+
+        {/* Meters */}
+        <Route path="/meter/list" element={<MeterList />} />
+        <Route path="/meter/readings" element={<UnitList />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />

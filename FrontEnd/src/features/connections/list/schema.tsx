@@ -34,6 +34,11 @@ export const GetSchema = ({ hideCustomer }: SchemaArgs = {}): ApiTableStrategyPr
             ),
         },
         {
+            id: "description",
+            header: "Description",
+            cell: ({ row }: any) => row.original.Description,
+        },
+        {
             id: "status",
             header: "Status",
             cell: ({ row }: any) => (

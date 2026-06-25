@@ -57,10 +57,10 @@ public class UtilityManager
         return _utilityMapper.Map(pagedList);
     }
     
-    public async Task<IEnumerable<SelectListItem>> GetAllAsSelectListItem()
+    public async Task<IEnumerable<UtilityModel>> GetAll()
     {
         var items = await _utilityService.GetAll();
-        return _utilityMapper.MapToSelectListItem(items);
+        return _utilityMapper.Map(items);
     }
 
     public async Task<UtilityModel> GetById(int id)

@@ -30,6 +30,7 @@ public class ConnectionTableHandler : AdminTableHandler<ConnectionModel, Connect
                 ? $"{entity.CustomerEntity.FirstName} {entity.CustomerEntity.LastName}"
                 : null,
             UtilityName  = entity.UtilityEntity?.Name,
+            Description =  entity.Description
         };
     }
 }

@@ -14,7 +14,9 @@ public class ConnectionMapper
             Id         = connection.Id,
             Status     = connection.Status,
             CustomerId = connection.CustomerId,
-            UtilityId  = connection.UtilityId
+            UtilityId  = connection.UtilityId,
+            BillingQuantity =  connection.BillingQuantity,
+            Description  = connection.Description,
         };
     }
 
@@ -24,7 +26,10 @@ public class ConnectionMapper
         {
             Status     = connection.Status,
             CustomerId = connection.CustomerId,
-            UtilityId  = connection.UtilityId
+            UtilityId  = connection.UtilityId,
+            BillingQuantity =  connection.BillingQuantity,
+            MeterId =  connection.MeterId,
+            Description  = connection.Description,
         };
     }
 
@@ -35,7 +40,10 @@ public class ConnectionMapper
             Id         = connection.Id,
             Status     = connection.Status,
             CustomerId = connection.CustomerId,
-            UtilityId  = connection.UtilityId
+            UtilityId  = connection.UtilityId,
+            BillingQuantity =  connection.BillingQuantity,
+            MeterId =  connection.MeterId,
+            Description  = connection.Description,
         };
     }
 

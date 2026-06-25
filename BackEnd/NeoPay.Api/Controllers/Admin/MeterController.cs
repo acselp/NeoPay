@@ -75,20 +75,6 @@ public class MeterController : BaseAdminController
         }
     }
 
-    // [HttpGet]
-    // public async Task<IActionResult> GetAll([FromQuery] GetMeterFilterModel filter)
-    // {
-    //     try
-    //     {
-    //         var result = await _meterManager.GetAll(filter);
-    //         return Ok(result);
-    //     }
-    //     catch (Exception)
-    //     {
-    //         return BadRequest(FrontEndErrors.ErrorLoadingMeters);
-    //     }
-    // }
-
     [HttpGet]
     public async Task<IActionResult> GetById(int id)
     {
@@ -102,18 +88,11 @@ public class MeterController : BaseAdminController
             return NotFound(FrontEndErrors.MeterCouldNotBeFound);
         }
     }
-
+    
     [HttpGet]
-    public async Task<IActionResult> GetByConnectionId(int connectionId)
+    public async Task<IActionResult> GetAll()
     {
-        try
-        {
-            var result = await _meterManager.GetByConnectionId(connectionId);
-            return Ok(result);
-        }
-        catch (Exception)
-        {
-            return BadRequest(FrontEndErrors.ErrorLoadingMeters);
-        }
+        var result = await _meterManager.GetAll();
+        return Ok(result);
     }
 }

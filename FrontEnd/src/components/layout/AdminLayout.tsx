@@ -9,13 +9,13 @@ import {
   List,
   Ruler,
   ChevronRight,
-  Zap,
+  Zap, Scroll,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 interface NavItem {
   name: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
   /** Leaf items navigate via `href`. Omit on items that only group `children`. */
   href?: string;
   /** Match the route exactly (e.g. for `/` or parents that share a prefix with children). */
@@ -28,13 +28,20 @@ const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard, end: true },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Connections', href: '/connections', icon: Cable },
-  { name: 'Readings', href: '/readings', icon: Gauge },
+  { 
+    name: 'Meters', 
+    icon: Gauge,
+    children: [
+      { name: "Meter list", href: '/meter/list' },
+      { name: "Meter readings", href: '/meter/readings' },
+    ]
+  },
   {
     name: 'Utilities',
     icon: Settings,
     children: [
-      { name: 'Utilities List', href: '/utilities', icon: List, end: true },
-      { name: 'Units Management', href: '/utilities/units', icon: Ruler },
+      { name: 'Utilities List', href: '/utilities', end: true },
+      { name: 'Units Management', href: '/utilities/units' },
     ],
   },
 ];
@@ -63,7 +70,7 @@ function NavLeaf({ item }: { item: NavItem }) {
       end={item.end}
       className={({ isActive }) => linkClasses(isActive)}
     >
-      <item.icon className="h-5 w-5 mr-3" />
+      { item.icon ? <item.icon className="h-5 w-5 mr-3" /> : "" }
       {item.name}
     </NavLink>
   );

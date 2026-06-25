@@ -18,9 +18,5 @@ public class MeterEntityConfigurator : IEntityTypeConfiguration<MeterEntity>
 
         builder.Property(m => m.Status)
             .IsRequired();
-
-        builder.HasMany<ConnectionEntity>()
-            .WithOne(m => m.Meter)
-            .HasForeignKey(x => x.MeterId);
     }
 }

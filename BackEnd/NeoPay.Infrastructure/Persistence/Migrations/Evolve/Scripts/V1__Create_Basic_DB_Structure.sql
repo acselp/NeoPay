@@ -6,6 +6,8 @@ CREATE TABLE ${schema}.customer
     email          VARCHAR(120),
     phone          VARCHAR(30),
     account_nr     INT,
+    status         INT,
+    notes          VARCHAR(255),
     created_on_utc TIMESTAMPTZ DEFAULT now(),
     updated_on_utc TIMESTAMPTZ DEFAULT now()
 );
@@ -41,20 +43,10 @@ CREATE TABLE ${schema}.utility
 (
     id             SERIAL PRIMARY KEY,
     name           VARCHAR(100) NOT NULL,
-    unit_id        INT          NOT NULL REFERENCES ${schema}.unit (id),
-    created_on_utc TIMESTAMPTZ DEFAULT now(),
-    updated_on_utc TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE TABLE ${schema}.connection
-(
-    id             SERIAL PRIMARY KEY,
-    customer_id    INT NOT NULL REFERENCES ${schema}.customer (id),
-    utility_id     INT NOT NULL REFERENCES ${schema}.utility (id),
-    status         INT NOT NULL,
-    meter_id       INT NOT NULL REFERENCES ${schema}.meter (id),
-    created_on_utc TIMESTAMPTZ DEFAULT now(),
-    updated_on_utc TIMESTAMPTZ DEFAULT now()
+    unit_id        INT REFERENCES ${schema}.unit (id),
+    billing_type   INT          not null default 0,
+    created_on_utc TIMESTAMPTZ           DEFAULT now(),
+    updated_on_utc TIMESTAMPTZ           DEFAULT now()
 );
 
 CREATE TABLE ${schema}.meter
@@ -62,8 +54,22 @@ CREATE TABLE ${schema}.meter
     id             SERIAL PRIMARY KEY,
     serial_number  VARCHAR(100) UNIQUE NOT NULL,
     status         INT                 NOT NULL,
+    description    VARCHAR(100),
     created_on_utc TIMESTAMPTZ DEFAULT now(),
     updated_on_utc TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE ${schema}.connection
+(
+    id               SERIAL PRIMARY KEY,
+    customer_id      INT NOT NULL REFERENCES ${schema}.customer (id),
+    utility_id       INT NOT NULL REFERENCES ${schema}.utility (id),
+    status           INT NOT NULL,
+    meter_id         INT REFERENCES ${schema}.meter (id),
+    billing_quantity INT,
+    description      VARCHAR(100),
+    created_on_utc   TIMESTAMPTZ DEFAULT now(),
+    updated_on_utc   TIMESTAMPTZ DEFAULT now()
 );
 
 CREATE TABLE ${schema}.consumption_record

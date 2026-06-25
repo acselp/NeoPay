@@ -31,8 +31,6 @@ public class ConnectionService
         if (utility == null)
             throw new NotFoundException($"Utility with ID {entity.UtilityId} not found");
         
-       
-        
         await _connectionRepository.Insert(entity);
     }
 

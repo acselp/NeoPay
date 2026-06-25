@@ -16,7 +16,7 @@ public class UtilityTableHandler : AdminTableHandler<UtilityModel, UtilityEntity
 
     public UtilityTableHandler(IUtilityRepository repository, AdminTableService service, UtilityMapper utilityMapper) : base(service)
     {
-        Query = repository.GetQuery().Include(x => x.Unit);
+        Query = repository.GetQuery();
         _utilityMapper = utilityMapper;
     }
 

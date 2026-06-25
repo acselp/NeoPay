@@ -1,10 +1,10 @@
-import { UtilityModel } from "../types"
+import { Utility } from "../types"
 
 export interface CreateUpdateProps {
     active: boolean
     onClose: () => void
-    onSubmit?: (model: UtilityModel) => void
-    model?: UtilityModel | null
+    onSubmit?: (model: Utility) => void
+    model?: Utility | null
 }
 
 export enum BillingType {

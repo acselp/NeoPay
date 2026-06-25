@@ -2,10 +2,10 @@ import type { NavigateFunction } from 'react-router-dom';
 import type {
   Connection,
   Location,
-  Meter,
   Reading,
-  Utility,
 } from '../../types';
+import {Meter} from "../meter/types";
+import {Utility} from "../utility-setup/types";
 
 export interface Customer {
     Id: number;
@@ -47,7 +47,10 @@ export interface CreateConnectionProps {
 export interface CreateConnectionModel {
     UtilityId: number;
     CustomerId: number;
+    MeterId: number;
+    BillingQuantity: number;
     Status: ConnectionStatus;
+    Description?: string;
 }
 
 export interface CustomerReading {
