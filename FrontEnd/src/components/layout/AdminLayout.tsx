@@ -28,8 +28,8 @@ const navigation: NavItem[] = [
   { name: 'Dashboard', href: '/', icon: LayoutDashboard, end: true },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Connections', href: '/connections', icon: Cable },
-  { 
-    name: 'Meters', 
+  {
+    name: 'Meters',
     icon: Gauge,
     children: [
       { name: "Meter list", href: '/meter/list' },

@@ -59,9 +59,9 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         entity.UpdatedOnUtc = DateTime.UtcNow;
 
         var entityFromDb = await GetById(entity.Id);
-
         if (entityFromDb != null)
         {
+            entity.CreatedOnUtc = entityFromDb.CreatedOnUtc;
             _context.Entry(entityFromDb).CurrentValues.SetValues(entity);
             await _context.SaveChangesAsync();
         }

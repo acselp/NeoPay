@@ -2,7 +2,7 @@ import {ApiTableStrategyProps, TableStrategy} from "../../../components/data-tab
 import {AdminTableEntities} from "../../../services/admin-table-service/types";
 import {Pencil, Trash2} from "lucide-react";
 import {Badge} from '../../../components/ui';
-import {Meter} from "../types";
+import { Meter, MeterStatus } from "../types";
 import {mapStatusToVariantBadge} from "../../customer/helpers";
 
 interface SchemaArgs {
@@ -27,7 +27,7 @@ export const GetSchema = ({ onEdit, onDelete }: SchemaArgs): ApiTableStrategyPro
                     id: "status",
                     header: "status",
                     cell: ({ row }) => (
-                        <Badge variant={ mapStatusToVariantBadge(row.original.Status) }>{row.original.Status}</Badge>
+                        <Badge variant={ mapStatusToVariantBadge(row.original.Status) }>{MeterStatus[row.original.Status]}</Badge>
                     ),
                 },
                 {

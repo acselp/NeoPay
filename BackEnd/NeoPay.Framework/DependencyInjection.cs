@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using NeoPay.Framework.Helpers;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Validators;
@@ -12,5 +13,6 @@ public static class DependencyInjection
         services.AddValidators();
         services.AddMappers();
         services.AddManagers();
+        services.AddHelpers();
     }
 }

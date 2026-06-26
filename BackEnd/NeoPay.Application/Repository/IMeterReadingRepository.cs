@@ -5,5 +5,6 @@ namespace NeoPay.Application.Repository;
 public interface IMeterReadingRepository : IGenericRepository<MeterReadingEntity>
 {
     Task<IEnumerable<MeterReadingEntity>> GetByMeterId(int meterId);
+    Task<MeterReadingEntity?> GetLastReadingByMeterId(int meterId);
     Task<IEnumerable<MeterReadingEntity>> GetByMeterIdAndDateRange(int meterId, DateTime startDate, DateTime endDate);
 }

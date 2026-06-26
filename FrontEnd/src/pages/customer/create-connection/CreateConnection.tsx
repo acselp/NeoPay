@@ -13,7 +13,7 @@ export const CreateConnection = ({ active, onClose, onSubmit, customerId }: Crea
     const [utilities, setUtilities] = useState<Utility[]>([]);
     const [meters, setMeters] = useState<SelectOption[]>([]);
     const [selectedUtility, setSelectedUtilities] = useState<Utility>(null);
-    
+
     const { handleSubmit, register, reset } = useForm<CreateConnectionModel>({
         defaultValues: { CustomerId: customerId }
     });
@@ -21,7 +21,7 @@ export const CreateConnection = ({ active, onClose, onSubmit, customerId }: Crea
         onSubmit?.(data as CreateConnectionModel);
         onClose?.();
     }
-    
+
     const getUtilityById = (id: string): Utility | null => {
         return utilities.find(x => x.Id.toString() == id.toString());
     }
@@ -33,7 +33,7 @@ export const CreateConnection = ({ active, onClose, onSubmit, customerId }: Crea
     const mapMeters = (meterList: Meter[]) => {
         return meterList.map(x => ({ value: x.Id, label: x.SerialNumber }));
     }
-    
+
     const loadUtilities = () => {
         UtilityService.getAll()
             .then((res) => {
@@ -60,7 +60,7 @@ export const CreateConnection = ({ active, onClose, onSubmit, customerId }: Crea
         loadUtilities();
         loadMeters();
     }, []);
-    
+
     useEffect(() => {
         if (active) {
             reset({ CustomerId: customerId });
@@ -74,9 +74,10 @@ export const CreateConnection = ({ active, onClose, onSubmit, customerId }: Crea
                     {/* Form fields */}
                     <div className="space-y-4">
                         <input type="number" className="hidden" {...register("CustomerId")} />
-                        
+
                         <Select
                             label="Utility"
+                            placeholder="Select utility"
                             {...register("UtilityId", { required: "This field is required", valueAsNumber: true })}
                             options={getMappedUtilities()}
                             onChange={(event) => setSelectedUtilities(getUtilityById(event.target.value))}
@@ -94,6 +95,7 @@ export const CreateConnection = ({ active, onClose, onSubmit, customerId }: Crea
                         {
                             !!selectedUtility && (selectedUtility.BillingType === BillingType.Metered
                                 ? <Select
+                                    placeholder="Select meter"
                                     label="Meter"
                                     {...register("MeterId", {valueAsNumber: true})}
                                     options={meters}
@@ -109,13 +111,13 @@ export const CreateConnection = ({ active, onClose, onSubmit, customerId }: Crea
                                     })}
                                 />)
                         }
-                        
+
                         <Input
                             label="Description"
                             placeholder="Enter the Description"
                             {...register("Description")}
                         />
-                        
+
                     </div>
 
                     {/* Actions */}

@@ -8,7 +8,7 @@ public class MeterReadingConfigurator : IEntityTypeConfiguration<MeterReadingEnt
 {
     public void Configure(EntityTypeBuilder<MeterReadingEntity> builder)
     {
-        builder.ToTable("consumption_record", "public");
+        builder.ToTable("meter_reading", "public");
 
         builder.HasKey(cr => cr.Id);
 

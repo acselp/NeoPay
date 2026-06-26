@@ -20,13 +20,22 @@ public class MeterReadingRepository : GenericRepository<MeterReadingEntity>, IMe
             .Where(cr => cr.MeterId == meterId)
             .ToListAsync();
     }
-
-    public async Task<IEnumerable<MeterReadingEntity>> GetByMeterIdAndDateRange(int meterId, DateTime startDate, DateTime endDate)
+    
+    public async Task<MeterReadingEntity?> GetLastReadingByMeterId(int meterId)
     {
         return await _context.Set<MeterReadingEntity>()
-            .Where(cr => cr.MeterId == meterId &&
-                        cr.CreatedOnUtc >= startDate &&
-                        cr.CreatedOnUtc <= endDate)
-            .ToListAsync();
+                             .Where(cr => cr.MeterId == meterId)
+                             .OrderBy(x => x.CreatedOnUtc)
+                             .FirstOrDefaultAsync();
+    }
+
+    public async Task<IEnumerable<MeterReadingEntity>> GetByMeterIdAndDateRange(
+        int meterId, DateTime startDate, DateTime endDate)
+    {
+        return await _context.Set<MeterReadingEntity>()
+                             .Where(cr => cr.MeterId      == meterId   &&
+                                          cr.CreatedOnUtc >= startDate &&
+                                          cr.CreatedOnUtc <= endDate)
+                             .ToListAsync();
     }
 }

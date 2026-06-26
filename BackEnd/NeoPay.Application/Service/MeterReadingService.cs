@@ -41,6 +41,11 @@ public class MeterReadingService
     {
         return await _meterReadingRepository.GetByMeterId(meterId);
     }
+    
+    public async Task<MeterReadingEntity?> GetLastReadingByMeterId(int meterId)
+    {
+        return await _meterReadingRepository.GetLastReadingByMeterId(meterId);
+    }
 
     public async Task<IEnumerable<MeterReadingEntity>> GetByMeterIdAndDateRange(int meterId, DateTime startDate, DateTime endDate)
     {

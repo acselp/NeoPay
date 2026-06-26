@@ -20,8 +20,7 @@ public class MeterReadingController : BaseAdminController
     {
         try
         {
-            await _meterReadingManager.Create(model);
-            return Ok();
+            return Ok(await _meterReadingManager.Create(model));
         }
         catch (ValidationException ex)
         {

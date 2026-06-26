@@ -3,11 +3,10 @@ using NeoPay.Domain.Entities;
 using NeoPay.Framework.Managers.AdminTable.Abstractions;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.MeterReading;
-using NeoPay.Framework.Models.Tariff;
 
 namespace NeoPay.Framework.Managers.AdminTable.Handlers;
 
-public class MeterReadingTableHandler : AdminTableHandler<MeterReadingModel, MeterReadingEntity>
+public class MeterReadingTableHandler : AdminTableHandler<ListMeterReadingModel, MeterReadingEntity>
 {
     public override    string                   Entity { get; set; } = AdminTableEntities.MeterReading;
     protected override IQueryable<MeterReadingEntity> Query  { get; set; }
@@ -20,7 +19,7 @@ public class MeterReadingTableHandler : AdminTableHandler<MeterReadingModel, Met
         _meterReadingMapper = meterReadingMapper;
     }
 
-    protected override MeterReadingModel Map(MeterReadingEntity entity)
+    protected override ListMeterReadingModel Map(MeterReadingEntity entity)
     {
         return _meterReadingMapper.Map(entity);
     }

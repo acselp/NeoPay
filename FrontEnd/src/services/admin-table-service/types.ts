@@ -33,6 +33,7 @@ export enum AdminTableEntities {
     Utility = 'Utility',
     Unit = 'Unit',
     Meter = 'Meter',
+    MeterReading = 'MeterReading',
     Connection = 'Connection',
     Tariff = 'Tariff',
 }
