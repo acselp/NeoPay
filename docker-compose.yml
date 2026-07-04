@@ -1,7 +1,7 @@
 services:
   # PostgreSQL Database
   postgres:
-    image: postgres:15
+    image: postgres:latest
     container_name: neopay_postgres
     environment:
       POSTGRES_USER: postgres
