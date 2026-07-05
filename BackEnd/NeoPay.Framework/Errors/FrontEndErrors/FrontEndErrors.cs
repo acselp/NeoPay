@@ -85,6 +85,12 @@ public static class FrontEndErrors
         ErrorCode    = ApiErrorCodes.Language.LanguageCouldNotBeFound,
         ErrorMessage = "Language could not be found"
     };
+    
+    public static Error LanguageCodeDuplicateFound { get; } = new()
+    {
+        ErrorCode    = ApiErrorCodes.Language.LanguageCodeDuplicateFound,
+        ErrorMessage = "Found duplicate for an language"
+    };
 
     public static Error ErrorLoadingUtilities { get; } = new()
     {

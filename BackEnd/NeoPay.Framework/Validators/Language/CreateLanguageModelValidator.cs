@@ -7,8 +7,8 @@ public class CreateLanguageModelValidator : AbstractValidator<CreateLanguageMode
 {
     public CreateLanguageModelValidator()
     {
-        RuleFor(x => x.Code).NotEmpty().WithMessage("Code is required");
-        RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required");
+        RuleFor(x => x.Code).NotEmpty().WithMessage("Code is required").MaximumLength(10);
+        RuleFor(x => x.Title).NotEmpty().WithMessage("Title is required").MaximumLength(50);
         RuleFor(x => x.Status).NotEmpty().WithMessage("Status is required");
     }
 }

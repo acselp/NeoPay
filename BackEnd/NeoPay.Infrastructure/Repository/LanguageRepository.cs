@@ -9,4 +9,9 @@ public class LanguageRepository : GenericRepository<LanguageEntity>, ILanguageRe
     public LanguageRepository(PostgresDbContext context) : base(context)
     {
     }
+    
+    public bool CodeAlreadyExists(string code)
+    {
+        return Table.Any(x => x.Code == code);
+    }
 }

@@ -47,6 +47,7 @@ public static class ApiErrorCodes
     {
         public const string LanguageCouldNotBeFound = "language_could_not_be_found";
         public const string ErrorLoadingLanguages = "error_loading_languages";
+        public const string LanguageCodeDuplicateFound = "language_code_duplicate_found";
     }
 
     public static class Meter

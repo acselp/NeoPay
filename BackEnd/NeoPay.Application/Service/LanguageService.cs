@@ -16,6 +16,8 @@ public class LanguageService
 
     public async Task<LanguageEntity> Create(LanguageEntity entity)
     {
+        if (_languageRepository.CodeAlreadyExists(entity.Code))
+            throw new DuplicateException("Language code already exists");
         return await _languageRepository.Insert(entity);
     }
 

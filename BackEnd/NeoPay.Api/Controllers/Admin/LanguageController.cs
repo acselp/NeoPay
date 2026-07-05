@@ -29,6 +29,10 @@ public class LanguageController : BaseAdminController
         {
             return ValidationError(ex);
         }
+        catch (DuplicateException ex)
+        {
+            return BadRequest(FrontEndErrors.LanguageCodeDuplicateFound);
+        }
     }
 
     [HttpPut]
