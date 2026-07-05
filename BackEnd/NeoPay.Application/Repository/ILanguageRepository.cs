@@ -4,5 +4,6 @@ namespace NeoPay.Application.Repository;
 
 public interface ILanguageRepository : IGenericRepository<LanguageEntity>
 {
-    bool CodeAlreadyExists(string code);
+    Task<bool> CodeAlreadyExists(string code);
+    Task<bool> LanguageExists(int languageId);
 }

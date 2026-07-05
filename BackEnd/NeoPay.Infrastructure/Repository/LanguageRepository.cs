@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using NeoPay.Application.Repository;
 using NeoPay.Domain.Entities;
 using NeoPay.Infrastructure.Persistence;
@@ -10,8 +11,13 @@ public class LanguageRepository : GenericRepository<LanguageEntity>, ILanguageRe
     {
     }
     
-    public bool CodeAlreadyExists(string code)
+    public Task<bool> CodeAlreadyExists(string code)
     {
-        return Table.Any(x => x.Code == code);
+        return Table.AnyAsync(x => x.Code == code);
+    }
+
+    public Task<bool> LanguageExists(int languageId)
+    {
+        return Table.AnyAsync(x => x.Id == languageId);
     }
 }

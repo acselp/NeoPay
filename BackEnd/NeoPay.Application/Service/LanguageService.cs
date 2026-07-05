@@ -16,7 +16,7 @@ public class LanguageService
 
     public async Task<LanguageEntity> Create(LanguageEntity entity)
     {
-        if (_languageRepository.CodeAlreadyExists(entity.Code))
+        if (await _languageRepository.CodeAlreadyExists(entity.Code))
             throw new DuplicateException("Language code already exists");
         return await _languageRepository.Insert(entity);
     }
@@ -37,16 +37,19 @@ public class LanguageService
     }
 
     public async Task<LanguageEntity> Update(LanguageEntity entity)
-    { 
+    {
+        var exists = await _languageRepository.LanguageExists(entity.Id);
+        if (!exists)
+            throw new NotFoundException($"Language with ID {entity.Id} not found");
         return await _languageRepository.Update(entity);
     }
 
     public async Task Delete(int id)
     {
-        var utility = await _languageRepository.GetById(id);
-        if (utility == null)
+        var languageEntity = await _languageRepository.GetById(id);
+        if (languageEntity == null)
             throw new NotFoundException($"Language with ID {id} not found");
 
-        await _languageRepository.Delete(utility);
+        await _languageRepository.Delete(languageEntity);
     }
 }
