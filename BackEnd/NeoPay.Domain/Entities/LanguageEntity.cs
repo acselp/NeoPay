@@ -6,5 +6,5 @@ public class LanguageEntity : BaseEntity
 {
     public string Code { get; set; } = null!;
     public string Title { get; set; } = null!;
-    public int Status { get; set; };
+    public int Status { get; set; }
 }
