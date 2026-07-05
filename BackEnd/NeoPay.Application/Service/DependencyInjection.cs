@@ -14,5 +14,6 @@ public static class DependencyInjection
         services.AddScoped<UtilityService>();
         services.AddScoped<UnitService>();
         services.AddScoped<TariffService>();
+        services.AddScoped<LanguageService>();
     }
 }
