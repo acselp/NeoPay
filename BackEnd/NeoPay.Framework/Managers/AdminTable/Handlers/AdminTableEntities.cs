@@ -9,4 +9,6 @@ public static class AdminTableEntities
     public static string Unit    = "Unit";
     public static string Tariff  = "Tariff";
     public static string MeterReading  = "MeterReading";
+    public static string Language  = "Language";
+    
 }
