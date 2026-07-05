@@ -89,7 +89,7 @@ public static class FrontEndErrors
     public static Error LanguageCodeDuplicateFound { get; } = new()
     {
         ErrorCode    = ApiErrorCodes.Language.LanguageCodeDuplicateFound,
-        ErrorMessage = "Found duplicate for an language"
+        ErrorMessage = "Found duplicate for language code"
     };
 
     public static Error ErrorLoadingUtilities { get; } = new()

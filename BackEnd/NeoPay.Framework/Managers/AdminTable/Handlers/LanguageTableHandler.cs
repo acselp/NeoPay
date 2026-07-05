@@ -22,7 +22,8 @@ public class LanguageTableHandler : AdminTableHandler<LanguageModel, LanguageEnt
             Code = entity.Code,
             Title = entity.Title,
             Status = entity.Status,
-            Id = entity.Id
+            Id = entity.Id,
+            FormattedDate = entity.CreatedOnUtc.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss"),
         };
     }
 }
