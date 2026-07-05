@@ -42,6 +42,12 @@ public static class ApiErrorCodes
         public const string UtilityCouldNotBeFound = "utility_could_not_be_found";
         public const string ErrorLoadingUtilities = "error_loading_utilities";
     }
+    
+    public static class Language
+    {
+        public const string LanguageCouldNotBeFound = "language_could_not_be_found";
+        public const string ErrorLoadingLanguages = "error_loading_languages";
+    }
 
     public static class Meter
     {

@@ -79,6 +79,12 @@ public static class FrontEndErrors
         ErrorCode    = ApiErrorCodes.Utility.UtilityCouldNotBeFound,
         ErrorMessage = "Utility could not be found"
     };
+    
+    public static Error LanguageCouldNotBeFound { get; } = new()
+    {
+        ErrorCode    = ApiErrorCodes.Language.LanguageCouldNotBeFound,
+        ErrorMessage = "Language could not be found"
+    };
 
     public static Error ErrorLoadingUtilities { get; } = new()
     {
