@@ -15,5 +15,6 @@ public static class DependencyInjection
         services.AddScoped<IMeterReadingRepository, MeterReadingRepository>();
         services.AddScoped<IUnitRepository, UnitRepository>();
         services.AddScoped<ITariffRepository, TariffRepository>();
+        services.AddScoped<ILanguageRepository, LanguageRepository>();
     }
 }

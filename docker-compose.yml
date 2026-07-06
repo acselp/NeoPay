@@ -1,7 +1,7 @@
 services:
   # PostgreSQL Database
   postgres:
-    image: postgres:15
+    image: postgres:16
     container_name: neopay_postgres
     environment:
       POSTGRES_USER: postgres
@@ -53,10 +53,10 @@ services:
 #      - neopay-network
 #        
         
-  redis:
-    image: redis:7-alpine
-    ports: 
-     - "6379:6379"
+#  redis:
+#    image: redis:7-alpine
+#    ports: 
+#     - "6379:6379"
 
 volumes:
   postgres-data:

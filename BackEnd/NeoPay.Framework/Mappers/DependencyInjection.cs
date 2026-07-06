@@ -14,5 +14,6 @@ public static class DependencyInjection
         services.AddScoped<UnitMapper>();
         services.AddScoped<TariffMapper>();
         services.AddScoped<MeterReadingMapper>();
+        services.AddScoped<LanguageMapper>();
     }
 }
