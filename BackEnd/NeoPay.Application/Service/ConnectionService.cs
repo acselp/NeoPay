@@ -1,11 +1,12 @@
-using NeoPay.Application.Repository;
+﻿using NeoPay.Application.Repository;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Domain.Entities;
-using NeoPay.Domain.Exceptions;
 using NeoPay.Domain.Paged;
 
 namespace NeoPay.Application.Service;
 
-public class ConnectionService
+public class ConnectionService : IConnectionService
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly ICustomerRepository _customerRepository;
@@ -21,72 +22,82 @@ public class ConnectionService
         _utilityRepository = utilityRepository;
     }
 
-    public async Task Create(ConnectionEntity entity)
+    public async Task<Result> Create(ConnectionEntity entity)
     {
         var customer = await _customerRepository.GetById(entity.CustomerId);
         if (customer == null)
-            throw new NotFoundException($"Customer with ID {entity.CustomerId} not found");
+            return Result.NotFound($"Customer with ID {entity.CustomerId} not found");
 
         var utility = await _utilityRepository.GetById(entity.UtilityId);
         if (utility == null)
-            throw new NotFoundException($"Utility with ID {entity.UtilityId} not found");
-        
+            return Result.NotFound($"Utility with ID {entity.UtilityId} not found");
+
         await _connectionRepository.Insert(entity);
+        return Result.Success();
     }
 
-    public async Task<ConnectionEntity?> GetById(int id)
-    {
-        return await _connectionRepository.GetById(id);
-    }
-
-    public async Task<IEnumerable<ConnectionEntity>> GetAll()
-    {
-        return await _connectionRepository.GetAll();
-    }
-
-    public async Task<PagedList<ConnectionEntity>> GetAll(PagedFilter filter)
-    {
-        return await _connectionRepository.GetAll(filter);
-    }
-
-    public async Task<IEnumerable<ConnectionEntity>> GetByCustomerId(int customerId)
-    {
-        return await _connectionRepository.GetByCustomerId(customerId);
-    }
-
-    public async Task<IEnumerable<ConnectionEntity>> GetByUtilityId(int utilityId)
-    {
-        return await _connectionRepository.GetByUtilityId(utilityId);
-    }
-
-    public async Task<ConnectionEntity> Update(ConnectionEntity entity)
-    {
-        var existingConnection = await _connectionRepository.GetById(entity.Id);
-        if (existingConnection == null)
-            throw new NotFoundException($"Connection with ID {entity.Id} not found");
-
-        var customer = await _customerRepository.GetById(entity.CustomerId);
-        if (customer == null)
-            throw new NotFoundException($"Customer with ID {entity.CustomerId} not found");
-
-        var utility = await _utilityRepository.GetById(entity.UtilityId);
-        if (utility == null)
-            throw new NotFoundException($"Utility with ID {entity.UtilityId} not found");
-
-        return await _connectionRepository.Update(entity);
-    }
-
-    public async Task Delete(int id)
+    public async Task<ResultWithValue<ConnectionEntity>> GetById(int id)
     {
         var connection = await _connectionRepository.GetById(id);
         if (connection == null)
-            throw new NotFoundException($"Connection with ID {id} not found");
+            return Result.NotFound($"Connection with ID {id} not found");
 
-        await _connectionRepository.Delete(connection);
+        return Result.Success(connection);
     }
 
-    public async Task<ConnectionEntity?> GetByIdWithDetails(int id)
+    public async Task<ResultWithValue<IEnumerable<ConnectionEntity>>> GetAll()
     {
-        return await _connectionRepository.GetByIdWithDetails(id);
+        return Result.Success(await _connectionRepository.GetAll());
+    }
+
+    public async Task<ResultWithValue<PagedList<ConnectionEntity>>> GetAll(PagedFilter filter)
+    {
+        return Result.Success(await _connectionRepository.GetAll(filter));
+    }
+
+    public async Task<ResultWithValue<IEnumerable<ConnectionEntity>>> GetByCustomerId(int customerId)
+    {
+        return Result.Success(await _connectionRepository.GetByCustomerId(customerId));
+    }
+
+    public async Task<ResultWithValue<IEnumerable<ConnectionEntity>>> GetByUtilityId(int utilityId)
+    {
+        return Result.Success(await _connectionRepository.GetByUtilityId(utilityId));
+    }
+
+    public async Task<ResultWithValue<ConnectionEntity>> Update(ConnectionEntity entity)
+    {
+        var existingConnection = await _connectionRepository.GetById(entity.Id);
+        if (existingConnection == null)
+            return Result.NotFound($"Connection with ID {entity.Id} not found");
+
+        var customer = await _customerRepository.GetById(entity.CustomerId);
+        if (customer == null)
+            return Result.NotFound($"Customer with ID {entity.CustomerId} not found");
+
+        var utility = await _utilityRepository.GetById(entity.UtilityId);
+        if (utility == null)
+            return Result.NotFound($"Utility with ID {entity.UtilityId} not found");
+
+        return Result.Success(await _connectionRepository.Update(entity));
+    }
+
+    public async Task<Result> Delete(int id)
+    {
+        var connection = await _connectionRepository.GetById(id);
+        if (connection == null)
+            return Result.NotFound($"Connection with ID {id} not found");
+
+        await _connectionRepository.Delete(connection);
+        return Result.Success();
+    }
+
+    public async Task<ResultWithValue<ConnectionEntity>> GetByIdWithDetails(int id)
+    {
+        var connection = await _connectionRepository.GetByIdWithDetails(id);
+        if (connection == null)
+            return Result.NotFound($"Connection with ID {id} not found");
+
+        return Result.Success(connection);
     }
 }

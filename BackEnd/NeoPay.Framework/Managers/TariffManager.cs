@@ -1,6 +1,5 @@
-using FluentValidation;
-using NeoPay.Application.Service;
-using NeoPay.Domain.Exceptions;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Tariff;
 using NeoPay.Framework.Validators.Tariff;
@@ -9,12 +8,12 @@ namespace NeoPay.Framework.Managers;
 
 public class TariffManager
 {
-    private readonly TariffService _tariffService;
+    private readonly ITariffService _tariffService;
     private readonly CreateTariffModelValidator _createTariffModelValidator;
     private readonly UpdateTariffModelValidator _updateTariffModelValidator;
     private readonly TariffMapper _tariffMapper;
 
-    public TariffManager(TariffService tariffService, CreateTariffModelValidator createTariffModelValidator, TariffMapper tariffMapper, UpdateTariffModelValidator updateTariffModelValidator)
+    public TariffManager(ITariffService tariffService, CreateTariffModelValidator createTariffModelValidator, TariffMapper tariffMapper, UpdateTariffModelValidator updateTariffModelValidator)
     {
         _tariffService = tariffService;
         _createTariffModelValidator = createTariffModelValidator;
@@ -22,35 +21,44 @@ public class TariffManager
         _updateTariffModelValidator = updateTariffModelValidator;
     }
 
-    public async Task Create(CreateTariffModel model)
+    public async Task<Result> Create(CreateTariffModel model)
     {
-        await _createTariffModelValidator.ValidateAndThrowAsync(model);
-        await _tariffService.Create(_tariffMapper.Map(model));
+        var validation = await _createTariffModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _tariffService.Create(_tariffMapper.Map(model));
     }
 
-    public async Task Update(UpdateTariffModel model)
+    public async Task<Result> Update(UpdateTariffModel model)
     {
-        await _updateTariffModelValidator.ValidateAndThrowAsync(model);
-        await _tariffService.Update(_tariffMapper.Map(model));
+        var validation = await _updateTariffModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _tariffService.Update(_tariffMapper.Map(model));
     }
 
-    public async Task Delete(int id)
+    public async Task<Result> Delete(int id)
     {
-        await _tariffService.Delete(id);
+        return await _tariffService.Delete(id);
     }
 
-    public async Task<TariffModel> GetById(int id)
+    public async Task<ResultWithValue<TariffModel>> GetById(int id)
     {
-        var entity = await _tariffService.GetById(id);
-        if (entity == null)
-            throw new NotFoundException($"Tariff with ID {id} not found");
+        var result = await _tariffService.GetById(id);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
 
-        return _tariffMapper.Map(entity);
+        return Result.Success(_tariffMapper.Map(result.Value!));
     }
 
-    public async Task<List<TariffModel>> GetAll()
+    public async Task<ResultWithValue<List<TariffModel>>> GetAll()
     {
-        var entities = await _tariffService.GetAll();
-        return _tariffMapper.Map(entities);
+        var result = await _tariffService.GetAll();
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
+
+        return Result.Success(_tariffMapper.Map(result.Value!));
     }
 }

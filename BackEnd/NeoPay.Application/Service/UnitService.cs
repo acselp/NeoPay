@@ -1,11 +1,12 @@
-using NeoPay.Application.Repository;
+﻿using NeoPay.Application.Repository;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Domain.Entities;
-using NeoPay.Domain.Exceptions;
 using NeoPay.Domain.Paged;
 
 namespace NeoPay.Application.Service;
 
-public class UnitService
+public class UnitService : IUnitService
 {
     private readonly IUnitRepository _unitRepository;
 
@@ -14,37 +15,42 @@ public class UnitService
         _unitRepository = unitRepository;
     }
 
-    public async Task<UnitEntity> Create(UnitEntity entity)
+    public async Task<ResultWithValue<UnitEntity>> Create(UnitEntity entity)
     {
-        return await _unitRepository.Insert(entity);
+        return Result.Success(await _unitRepository.Insert(entity));
     }
 
-    public async Task<UnitEntity?> GetById(int id)
+    public async Task<ResultWithValue<UnitEntity>> GetById(int id)
     {
-        return await _unitRepository.GetById(id);
+        var unit = await _unitRepository.GetById(id);
+        if (unit == null)
+            return Result.NotFound($"Unit with ID {id} not found");
+
+        return Result.Success(unit);
     }
 
-    public async Task<IEnumerable<UnitEntity>> GetAll()
+    public async Task<ResultWithValue<IEnumerable<UnitEntity>>> GetAll()
     {
-        return await _unitRepository.GetAll();
+        return Result.Success(await _unitRepository.GetAll());
     }
 
-    public async Task<PagedList<UnitEntity>> GetAll(PagedFilter filter)
+    public async Task<ResultWithValue<PagedList<UnitEntity>>> GetAll(PagedFilter filter)
     {
-        return await _unitRepository.GetAll(filter);
+        return Result.Success(await _unitRepository.GetAll(filter));
     }
 
-    public async Task<UnitEntity> Update(UnitEntity entity)
-    { 
-        return await _unitRepository.Update(entity);
+    public async Task<ResultWithValue<UnitEntity>> Update(UnitEntity entity)
+    {
+        return Result.Success(await _unitRepository.Update(entity));
     }
 
-    public async Task Delete(int id)
+    public async Task<Result> Delete(int id)
     {
-        var utility = await _unitRepository.GetById(id);
-        if (utility == null)
-            throw new NotFoundException($"Unit with ID {id} not found");
+        var unit = await _unitRepository.GetById(id);
+        if (unit == null)
+            return Result.NotFound($"Unit with ID {id} not found");
 
-        await _unitRepository.Delete(utility);
+        await _unitRepository.Delete(unit);
+        return Result.Success();
     }
 }

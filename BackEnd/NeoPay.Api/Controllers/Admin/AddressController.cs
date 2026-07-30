@@ -1,7 +1,5 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using NeoPay.Domain.Exceptions;
-using NeoPay.Framework.Errors.FrontEndErrors;
+using NeoPay.Api.Extensions;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.Address;
 
@@ -20,78 +18,35 @@ public class AddressController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Create(CreateAddressModel address)
     {
-        try
-        {
-            await _addressManager.Create(address);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.AddressCouldNotBeFound);
-        }
+        var result = await _addressManager.Create(address);
+        return result.ToActionResult();
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(UpdateAddressModel address)
     {
-        try
-        {
-            await _addressManager.Update(address);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.AddressCouldNotBeFound);
-        }
+        var result = await _addressManager.Update(address);
+        return result.ToActionResult();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        try
-        {
-            await _addressManager.Delete(id);
-            return Ok();
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.AddressCouldNotBeFound);
-        }
+        var result = await _addressManager.Delete(id);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll(GetAddressFilterModel filter)
     {
-        try
-        {
-            var result = await _addressManager.GetAll(filter);
-            return Ok(result);
-        }
-        catch (Exception)
-        {
-            return BadRequest(FrontEndErrors.ErrorLoadingAddresses);
-        }
+        var result = await _addressManager.GetAll(filter);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetById(int id)
     {
-        try
-        {
-            var result = await _addressManager.GetById(id);
-            return Ok(result);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.AddressCouldNotBeFound);
-        }
+        var result = await _addressManager.GetById(id);
+        return result.ToActionResult();
     }
 }

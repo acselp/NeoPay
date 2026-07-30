@@ -1,7 +1,5 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using NeoPay.Domain.Exceptions;
-using NeoPay.Framework.Errors.FrontEndErrors;
+using NeoPay.Api.Extensions;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.Customer;
 
@@ -20,78 +18,35 @@ public class CustomerController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Create(CreateCustomerModel model)
     {
-        try
-        {
-            await _customerManager.Create(model);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (CustomerAccountNumberAlreadyExists)
-        {
-            return BadRequest(FrontEndErrors.CustomerAccountNrAlreadyExists);
-        }
+        var result = await _customerManager.Create(model);
+        return result.ToActionResult();
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(UpdateCustomerModel customer)
     {
-        try
-        {
-            await _customerManager.Update(customer);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (CustomerAccountNumberAlreadyExists ex)
-        {
-            return BadRequest(FrontEndErrors.CustomerAccountNrAlreadyExists);
-        }
+        var result = await _customerManager.Update(customer);
+        return result.ToActionResult();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        try
-        {
-            await _customerManager.Delete(id);
-            return Ok();
-        }
-        catch (NotFoundException)
-        {
-            return BadRequest(FrontEndErrors.CustomerCouldNotBeFound);
-        }
+        var result = await _customerManager.Delete(id);
+        return result.ToActionResult();
     }
 
     [HttpPost]
     public async Task<IActionResult> GetAll([FromBody] GetCustomerFilterModel filter)
     {
-        try
-        {
-            var result = await _customerManager.GetAll(filter);
-            return Ok(result);
-        }
-        catch (Exception)
-        {
-            return BadRequest(FrontEndErrors.ErrorLoadingCustomers);
-        }
+        var result = await _customerManager.GetAll(filter);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetById(int id)
     {
-        try
-        {
-            var result = await _customerManager.GetById(id);
-            return Ok(result);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.CustomerCouldNotBeFound);
-        }
+        var result = await _customerManager.GetById(id);
+        return result.ToActionResult();
     }
 }

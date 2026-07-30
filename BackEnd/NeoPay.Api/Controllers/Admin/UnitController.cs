@@ -1,10 +1,7 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using NeoPay.Domain.Exceptions;
-using NeoPay.Framework.Errors.FrontEndErrors;
+using NeoPay.Api.Extensions;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.Unit;
-using NeoPay.Framework.Models.Utility;
 
 namespace NeoPay.Api.Controllers.Admin;
 
@@ -21,60 +18,35 @@ public class UnitController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Create(CreateUnitModel model)
     {
-        try
-        {
-            await _unitManager.Create(model);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
+        var result = await _unitManager.Create(model);
+        return result.ToActionResult();
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateUnitModel utility)
+    public async Task<IActionResult> Update(UpdateUnitModel unit)
     {
-        try
-        {
-            await _unitManager.Update(utility);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.UtilityCouldNotBeFound);
-        }
+        var result = await _unitManager.Update(unit);
+        return result.ToActionResult();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        await _unitManager.Delete(id);
-        return Ok();
+        var result = await _unitManager.Delete(id);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var result = await _unitManager.GetAll();
-        return Ok(result);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetById(int id)
     {
-        try
-        {
-            var result = await _unitManager.GetById(id);
-            return Ok(result);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.UtilityCouldNotBeFound);
-        }
+        var result = await _unitManager.GetById(id);
+        return result.ToActionResult();
     }
 }

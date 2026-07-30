@@ -1,6 +1,5 @@
-using FluentValidation;
-using NeoPay.Application.Service;
-using NeoPay.Domain.Exceptions;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Domain.Paged;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Shared;
@@ -11,13 +10,13 @@ namespace NeoPay.Framework.Managers;
 
 public class UtilityManager
 {
-    private readonly UtilityService              _utilityService;
+    private readonly IUtilityService             _utilityService;
     private readonly UtilityMapper               _utilityMapper;
     private readonly CreateUtilityModelValidator _createUtilityModelValidator;
     private readonly UpdateUtilityModelValidator _updateUtilityModelValidator;
 
     public UtilityManager(
-        UtilityService              utilityService,
+        IUtilityService             utilityService,
         UtilityMapper               utilityMapper,
         CreateUtilityModelValidator createUtilityModelValidator,
         UpdateUtilityModelValidator updateUtilityModelValidator)
@@ -28,24 +27,30 @@ public class UtilityManager
         _updateUtilityModelValidator = updateUtilityModelValidator;
     }
 
-    public async Task Create(CreateUtilityModel model)
+    public async Task<Result> Create(CreateUtilityModel model)
     {
-        await _createUtilityModelValidator.ValidateAndThrowAsync(model);
-        await _utilityService.Create(_utilityMapper.Map(model));
+        var validation = await _createUtilityModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _utilityService.Create(_utilityMapper.Map(model));
     }
 
-    public async Task Update(UpdateUtilityModel model)
+    public async Task<Result> Update(UpdateUtilityModel model)
     {
-        await _updateUtilityModelValidator.ValidateAndThrowAsync(model);
-        await _utilityService.Update(_utilityMapper.Map(model));
+        var validation = await _updateUtilityModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _utilityService.Update(_utilityMapper.Map(model));
     }
 
-    public async Task Delete(int id)
+    public async Task<Result> Delete(int id)
     {
-        await _utilityService.Delete(id);
+        return await _utilityService.Delete(id);
     }
 
-    public async Task<PagedResultModel<UtilityModel>> GetAll(GetUtilityFilterModel filterModel)
+    public async Task<ResultWithValue<PagedResultModel<UtilityModel>>> GetAll(GetUtilityFilterModel filterModel)
     {
         var filter = new PagedFilter
         {
@@ -53,22 +58,28 @@ public class UtilityManager
             PageSize  = filterModel.PageSize
         };
 
-        var pagedList = await _utilityService.GetAll(filter);
-        return _utilityMapper.Map(pagedList);
-    }
-    
-    public async Task<IEnumerable<UtilityModel>> GetAll()
-    {
-        var items = await _utilityService.GetAll();
-        return _utilityMapper.Map(items);
+        var result = await _utilityService.GetAll(filter);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
+
+        return Result.Success(_utilityMapper.Map(result.Value!));
     }
 
-    public async Task<UtilityModel> GetById(int id)
+    public async Task<ResultWithValue<List<UtilityModel>>> GetAll()
     {
-        var entity = await _utilityService.GetById(id);
-        if (entity == null)
-            throw new NotFoundException($"Utility with ID {id} not found");
+        var result = await _utilityService.GetAll();
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
 
-        return _utilityMapper.Map(entity);
+        return Result.Success(_utilityMapper.Map(result.Value!));
+    }
+
+    public async Task<ResultWithValue<UtilityModel>> GetById(int id)
+    {
+        var result = await _utilityService.GetById(id);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
+
+        return Result.Success(_utilityMapper.Map(result.Value!));
     }
 }

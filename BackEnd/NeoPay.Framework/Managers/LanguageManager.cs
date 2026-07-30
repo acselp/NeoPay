@@ -1,6 +1,5 @@
-using FluentValidation;
-using NeoPay.Application.Service;
-using NeoPay.Domain.Exceptions;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Language;
 using NeoPay.Framework.Validators.Language;
@@ -9,12 +8,12 @@ namespace NeoPay.Framework.Managers;
 
 public class LanguageManager
 {
-    private readonly LanguageService _languageService;
+    private readonly ILanguageService _languageService;
     private readonly CreateLanguageModelValidator _createLanguageModelValidator;
     private readonly UpdateLanguageModelValidator _updateLanguageModelValidator;
     private readonly LanguageMapper _languageMapper;
 
-    public LanguageManager(LanguageService LanguageService, CreateLanguageModelValidator createLanguageModelValidator, LanguageMapper LanguageMapper, UpdateLanguageModelValidator updateLanguageModelValidator)
+    public LanguageManager(ILanguageService LanguageService, CreateLanguageModelValidator createLanguageModelValidator, LanguageMapper LanguageMapper, UpdateLanguageModelValidator updateLanguageModelValidator)
     {
         _languageService = LanguageService;
         _createLanguageModelValidator = createLanguageModelValidator;
@@ -22,35 +21,44 @@ public class LanguageManager
         _updateLanguageModelValidator = updateLanguageModelValidator;
     }
 
-    public async Task Create(CreateLanguageModel model)
+    public async Task<Result> Create(CreateLanguageModel model)
     {
-        await _createLanguageModelValidator.ValidateAndThrowAsync(model);
-        await _languageService.Create(_languageMapper.Map(model));
+        var validation = await _createLanguageModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _languageService.Create(_languageMapper.Map(model));
     }
 
-    public async Task Update(UpdateLanguageModel model)
+    public async Task<Result> Update(UpdateLanguageModel model)
     {
-        await _updateLanguageModelValidator.ValidateAndThrowAsync(model);
-        await _languageService.Update(_languageMapper.Map(model));
+        var validation = await _updateLanguageModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _languageService.Update(_languageMapper.Map(model));
     }
 
-    public async Task Delete(int id)
+    public async Task<Result> Delete(int id)
     {
-        await _languageService.Delete(id);
+        return await _languageService.Delete(id);
     }
 
-    public async Task<LanguageModel> GetById(int id)
+    public async Task<ResultWithValue<LanguageModel>> GetById(int id)
     {
-        var entity = await _languageService.GetById(id);
-        if (entity == null)
-            throw new NotFoundException($"Language with ID {id} not found");
+        var result = await _languageService.GetById(id);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
 
-        return _languageMapper.Map(entity);
+        return Result.Success(_languageMapper.Map(result.Value!));
     }
 
-    public async Task<List<LanguageModel>> GetAll()
+    public async Task<ResultWithValue<List<LanguageModel>>> GetAll()
     {
-        var entities = await _languageService.GetAll();
-        return _languageMapper.Map(entities);
+        var result = await _languageService.GetAll();
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
+
+        return Result.Success(_languageMapper.Map(result.Value!));
     }
 }

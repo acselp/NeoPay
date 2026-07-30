@@ -1,7 +1,5 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using NeoPay.Domain.Exceptions;
-using NeoPay.Framework.Errors.FrontEndErrors;
+using NeoPay.Api.Extensions;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.Meter;
 
@@ -20,79 +18,35 @@ public class MeterController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Create(CreateMeterModel meter)
     {
-        try
-        {
-            await _meterManager.Create(meter);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.ConnectionCouldNotBeFound);
-        }
-        catch (DuplicateException)
-        {
-            return BadRequest(FrontEndErrors.MeterSerialNumberExists);
-        }
+        var result = await _meterManager.Create(meter);
+        return result.ToActionResult();
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(UpdateMeterModel meter)
     {
-        try
-        {
-            await _meterManager.Update(meter);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.MeterCouldNotBeFound);
-        }
-        catch (DuplicateException)
-        {
-            return BadRequest(FrontEndErrors.MeterSerialNumberExists);
-        }
+        var result = await _meterManager.Update(meter);
+        return result.ToActionResult();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        try
-        {
-            await _meterManager.Delete(id);
-            return Ok();
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.MeterCouldNotBeFound);
-        }
+        var result = await _meterManager.Delete(id);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetById(int id)
     {
-        try
-        {
-            var result = await _meterManager.GetById(id);
-            return Ok(result);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.MeterCouldNotBeFound);
-        }
+        var result = await _meterManager.GetById(id);
+        return result.ToActionResult();
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var result = await _meterManager.GetAll();
-        return Ok(result);
+        return result.ToActionResult();
     }
 }

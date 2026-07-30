@@ -1,7 +1,5 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using NeoPay.Domain.Exceptions;
-using NeoPay.Framework.Errors.FrontEndErrors;
+using NeoPay.Api.Extensions;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.Tariff;
 
@@ -20,60 +18,35 @@ public class TariffController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Create(CreateTariffModel model)
     {
-        try
-        {
-            await _tariffManager.Create(model);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
+        var result = await _tariffManager.Create(model);
+        return result.ToActionResult();
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(UpdateTariffModel tariff)
     {
-        try
-        {
-            await _tariffManager.Update(tariff);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.TariffCouldNotBeFound);
-        }
+        var result = await _tariffManager.Update(tariff);
+        return result.ToActionResult();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        await _tariffManager.Delete(id);
-        return Ok();
+        var result = await _tariffManager.Delete(id);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var result = await _tariffManager.GetAll();
-        return Ok(result);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetById(int id)
     {
-        try
-        {
-            var result = await _tariffManager.GetById(id);
-            return Ok(result);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.TariffCouldNotBeFound);
-        }
+        var result = await _tariffManager.GetById(id);
+        return result.ToActionResult();
     }
 }

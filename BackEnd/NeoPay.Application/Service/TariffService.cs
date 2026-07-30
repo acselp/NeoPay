@@ -1,11 +1,12 @@
-using NeoPay.Application.Repository;
+﻿using NeoPay.Application.Repository;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Domain.Entities;
-using NeoPay.Domain.Exceptions;
 using NeoPay.Domain.Paged;
 
 namespace NeoPay.Application.Service;
 
-public class TariffService
+public class TariffService : ITariffService
 {
     private readonly ITariffRepository _tariffRepository;
 
@@ -14,37 +15,42 @@ public class TariffService
         _tariffRepository = tariffRepository;
     }
 
-    public async Task<TariffEntity> Create(TariffEntity entity)
+    public async Task<ResultWithValue<TariffEntity>> Create(TariffEntity entity)
     {
-        return await _tariffRepository.Insert(entity);
+        return Result.Success(await _tariffRepository.Insert(entity));
     }
 
-    public async Task<TariffEntity?> GetById(int id)
-    {
-        return await _tariffRepository.GetById(id);
-    }
-
-    public async Task<IEnumerable<TariffEntity>> GetAll()
-    {
-        return await _tariffRepository.GetAll();
-    }
-
-    public async Task<PagedList<TariffEntity>> GetAll(PagedFilter filter)
-    {
-        return await _tariffRepository.GetAll(filter);
-    }
-
-    public async Task<TariffEntity> Update(TariffEntity entity)
-    {
-        return await _tariffRepository.Update(entity);
-    }
-
-    public async Task Delete(int id)
+    public async Task<ResultWithValue<TariffEntity>> GetById(int id)
     {
         var tariff = await _tariffRepository.GetById(id);
         if (tariff == null)
-            throw new NotFoundException($"Tariff with ID {id} not found");
+            return Result.NotFound($"Tariff with ID {id} not found");
+
+        return Result.Success(tariff);
+    }
+
+    public async Task<ResultWithValue<IEnumerable<TariffEntity>>> GetAll()
+    {
+        return Result.Success(await _tariffRepository.GetAll());
+    }
+
+    public async Task<ResultWithValue<PagedList<TariffEntity>>> GetAll(PagedFilter filter)
+    {
+        return Result.Success(await _tariffRepository.GetAll(filter));
+    }
+
+    public async Task<ResultWithValue<TariffEntity>> Update(TariffEntity entity)
+    {
+        return Result.Success(await _tariffRepository.Update(entity));
+    }
+
+    public async Task<Result> Delete(int id)
+    {
+        var tariff = await _tariffRepository.GetById(id);
+        if (tariff == null)
+            return Result.NotFound($"Tariff with ID {id} not found");
 
         await _tariffRepository.Delete(tariff);
+        return Result.Success();
     }
 }

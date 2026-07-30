@@ -1,5 +1,5 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using NeoPay.Api.Extensions;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.MeterReading;
 
@@ -18,13 +18,7 @@ public class MeterReadingController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Create(CreateMeterReadingModel model)
     {
-        try
-        {
-            return Ok(await _meterReadingManager.Create(model));
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
+        var result = await _meterReadingManager.Create(model);
+        return result.ToActionResult();
     }
 }

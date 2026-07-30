@@ -1,6 +1,5 @@
-using FluentValidation;
-using NeoPay.Application.Service;
-using NeoPay.Domain.Exceptions;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Domain.Paged;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Address;
@@ -11,13 +10,13 @@ namespace NeoPay.Framework.Managers;
 
 public class AddressManager
 {
-    private readonly AddressService              _addressService;
+    private readonly IAddressService             _addressService;
     private readonly AddressMapper               _addressMapper;
     private readonly CreateAddressModelValidator _createAddressModelValidator;
     private readonly UpdateAddressModelValidator _updateAddressModelValidator;
 
     public AddressManager(
-        AddressService              addressService,
+        IAddressService             addressService,
         AddressMapper               addressMapper,
         CreateAddressModelValidator createAddressModelValidator,
         UpdateAddressModelValidator updateAddressModelValidator)
@@ -28,24 +27,30 @@ public class AddressManager
         _updateAddressModelValidator = updateAddressModelValidator;
     }
 
-    public async Task Create(CreateAddressModel model)
+    public async Task<Result> Create(CreateAddressModel model)
     {
-        await _createAddressModelValidator.ValidateAndThrowAsync(model);
-        await _addressService.Create(_addressMapper.Map(model));
+        var validation = await _createAddressModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _addressService.Create(_addressMapper.Map(model));
     }
 
-    public async Task Update(UpdateAddressModel model)
+    public async Task<Result> Update(UpdateAddressModel model)
     {
-        await _updateAddressModelValidator.ValidateAndThrowAsync(model);
-        await _addressService.Update(_addressMapper.Map(model));
+        var validation = await _updateAddressModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _addressService.Update(_addressMapper.Map(model));
     }
 
-    public async Task Delete(int id)
+    public async Task<Result> Delete(int id)
     {
-        await _addressService.Delete(id);
+        return await _addressService.Delete(id);
     }
 
-    public async Task<PagedResultModel<AddressModel>> GetAll(GetAddressFilterModel filterModel)
+    public async Task<ResultWithValue<PagedResultModel<AddressModel>>> GetAll(GetAddressFilterModel filterModel)
     {
         var filter = new PagedFilter
         {
@@ -53,16 +58,19 @@ public class AddressManager
             PageSize  = filterModel.PageSize
         };
 
-        var pagedList = await _addressService.GetAll(filter);
-        return _addressMapper.Map(pagedList);
+        var result = await _addressService.GetAll(filter);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
+
+        return Result.Success(_addressMapper.Map(result.Value!));
     }
 
-    public async Task<AddressModel> GetById(int id)
+    public async Task<ResultWithValue<AddressModel>> GetById(int id)
     {
-        var entity = await _addressService.GetById(id);
-        if (entity == null)
-            throw new NotFoundException($"Address with ID {id} not found");
+        var result = await _addressService.GetById(id);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
 
-        return _addressMapper.Map(entity);
+        return Result.Success(_addressMapper.Map(result.Value!));
     }
 }

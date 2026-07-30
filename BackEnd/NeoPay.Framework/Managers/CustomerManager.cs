@@ -1,6 +1,5 @@
-using FluentValidation;
-using NeoPay.Application.Service;
-using NeoPay.Domain.Exceptions;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Domain.Filters;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Customer;
@@ -12,13 +11,13 @@ namespace NeoPay.Framework.Managers;
 
 public class CustomerManager
 {
-    private readonly CustomerService              _customerService;
+    private readonly ICustomerService             _customerService;
     private readonly CustomerMapper               _customerMapper;
     private readonly CreateCustomerModelValidator _createCustomerModelValidator;
     private readonly UpdateCustomerModelValidator _updateCustomerModelValidator;
 
     public CustomerManager(
-        CustomerService              customerService,
+        ICustomerService             customerService,
         CustomerMapper               customerMapper,
         CreateCustomerModelValidator createCustomerModelValidator,
         UpdateCustomerModelValidator updateCustomerModelValidator)
@@ -29,24 +28,30 @@ public class CustomerManager
         _updateCustomerModelValidator = updateCustomerModelValidator;
     }
 
-    public async Task Create(CreateCustomerModel model)
+    public async Task<Result> Create(CreateCustomerModel model)
     {
-        await _createCustomerModelValidator.ValidateAndThrowAsync(model);
-        await _customerService.Create(_customerMapper.Map(model));
+        var validation = await _createCustomerModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _customerService.Create(_customerMapper.Map(model));
     }
 
-    public async Task Update(UpdateCustomerModel model)
+    public async Task<Result> Update(UpdateCustomerModel model)
     {
-        await _updateCustomerModelValidator.ValidateAndThrowAsync(model);
-        await _customerService.Update(_customerMapper.Map(model));
+        var validation = await _updateCustomerModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _customerService.Update(_customerMapper.Map(model));
     }
 
-    public async Task Delete(int id)
+    public async Task<Result> Delete(int id)
     {
-        await _customerService.Delete(id);
+        return await _customerService.Delete(id);
     }
 
-    public async Task<PagedResultModel<CustomerModel>> GetAll(GetCustomerFilterModel filterModel)
+    public async Task<ResultWithValue<PagedResultModel<CustomerModel>>> GetAll(GetCustomerFilterModel filterModel)
     {
         var filter = new CustomerGetAllFilter
         {
@@ -62,16 +67,19 @@ public class CustomerManager
             AccountNr     = filterModel.AccountNr
         };
 
-        var pagedList = await _customerService.GetAll(filter);
-        return _customerMapper.Map(pagedList);
+        var result = await _customerService.GetAll(filter);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
+
+        return Result.Success(_customerMapper.Map(result.Value!));
     }
 
-    public async Task<CustomerModel> GetById(int id)
+    public async Task<ResultWithValue<CustomerModel>> GetById(int id)
     {
-        var entity = await _customerService.GetById(id);
-        if (entity == null)
-            throw new NotFoundException($"Customer with ID {id} not found");
+        var result = await _customerService.GetById(id);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
 
-        return _customerMapper.Map(entity);
+        return Result.Success(_customerMapper.Map(result.Value!));
     }
 }

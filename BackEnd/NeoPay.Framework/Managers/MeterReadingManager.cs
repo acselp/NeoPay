@@ -1,36 +1,29 @@
-using NeoPay.Application.Service;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.MeterReading;
-using NeoPay.Framework.Models.Shared.StatusModels;
 
 namespace NeoPay.Framework.Managers;
 
 public class MeterReadingManager
 {
-    private readonly MeterReadingService _meterReadingService;
-    private readonly MeterReadingMapper _meterReadingMapper;
+    private readonly IMeterReadingService _meterReadingService;
+    private readonly MeterReadingMapper   _meterReadingMapper;
 
-    public MeterReadingManager(MeterReadingService meterReadingService, MeterReadingMapper meterReadingMapper)
+    public MeterReadingManager(IMeterReadingService meterReadingService, MeterReadingMapper meterReadingMapper)
     {
         _meterReadingService = meterReadingService;
-        _meterReadingMapper = meterReadingMapper;
+        _meterReadingMapper  = meterReadingMapper;
     }
 
-    public async Task<BaseStatusModel> Create(CreateMeterReadingModel model)
+    public async Task<Result> Create(CreateMeterReadingModel model)
     {
-        var result    = new BaseStatusModel { Success = true };
+        // A meter with no previous reading is not an error — the first reading has nothing to compare against.
         var lastReading = await _meterReadingService.GetLastReadingByMeterId(model.MeterId);
 
-        if (lastReading != null && model.Value < lastReading.Value)
-        {
-            result.Errors.Add($"Value must be greater or equal to previous");
-            result.Success = false;
-            
-            return result;
-        }
-        
-        await _meterReadingService.Create(_meterReadingMapper.Map(model));
-        
-        return result;
+        if (lastReading.IsSuccess && model.Value < lastReading.Value!.Value)
+            return Result.Validation("Value must be greater or equal to previous");
+
+        return await _meterReadingService.Create(_meterReadingMapper.Map(model));
     }
 }

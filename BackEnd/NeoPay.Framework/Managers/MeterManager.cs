@@ -1,6 +1,5 @@
-using FluentValidation;
-using NeoPay.Application.Service;
-using NeoPay.Domain.Exceptions;
+using NeoPay.Application.Service.Abstractions;
+using NeoPay.Application.Shared.Result;
 using NeoPay.Framework.Mappers;
 using NeoPay.Framework.Models.Meter;
 using NeoPay.Framework.Validators;
@@ -9,52 +8,61 @@ namespace NeoPay.Framework.Managers;
 
 public class MeterManager
 {
-    private readonly MeterService                 _meterService;
-    private readonly MeterMapper                  _meterMapper;
-    private readonly CreateMeterModelValidator    _createMeterModelValidator;
-    private readonly UpdateMeterModelValidator    _updateMeterModelValidator;
+    private readonly IMeterService             _meterService;
+    private readonly MeterMapper               _meterMapper;
+    private readonly CreateMeterModelValidator _createMeterModelValidator;
+    private readonly UpdateMeterModelValidator _updateMeterModelValidator;
 
     public MeterManager(
-        MeterService                 meterService,
-        MeterMapper                  meterMapper,
-        CreateMeterModelValidator    createMeterModelValidator,
-        UpdateMeterModelValidator    updateMeterModelValidator)
+        IMeterService             meterService,
+        MeterMapper               meterMapper,
+        CreateMeterModelValidator createMeterModelValidator,
+        UpdateMeterModelValidator updateMeterModelValidator)
     {
-        _meterService                 = meterService;
-        _meterMapper                  = meterMapper;
-        _createMeterModelValidator    = createMeterModelValidator;
-        _updateMeterModelValidator    = updateMeterModelValidator;
+        _meterService              = meterService;
+        _meterMapper               = meterMapper;
+        _createMeterModelValidator = createMeterModelValidator;
+        _updateMeterModelValidator = updateMeterModelValidator;
     }
 
-    public async Task Create(CreateMeterModel model)
+    public async Task<Result> Create(CreateMeterModel model)
     {
-        await _createMeterModelValidator.ValidateAndThrowAsync(model);
-        await _meterService.Create(_meterMapper.Map(model));
+        var validation = await _createMeterModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _meterService.Create(_meterMapper.Map(model));
     }
 
-    public async Task Update(UpdateMeterModel model)
+    public async Task<Result> Update(UpdateMeterModel model)
     {
-        await _updateMeterModelValidator.ValidateAndThrowAsync(model);
-        await _meterService.Update(_meterMapper.Map(model));
+        var validation = await _updateMeterModelValidator.ValidateAsync(model);
+        if (!validation.IsValid)
+            return Result.Validation(validation.Errors.Select(it => it.ErrorMessage).ToList());
+
+        return await _meterService.Update(_meterMapper.Map(model));
     }
 
-    public async Task Delete(int id)
+    public async Task<Result> Delete(int id)
     {
-        await _meterService.Delete(id);
+        return await _meterService.Delete(id);
     }
 
-    public async Task<MeterModel> GetById(int id)
+    public async Task<ResultWithValue<MeterModel>> GetById(int id)
     {
-        var entity = await _meterService.GetById(id);
-        if (entity == null)
-            throw new NotFoundException($"Meter with ID {id} not found");
+        var result = await _meterService.GetById(id);
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
 
-        return _meterMapper.Map(entity);
+        return Result.Success(_meterMapper.Map(result.Value!));
     }
-    
-    public async Task<IEnumerable<MeterModel>> GetAll()
+
+    public async Task<ResultWithValue<IEnumerable<MeterModel>>> GetAll()
     {
-        var entityList = await _meterService.GetAll();
-        return entityList.Select(x => _meterMapper.Map(x));
+        var result = await _meterService.GetAll();
+        if (!result.IsSuccess)
+            return Result.From(result.StatusCode, result.Errors);
+
+        return Result.Success(result.Value!.Select(it => _meterMapper.Map(it)));
     }
 }

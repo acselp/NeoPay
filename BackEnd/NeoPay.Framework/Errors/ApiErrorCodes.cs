@@ -5,6 +5,9 @@ public static class ApiErrorCodes
     public const string Forbidden           = "forbidden";
     public const string InternalServerError = "internal_server_error";
     public const string ValidationError     = "validation_error";
+    public const string NotFound            = "not_found";
+    public const string Conflict            = "conflict";
+    public const string Unauthenticated     = "unauthenticated";
 
     public static class Register
     {

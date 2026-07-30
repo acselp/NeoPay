@@ -1,8 +1,6 @@
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
-using NeoPay.Domain.Exceptions;
-using NeoPay.Framework.Errors.FrontEndErrors;
+using NeoPay.Api.Extensions;
 using NeoPay.Framework.Managers;
 using NeoPay.Framework.Models.Utility;
 using NeoPay.Infrastructure.Constants;
@@ -22,75 +20,36 @@ public class UtilityController : BaseAdminController
     [HttpPost]
     public async Task<IActionResult> Create(CreateUtilityModel model)
     {
-        try
-        {
-            await _utilityManager.Create(model);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
+        var result = await _utilityManager.Create(model);
+        return result.ToActionResult();
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(UpdateUtilityModel utility)
     {
-        try
-        {
-            await _utilityManager.Update(utility);
-            return Ok();
-        }
-        catch (ValidationException ex)
-        {
-            return ValidationError(ex);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.UtilityCouldNotBeFound);
-        }
+        var result = await _utilityManager.Update(utility);
+        return result.ToActionResult();
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
-        try
-        {
-            await _utilityManager.Delete(id);
-            return Ok();
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.UtilityCouldNotBeFound);
-        }
+        var result = await _utilityManager.Delete(id);
+        return result.ToActionResult();
     }
 
     [HttpGet]
     [OutputCache(PolicyName = CachePolicyConstants.Cache1Day)]
     public async Task<IActionResult> GetAll()
     {
-        try
-        {
-            var result = await _utilityManager.GetAll();
-            return Ok(result);
-        }
-        catch (Exception)
-        {
-            return BadRequest(FrontEndErrors.ErrorLoadingUtilities);
-        }
+        var result = await _utilityManager.GetAll();
+        return result.ToActionResult();
     }
 
     [HttpGet]
     public async Task<IActionResult> GetById(int id)
     {
-        try
-        {
-            var result = await _utilityManager.GetById(id);
-            return Ok(result);
-        }
-        catch (NotFoundException)
-        {
-            return NotFound(FrontEndErrors.UtilityCouldNotBeFound);
-        }
+        var result = await _utilityManager.GetById(id);
+        return result.ToActionResult();
     }
 }
